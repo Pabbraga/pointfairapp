@@ -3,10 +3,10 @@ import { View, Text } from 'react-native';
 
 import styles from './style';
 
-export default function Profile() {
+export default function Welcome() {
     return(
         <View>
-            <Text></Text>
+            <Text>PointFair</Text>
         </View>
     );
 }

@@ -3,7 +3,7 @@ import { View, Text } from 'react-native';
 
 import styles from './style';
 
-export default function Profile() {
+export default function MainPage() {
     return(
         <View>
             <Text></Text>
