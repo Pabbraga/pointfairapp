@@ -7,7 +7,8 @@ export default function Login() {
     return(
         <View>
             <Text>Login</Text>
-            <Text>Fazendo teste de alteração.</Text>
+            <Text>Testando como dev</Text>
+
         </View>
     );
 }
