@@ -8,7 +8,6 @@ export default function Login() {
         <View>
             <Text>Login</Text>
             <Text>Testando como dev</Text>
-
         </View>
     );
 }
