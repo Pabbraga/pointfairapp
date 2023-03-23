@@ -1,21 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react-native';
 
-import Welcome from './src/pages/Welcome'
+import Welcome from './src/pages/Welcome';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Welcome />
-    </View>
+    <Welcome />
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
