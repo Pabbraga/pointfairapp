@@ -5,7 +5,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import styles from './style';
 
-export default function Login() {
+export default function Login({navigation}) {
     return(
         <View style={styles.container}>
             <View style={styles.top}>
@@ -34,7 +34,7 @@ export default function Login() {
                     <Text  style={styles.p}>Senha</Text>
                     <TextInput style={styles.input}/>
                 </View>             
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Tabs')}}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
 

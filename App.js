@@ -1,9 +1,8 @@
 import React from 'react-native';
-
-import Welcome from './src/pages/Welcome';
+import Pages from './routes/Pages';
 
 export default function App() {
   return (
-    <Welcome />
+    <Pages />
   );
 }
