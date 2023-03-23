@@ -16,7 +16,7 @@ export default function Welcome() {
             />
             <Image
                 style={styles.imgLogo}
-                source={require('../../../assets/imgLogo.png')}
+                source={require('../../../assets/logoTempo.png')}
             />
             <Text style={styles.logo}>PointFair</Text>
             <View style={styles.buttonContainer}>
