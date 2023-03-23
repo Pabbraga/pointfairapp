@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 100,
         flexDirection: 'row',
-        justifyContent: 'flex-end'
+        justifyContent: 'space-between'
     },
     main: {
         flex: 2

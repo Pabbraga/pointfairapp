@@ -1,24 +1,22 @@
 import React from 'react-native';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-export default function Postagem() {
+export default function Postagem(props) {
     return(
-    <View>
+    <View style={styles.container}>
         <View style={styles.userField}>
-            <Image style={styles.userPhoto} source={require('./florista.jpg')}/>
-            <Text style={styles.userName}>HeloCrafty</Text>
+            <Image style={styles.userPhoto} source={props.photo}/>
+            <Text style={styles.userName}>{props.username}</Text>
         </View>
-        <Image style={styles.image} source={require('./floricultura.jpg')}/>
-        <Text style={styles.location}>Feira de artesanato - Largo do Taboão</Text>
+        <Image style={styles.image} source={props.content}/>
+        <Text style={styles.location}>{props.location}</Text>
     </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
+        marginBottom: 10
     },
     userField: {
         flexDirection: 'row',
