@@ -1,6 +1,6 @@
 import React from 'react-native';
-import { StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 import { StatusBar } from 'react-native-web';
+import { StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 import styles from './style';
 

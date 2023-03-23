@@ -7,6 +7,10 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    imgLogo: {
+        width: 350,
+        height: 350,
+    },
     logo: {
       fontSize: 24,
       marginBottom: 30,
@@ -25,10 +29,6 @@ const styles = StyleSheet.create({
     buttonText: {
       color: '#FAA275',
       fontSize: 16,
-    },
-    imgLogo: {
-        width: 350,
-        height: 350,
     }
 });
 
