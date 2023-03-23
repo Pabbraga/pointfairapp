@@ -1,6 +1,6 @@
 import React from 'react-native';
-import { StatusBar } from 'react-native-web';
 import { StyleSheet, Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
+import { StatusBar } from 'react-native-web';
 
 import styles from './style';
 
@@ -16,7 +16,7 @@ export default function Welcome() {
             />
             <Image
                 style={styles.imgLogo}
-                source={require('../../../assets/logo.png')}
+                source={require('../../../assets/Logo.png')}
             />
             <Text style={styles.logo}>PointFair</Text>
             <View style={styles.buttonContainer}>
