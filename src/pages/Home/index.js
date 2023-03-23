@@ -15,7 +15,6 @@ export default function Home() {
             backgroundColor = "white"
             translucent = {false}
             networkActivityIndicatorVisible = {true}
-
             />
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
