@@ -7,14 +7,14 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'center',
     },
+    imgLogo: {
+        width: 350,
+        height: 350,
+    },
     logo: {
       fontSize: 24,
       marginBottom: 30,
       color: '#5C374C',
-    },
-    imgLogo: {
-        width: 350,
-        height: 350,
     },
     buttonContainer: {
       flexDirection: 'column',
