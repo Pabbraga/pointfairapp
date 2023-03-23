@@ -1,12 +1,13 @@
 import React from 'react-native';
 import { View, Text } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native'; 
 
-import styles from './style';
+import Tabs from '../../../routes/Tabs'
 
 export default function MainPage() {
     return(
-        <View>
-            <Text></Text>
-        </View>
+        <NavigationContainer>
+            <Tabs />
+        </NavigationContainer>
     );
 }
