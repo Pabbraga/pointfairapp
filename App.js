@@ -1,8 +1,8 @@
 import React from 'react-native';
-import Pages from './routes/Pages';
+import Root from './routes/Root';
 
 export default function App() {
   return (
-    <Pages />
+    <Root />
   );
 }
