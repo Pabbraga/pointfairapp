@@ -32,6 +32,11 @@ export default function Register({navigation}) {
                 </View>
 
                 <View style={styles.group}>
+                    <Text  style={styles.p}>Nome do usuário</Text>
+                    <TextInput style={styles.input}/>
+                </View> 
+
+                <View style={styles.group}>
                     <Text  style={styles.p}>E-mail</Text>
                     <TextInput style={styles.input}/>
                 </View>
@@ -45,8 +50,6 @@ export default function Register({navigation}) {
                     <Text  style={styles.p}>confirmação de Senha</Text>
                     <TextInput style={styles.input}/>
                 </View>
-
-
 
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
