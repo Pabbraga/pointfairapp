@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo } from '@expo/vector-icons';
 
 import Home from "../src/pages/Home"
+import Map from "../src/pages/Map"
 
 const Tab = createBottomTabNavigator();
 
@@ -12,8 +13,8 @@ const screenOptions = (route, color) => {
     case 'Home':
       iconName = 'home';
       break;
-    case 'Browse':
-      iconName = 'appstore-o';
+    case 'Map':
+      iconName = 'location-pin';
       break;
     case 'Library':
       iconName = 'folder1';
@@ -27,9 +28,10 @@ const screenOptions = (route, color) => {
 
 export default function Tabs() {
   return (
-    <Tab.Navigator initialRouteName={Home} screenOptions={({route}) => ({
+    <Tab.Navigator initialRouteName={'Home'} screenOptions={({route}) => ({
       tabBarIcon: ({color}) => screenOptions(route, color),
     })}>
+      <Tab.Screen name="Map" component={Map} options={{title:'', headerShown: false}}/>
       <Tab.Screen name="Home" component={Home} options={{title:'', headerShown: false}}/>
     </Tab.Navigator>
   );

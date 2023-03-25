@@ -1,8 +1,9 @@
-import React from 'react-native';
+import React, { Platform } from 'react-native';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 export default function Postagem(props) {
     return(
+    
     <View style={styles.container}>
         <View style={styles.userField}>
             <Image style={styles.userPhoto} source={props.photo}/>

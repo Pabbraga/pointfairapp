@@ -7,23 +7,24 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#CE6A85'
     },
+    scrollView:{
+        paddingHorizontal: 40
+    },
     header: {
         width: '100%',
-        height: 100,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     main: {
-        flex: 2
+        flex: 2,
+        paddingTop: 10
     },
     userPhoto: {
         width: 60,
         height: 60,
         borderRadius: 30,
-        margin: 10
-    },
-    tabBar: {
-        backgroundColor: 'black'
+        marginTop: 10,
+        marginRight: 10,
     }
 })
 
