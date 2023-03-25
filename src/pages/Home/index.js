@@ -37,7 +37,7 @@ export default function Home() {
                     />
                     <Postagem
                     photo={require('../../../assets/artesa.jpg')}
-                    username={'CraftyLetícia'} 
+                    username={'CraftyLeticia'} 
                     content={require('../../../assets/artesanato.jpeg')}
                     location={'Taboão da Serra - Feira de Artesanato'}
                     />

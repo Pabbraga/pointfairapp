@@ -16,7 +16,7 @@ export default function App() {
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== 'granted') {
-        setErrorMsg('Permission to access location was denied');
+        setErrorMsg('Permissão de acesso a localização negada.');
         return;
       }
 
@@ -25,8 +25,8 @@ export default function App() {
       setOrigin({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.000922,
-        longitudeDelta: 0.000421
+        latitudeDelta: 0.00100,
+        longitudeDelta: 0.00100
       })
     })();
   }, []);
