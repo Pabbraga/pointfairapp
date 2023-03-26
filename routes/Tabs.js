@@ -1,8 +1,9 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo } from '@expo/vector-icons';
 
-import Home from "../src/pages/Home"
-import Map from "../src/pages/Map"
+import Home from '../src/pages/Home'
+import Map from '../src/pages/Map'
+import Search from '../src/pages/Search';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,8 +17,8 @@ const screenOptions = (route, color) => {
     case 'Map':
       iconName = 'location-pin';
       break;
-    case 'Library':
-      iconName = 'folder1';
+    case 'Search':
+      iconName = 'magnifying-glass';
       break;
     default:
       break;
@@ -38,6 +39,7 @@ export default function Tabs() {
     })}>
       <Tab.Screen name="Map" component={Map} options={{title:'', headerShown: false}}/>
       <Tab.Screen name="Home" component={Home} options={{title:'', headerShown: false}}/>
+      <Tab.Screen name="Search" component={Search} options={{title:'', headerShown: false}}/>
     </Tab.Navigator>
   );
 }

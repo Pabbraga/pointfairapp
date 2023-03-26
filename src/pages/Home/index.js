@@ -1,6 +1,6 @@
 import React from 'react-native';
-import { StatusBar } from 'react-native';
-import { View, Text, Image, SafeAreaView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { View, Image, SafeAreaView } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 

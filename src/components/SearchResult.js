@@ -1,15 +1,13 @@
 import React from 'react-native';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-export default function Postagem(props) {
+export default function SearchResult(props) {
     return(
-    
     <View style={styles.container}>
         <View style={styles.userField}>
             <Image style={styles.userPhoto} source={props.photo}/>
             <Text style={styles.userName}>{props.username}</Text>
         </View>
-        <Image style={styles.image} source={props.content}/>
         <Text style={styles.location}>{props.location}</Text>
     </View>
     )
@@ -17,7 +15,16 @@ export default function Postagem(props) {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 10
+        width: '95%',
+        marginVertical: 10,
+        marginLeft: 10,
+        padding: 10,
+        backgroundColor: '#985277',
+        borderRadius: 10,
+        shadowOffset: {width: -4, height: 4},  
+        shadowColor: 'black',  
+        shadowOpacity: 0.2,  
+        shadowRadius: 3,  
     },
     userField: {
         flexDirection: 'row',
@@ -35,14 +42,9 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold'
     },
-    image: {
-        width: 320,
-        height: 180,
-        borderRadius: 5,
-    },
     location: {
-        fontSize: 15,
+        fontSize: 10,
         color: '#FFC15E',
         fontWeight: 'bold'
     },
-})
+});

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     main: {
-        flex: 2,
+        flex: 1,
         paddingTop: 10
     },
     userPhoto: {

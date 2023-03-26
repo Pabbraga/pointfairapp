@@ -25,8 +25,8 @@ export default function App() {
       setOrigin({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
-        latitudeDelta: 0.00100,
-        longitudeDelta: 0.00100
+        latitudeDelta: 0.0100,
+        longitudeDelta: 0.0100
       })
     })();
   }, []);
