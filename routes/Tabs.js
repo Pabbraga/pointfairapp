@@ -30,6 +30,11 @@ export default function Tabs() {
   return (
     <Tab.Navigator initialRouteName={'Home'} screenOptions={({route}) => ({
       tabBarIcon: ({color}) => screenOptions(route, color),
+      tabBarStyle: {
+        paddingTop: 10,
+        height: 65,
+        backgroundColor: '#CE6A85'
+      }
     })}>
       <Tab.Screen name="Map" component={Map} options={{title:'', headerShown: false}}/>
       <Tab.Screen name="Home" component={Home} options={{title:'', headerShown: false}}/>
