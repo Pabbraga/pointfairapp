@@ -1,11 +1,26 @@
-import React from 'react-native';
+//import React from 'react-native';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
 
 export default function Login({navigation}) {
+    const [login, setLogin] = React.useState('Login');
+    const [link, setLink] = React.useState('Sou um vendedor');
+    const [usuario, setUsuario ] = React.useState('Usuário')
+    const handlePress = () => {
+        if(link === 'Sou um cliente') {
+            setLogin('Login');
+            setLink('Sou um vededor');
+            setUsuario('Usuário')
+        } else {
+            setLogin('Login vendedor');
+            setLink('Sou um cliente');
+            setUsuario('CNPJ')
+        }
+    } 
     return(
         <View style={styles.container}>
             <StatusBar 
@@ -30,10 +45,10 @@ export default function Login({navigation}) {
                 </LinearGradient>
             </View>
             <View style={styles.form}>
-                <Text style={styles.h1}>Login</Text>
+                <Text style={styles.h1}>{login}</Text>
                 
                 <View style={styles.group}>
-                    <Text style={styles.p}>Usuário</Text>
+                    <Text style={styles.p}>{usuario}</Text>
                     <TextInput style={styles.input}/>
                 </View>
 
@@ -53,8 +68,8 @@ export default function Login({navigation}) {
                     <Text style={styles.link}>Não possuo uma conta</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.opacity}>
-                    <Text style={styles.link}>Sou um vendedor</Text>
+                <TouchableOpacity style={styles.opacity} onPress={handlePress}>
+                    <Text style={styles.link}>{link}</Text>
                 </TouchableOpacity>
             </View>
 
