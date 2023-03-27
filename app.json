@@ -4,12 +4,12 @@
     "slug": "pointfair",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "image": "./assets/img/splash.png",
+      "resizeMode": "cover",
+      "backgroundColor": "#25292e"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -19,12 +19,12 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/img/adaptive-icon.png",
+        "backgroundColor": "#25292e"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/img/favicon.png"
     }
   }
 }
