@@ -9,7 +9,7 @@ import styles from './style';
 export default function Login({navigation}) {
     const [login, setLogin] = React.useState('Login');
     const [link, setLink] = React.useState('Sou um vendedor');
-    const [usuario, setUsuario ] = React.useState('Usuário')
+    const [usuario, setUsuario ] = React.useState('Usuário');
     const handlePress = () => {
         if(link === 'Sou um cliente') {
             setLogin('Login');
