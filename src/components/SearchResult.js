@@ -32,18 +32,18 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     userPhoto: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
+        width: 60,
+        height: 60,
+        borderRadius: 30,
         marginRight: 8
     },
     userName: {
-        fontSize: 15,
+        fontSize: 20,
         color: 'white',
         fontWeight: 'bold'
     },
     location: {
-        fontSize: 10,
+        fontSize: 14,
         color: '#FFC15E',
         fontWeight: 'bold'
     },

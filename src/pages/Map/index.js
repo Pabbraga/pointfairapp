@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import MapView from 'react-native-maps';
+import { Entypo } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 
 import styles from './style';
 
-export default function App() {
+export default function MapFair() {
 
   const [origin, setOrigin] = useState(null);
   const [location, setLocation] = useState(null);
@@ -43,7 +44,15 @@ export default function App() {
         
       </MapView>
       <View style={styles.search}>
-        
+        <View style={styles.searchSection}>
+          <TextInput
+              style={styles.input}
+              placeholder="Buscar"
+              underlineColorAndroid="transparent"
+              onChangeText={(value)=>{setSearchString(value)}}
+          />
+          <Entypo name={'magnifying-glass'} color={'grey'} size={36}/>
+        </View>
       </View>
     </View>
   );
