@@ -1,6 +1,6 @@
 import React from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity } from 'react-native';
 import { ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -19,7 +19,9 @@ export default function Home() {
             />
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
-                <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
+                <TouchableOpacity>
+                    <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
+                </TouchableOpacity>
             </View>
             <ScrollView style={styles.scrollView} horizontal={false} showsHorizontalScrollIndicator={false}>
                 <View style={styles.main}>
