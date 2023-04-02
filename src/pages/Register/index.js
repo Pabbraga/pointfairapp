@@ -1,4 +1,5 @@
-import React from 'react-native';
+//import React from 'react-native';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
@@ -6,6 +7,19 @@ import { LinearGradient } from 'expo-linear-gradient';
 import styles from './style';
 
 export default function Register({navigation}) {
+    const [isSeller, setIsSeller] = useState(false);
+    const [link, setLink] = React.useState('Sou um vendedor');
+
+    const handleSellerClick = () => {
+        if(link === 'Sou um vendedor') {
+        setIsSeller(true);
+        setLink('Sou um cliente');
+        }
+        else{
+            setIsSeller(false);
+            setLink('Sou um vendedor');
+        }
+    };
     return(
         <View style={styles.container}>
             <View style={styles.top}>
@@ -36,10 +50,31 @@ export default function Register({navigation}) {
                         <TextInput style={styles.input}/>
                     </View> 
 
+                    {isSeller && (
+                    <View style={styles.group}>
+                        <Text  style={styles.p}>CNPJ</Text>
+                        <TextInput style={styles.input}/>
+                    </View>
+                    )}
+
                     <View style={styles.group}>
                         <Text  style={styles.p}>E-mail</Text>
                         <TextInput style={styles.input}/>
                     </View>
+
+                    {isSeller && (
+                    <View style={styles.group}>
+                        <Text  style={styles.p}>Nome fantasia</Text>
+                        <TextInput style={styles.input}/>
+                    </View>
+                    )}
+
+                    {isSeller && (
+                    <View style={styles.group}>
+                        <Text  style={styles.p}>Segmento</Text>
+                        <TextInput style={styles.input}/>
+                    </View>
+                    )}
 
                     <View style={styles.group}>
                         <Text  style={styles.p}>Senha</Text>
@@ -59,8 +94,8 @@ export default function Register({navigation}) {
                         <Text style={styles.link}>Já possuo uma conta</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.opacity}>
-                        <Text style={styles.link}>Sou um vendedor</Text>
+                    <TouchableOpacity style={styles.opacity} onPress={handleSellerClick}>
+                        <Text style={styles.link}>{link}</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
