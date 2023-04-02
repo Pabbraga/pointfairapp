@@ -7,7 +7,7 @@ import { Entypo } from '@expo/vector-icons';
 import styles from './style';
 import Postagem from '../../components/Postagem';
 
-export default function Home() {
+export default function Home({navigation}) {
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar 
@@ -19,7 +19,7 @@ export default function Home() {
             />
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
                     <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
                 </TouchableOpacity>
             </View>

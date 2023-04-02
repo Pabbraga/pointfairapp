@@ -7,7 +7,7 @@ import Search from '../src/pages/Search';
 
 const Tab = createBottomTabNavigator();
 
-export default function Tabs() {
+export default function HomeTabs() {
   return (
     <Tab.Navigator initialRouteName={'Home'}
     screenOptions={() => ({

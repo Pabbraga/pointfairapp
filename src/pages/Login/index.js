@@ -56,7 +56,7 @@ export default function Login({navigation}) {
                     <Text  style={styles.p}>Senha</Text>
                     <TextInput style={styles.input}/>
                 </View>             
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('Tabs')}}>
+                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('HomeTabs')}}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
 

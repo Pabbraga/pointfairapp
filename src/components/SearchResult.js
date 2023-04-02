@@ -1,12 +1,18 @@
 import React from 'react-native';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SearchResult(props) {
+    const navigation = useNavigation();
     return(
     <View style={styles.container}>
         <View style={styles.userField}>
-            <Image style={styles.userPhoto} source={props.photo}/>
-            <Text style={styles.userName}>{props.username}</Text>
+            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+                <Image style={styles.userPhoto} source={props.photo}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+                <Text style={styles.userName}>{props.username}</Text>
+            </TouchableOpacity>
         </View>
         <Text style={styles.location}>{props.location}</Text>
     </View>

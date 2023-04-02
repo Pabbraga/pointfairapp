@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons'; 
 import styles from './style';
 
-export default function Profile() {
+export default function Profile({navigation}) {
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar 
@@ -15,6 +15,12 @@ export default function Profile() {
             translucent = {false}
             networkActivityIndicatorVisible = {true}
             />
+            <TouchableOpacity
+                onPress={() => navigation.goBack()}
+                style={{position: 'absolute', top: 20, left: 20}}
+            >
+                <Entypo name='arrow-with-circle-left' color={'black'} size={46}/>
+            </TouchableOpacity>
             <View style={styles.perfil}>
                 <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
                 <Text style={styles.h1}>JuliaRosas</Text>
