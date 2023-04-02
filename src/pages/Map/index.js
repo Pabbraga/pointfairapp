@@ -8,11 +8,10 @@ import * as Location from 'expo-location';
 
 import styles from './style';
 
-export default function MapFair() {
-  const icon = <Entypo name={'magnifying-glass'} color={'grey'} size={36}/>
-
+export default function Map() {
   const [origin, setOrigin] = useState(null);
   const [location, setLocation] = useState(null);
+  const [seachString, setSearchString] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(()=>{
@@ -43,7 +42,12 @@ export default function MapFair() {
         zoomEnabled={false}
         loadingEnabled={true}
       >
-        <Marker coordinate={{ latitude: -23.605645, longitude: -46.761870 }} pinColor={'red'} title={'Feirinha Local'} description={'Av. Armando de Andrade, 698-852 - Parque Santos Dumont'}/>
+        <Marker 
+        coordinate={{ latitude: -23.605645, longitude: -46.761870 }} 
+        pinColor={'red'} 
+        title={'Feirinha Local'} 
+        description={'Av. Armando de Andrade, 698-852 - Parque Santos Dumont'}
+        />
       </MapView>
       <View style={styles.search}>
         <View style={styles.searchSection}>

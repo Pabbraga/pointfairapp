@@ -5,7 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
 
-export default function Password({navigation}) {
+export default function ForgotPassword({navigation}) {
     return(
         <View style={styles.container}>
             <StatusBar 

@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Entypo } from '@expo/vector-icons';
 
 import Home from '../src/pages/Home'
-import MapFair from '../src/pages/Map'
+import Map from '../src/pages/Map'
 import Search from '../src/pages/Search';
 
 const Tab = createBottomTabNavigator();
@@ -21,7 +21,7 @@ export default function HomeTabs() {
     })}>
       <Tab.Screen 
       name="Map" 
-      component={MapFair} 
+      component={Map} 
       options={{title:'', headerShown: false, tabBarIcon: ({color}) => (
         <Entypo name='location-pin' color={color} size={36}/>
       )}}/>
