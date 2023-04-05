@@ -15,7 +15,7 @@ export default function Register({navigation}) {
             setIsSeller(true);
             setLink('Sou um cliente');
         }
-        else{
+        else {
             scrollViewRef.current.scrollTo({ y: 0 });
             setIsSeller(false);
             setLink('Sou um vendedor');
