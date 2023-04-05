@@ -12,10 +12,11 @@ export default function Register({navigation}) {
 
     const handleSellerClick = () => {
         if(link === 'Sou um vendedor') {
-        setIsSeller(true);
-        setLink('Sou um cliente');
+            setIsSeller(true);
+            setLink('Sou um cliente');
         }
         else{
+            scrollViewRef.current.scrollTo({ y: 0 });
             setIsSeller(false);
             setLink('Sou um vendedor');
         }
