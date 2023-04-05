@@ -16,4 +16,4 @@ yarn install
 
 ___
 
-Desenvolvido em  <img height="20" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg"> React Native.
+Desenvolvido em  <img height="20" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg"> [React Native](https://reactnative.dev).
