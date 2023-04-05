@@ -49,8 +49,8 @@ export default function Map() {
         description={'Av. Armando de Andrade, 698-852 - Parque Santos Dumont'}
         />
       </MapView>
-      <View style={styles.search}>
-        <View style={styles.searchSection}>
+      <View style={styles.searchSection}>
+        <View style={styles.searchBar}>
           <TextInput
               style={styles.input}
               placeholder="Buscar"

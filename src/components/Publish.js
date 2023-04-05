@@ -2,7 +2,7 @@ import React from 'react-native';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-export default function Postagem(props) {
+export default function Publish(props) {
     const navigation = useNavigation();
     return(
     <View style={styles.container}>
@@ -22,7 +22,7 @@ export default function Postagem(props) {
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 10
+        marginBottom: 14,
     },
     userField: {
         flexDirection: 'row',
