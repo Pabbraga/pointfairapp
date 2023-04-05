@@ -37,7 +37,7 @@ export default function Register({navigation}) {
                     colors={['#FFC15E', '#CE6A85']}>
                 </LinearGradient>
             </View>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.form}>
                     <Text style={styles.h1}>Cadastra-se</Text>
                     

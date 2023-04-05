@@ -27,10 +27,14 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#985277',
         borderRadius: 10,
-        shadowOffset: {width: -4, height: 4},  
-        shadowColor: 'black',  
-        shadowOpacity: 0.2,  
-        shadowRadius: 3,  
+        shadowColor: "#000000",
+        shadowOffset: {
+        width: 0,
+        height: 1,
+        },
+        shadowOpacity:  0.16,
+        shadowRadius: 1.81,
+        elevation: 6
     },
     userField: {
         flexDirection: 'row',
