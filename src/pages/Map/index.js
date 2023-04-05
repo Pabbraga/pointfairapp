@@ -1,15 +1,17 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import MapView from 'react-native-maps';
+import { Marker } from 'react-native-maps';
+import { Entypo } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 
 import styles from './style';
 
-export default function App() {
-
+export default function Map() {
   const [origin, setOrigin] = useState(null);
   const [location, setLocation] = useState(null);
+  const [seachString, setSearchString] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(()=>{
@@ -40,10 +42,23 @@ export default function App() {
         zoomEnabled={false}
         loadingEnabled={true}
       >
-        
+        <Marker 
+        coordinate={{ latitude: -23.605645, longitude: -46.761870 }} 
+        pinColor={'red'} 
+        title={'Feirinha Local'} 
+        description={'Av. Armando de Andrade, 698-852 - Parque Santos Dumont'}
+        />
       </MapView>
-      <View style={styles.search}>
-        
+      <View style={styles.searchSection}>
+        <View style={styles.searchBar}>
+          <TextInput
+              style={styles.input}
+              placeholder="Buscar"
+              underlineColorAndroid="transparent"
+              onChangeText={(value)=>{setSearchString(value)}}
+          />
+          <Entypo name={'magnifying-glass'} color={'grey'} size={36}/>
+        </View>
       </View>
     </View>
   );

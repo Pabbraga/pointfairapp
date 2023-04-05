@@ -1,26 +1,11 @@
-//import React from 'react-native';
+import React from 'react-native';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
 
-export default function Login({navigation}) {
-    const [login, setLogin] = React.useState('Login');
-    const [link, setLink] = React.useState('Sou um vendedor');
-    const [usuario, setUsuario ] = React.useState('Usuário');
-    const handlePress = () => {
-        if(link === 'Sou um cliente') {
-            setLogin('Login');
-            setLink('Sou um vededor');
-            setUsuario('Usuário')
-        } else {
-            setLogin('Login vendedor');
-            setLink('Sou um cliente');
-            setUsuario('CNPJ')
-        }
-    } 
+export default function ForgotPassword({navigation}) {
     return(
         <View style={styles.container}>
             <StatusBar 
@@ -45,31 +30,16 @@ export default function Login({navigation}) {
                 </LinearGradient>
             </View>
             <View style={styles.form}>
-                <Text style={styles.h1}>{login}</Text>
+                <Text style={styles.h1}>Esqueci minha{'\n'}senha</Text>
                 
+                <Text style={styles.h2}>Digite seu E-mail</Text>
                 <View style={styles.group}>
-                    <Text style={styles.p}>{usuario}</Text>
+                    <Text style={styles.p}>Email</Text>
                     <TextInput style={styles.input}/>
                 </View>
-
-                <View style={styles.group}>
-                    <Text  style={styles.p}>Senha</Text>
-                    <TextInput style={styles.input}/>
-                </View>             
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('HomeTabs')}}>
-                    <Text style={styles.buttonText}>Entrar</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('ForgotPassword')}}>
-                    <Text style={styles.link}>Esqueci minha senha</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('Register')}}>
-                    <Text style={styles.link}>Não possuo uma conta</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.opacity} onPress={handlePress}>
-                    <Text style={styles.link}>{link}</Text>
+                
+                <TouchableOpacity style={styles.button}>
+                    <Text style={styles.buttonText}>Enviar</Text>
                 </TouchableOpacity>
             </View>
 
