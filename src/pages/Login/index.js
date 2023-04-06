@@ -7,20 +7,38 @@ import { StatusBar } from 'expo-status-bar';
 import styles from './style';
 
 export default function Login({navigation}) {
-    const [login, setLogin] = React.useState('Login');
-    const [link, setLink] = React.useState('Sou um vendedor');
-    const [usuario, setUsuario ] = React.useState('Usuário');
+    const [login, setLogin] = useState('Login');
+    const [link, setLink] = useState('Sou um vendedor');
+    const [isSeller, setIsSeller] = useState(false);
+    const [isUser, setIsUser] = useState(true);
+
+    const [user, setUser] = useState('');
+    const [cnpj, setCnpj] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleLogin = () => {
+        if(isUser && user === 'felipe' && password === '1234'){
+            userType = usus
+            navigation.navigate('HomeTabs');
+        } else if (isSeller && cnpj === '12345678912' && password === '2345'){
+            navigation.navigate('HomeTabs');
+        }
+    }
+
     const handlePress = () => {
         if(link === 'Sou um cliente') {
             setLogin('Login');
             setLink('Sou um vededor');
-            setUsuario('Usuário')
+            setIsSeller(false);
+            setIsUser(true);
         } else {
             setLogin('Login vendedor');
             setLink('Sou um cliente');
-            setUsuario('CNPJ')
+            setIsSeller(true);
+            setIsUser(false)
         }
     } 
+
     return(
         <View style={styles.container}>
             <StatusBar 
@@ -47,16 +65,25 @@ export default function Login({navigation}) {
             <View style={styles.form}>
                 <Text style={styles.h1}>{login}</Text>
                 
-                <View style={styles.group}>
-                    <Text style={styles.p}>{usuario}</Text>
-                    <TextInput style={styles.input}/>
-                </View>
+                {isSeller && (
+                    <View style={styles.group}>
+                        <Text  style={styles.p}>CNPJ</Text>
+                        <TextInput style={styles.input}  onChangeText={setCnpj}/>
+                    </View>
+                )}
+
+                {isUser && (
+                    <View style={styles.group}>
+                        <Text  style={styles.p}>Usuário</Text>
+                        <TextInput style={styles.input}  onChangeText={setUser}/>
+                    </View>
+                    )}
 
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
-                    <TextInput style={styles.input}/>
+                    <TextInput style={styles.input}  onChangeText={setPassword}/>
                 </View>             
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('HomeTabs')}}>
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
 
