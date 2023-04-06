@@ -1,6 +1,6 @@
 # PointFair App
 
-![logo](https://user-images.githubusercontent.com/103124116/230175096-0cd85019-5ad5-4cbb-95b0-60e450fd1ca9.png)
+![logogit](https://user-images.githubusercontent.com/103124116/230410887-3e48897f-d79b-4f67-a24a-390f8556c797.png)
 
 *O pequeno vendedor mais próximo de você.*
 
