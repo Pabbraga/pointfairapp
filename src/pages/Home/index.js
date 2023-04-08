@@ -6,6 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import styles from './style';
 import Publish from '../../components/Publish';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default function Home({navigation}) {
     return(
@@ -24,6 +25,19 @@ export default function Home({navigation}) {
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scrollView} horizontal={false} showsVerticalScrollIndicator={false}>
+                <View style={styles.makePublishSection}>
+                    <TextInput
+                    style={styles.publishForm} 
+                    multiline
+                    numberOfLines={2}
+                    maxLength={60}
+                    />
+                    <View style={styles.publishButtons}>
+                        <TouchableOpacity><Entypo name='image' color={'black'} size={28}/></TouchableOpacity>
+                        <TouchableOpacity><Entypo name='location-pin' color={'black'} size={28}/></TouchableOpacity>
+                        <TouchableOpacity><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
+                    </View>
+                </View>
                 <View style={styles.main}>
                     <Publish
                     photo={require('../../../assets/florista.jpg')} 

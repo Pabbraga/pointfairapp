@@ -15,6 +15,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
+    makePublishSection: {
+        marginTop: 15,
+    },
+    publishForm: {
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 10,
+        textAlign: "left",
+        textAlignVertical: 'top',
+        fontSize: 18
+    },
+    publishButtons: {
+        flexDirection: 'row',
+        marginTop: 10,
+        alignSelf: 'flex-end',
+        columnGap: 5,
+        flexWrap: 'wrap'
+    },
     main: {
         flex: 1,
         paddingTop: 10
