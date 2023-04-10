@@ -39,7 +39,7 @@ export default function Map() {
         style={styles.map}
         initialRegion={origin}
         showsUserLocation={true}
-        zoomEnabled={false}
+        zoomEnabled={true}
         loadingEnabled={true}
       >
         <Marker 
