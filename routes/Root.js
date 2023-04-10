@@ -8,6 +8,7 @@ import Register from '../src/pages/Register';
 import HomeTabs from './HomeTabs';
 import ForgotPassword from '../src/pages/ForgotPassword';
 import Profile from '../src/pages/Profile';
+import ProfileChange from '../src/pages/ProfileChange';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function Root(){
                 <Stack.Screen name="HomeTabs" component={HomeTabs} options={{headerShown: false}}/>
                 <Stack.Screen name="Register" component={Register} options={{headerShown: false}}/>
                 <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
+                <Stack.Screen name="ProfileChange" component={ProfileChange} options={{headerShown: false}}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

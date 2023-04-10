@@ -25,7 +25,7 @@ export default function Profile({navigation}) {
                 <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
                 <Text style={styles.h1}>JuliaRosas</Text>
 
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
                     <Text style={styles.buttonText}>Editar perfil</Text>
                 </TouchableOpacity>
 

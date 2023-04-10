@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     }, 
     product:{
-       flexDirection: "row",
-       justifyContent: 'space-around',
+        flexDirection: "row",
+        justifyContent: 'space-around',
         marginTop: 30
     },
     productphoto: {
