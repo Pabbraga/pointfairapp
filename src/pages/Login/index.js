@@ -18,9 +18,9 @@ export default function Login({navigation}) {
 
     const handleLogin = () => {
         if(isUser && user === 'felipe' && password === '1234'){
-            navigation.navigate('HomeTabs');
+            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
         } else if (isSeller && cnpj === '12345678912' && password === '2345'){
-            navigation.navigate('HomeTabs');
+            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
         }
     }
 
