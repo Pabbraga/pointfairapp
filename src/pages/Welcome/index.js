@@ -7,13 +7,6 @@ import styles from './style';
 export default function Welcome({ navigation }) {
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <Image
                 style={styles.imgLogo}
                 source={require('../../../assets/img/logo.png')}

@@ -13,13 +13,6 @@ export default function Home({navigation, route }) {
 
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>

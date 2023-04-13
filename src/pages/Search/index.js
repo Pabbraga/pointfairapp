@@ -12,13 +12,6 @@ export default function Search() {
 
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <View style={styles.searchSection}>
                 <TextInput
                     style={styles.input}

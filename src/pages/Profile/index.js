@@ -8,13 +8,6 @@ import styles from './style';
 export default function Profile({navigation}) {
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={{position: 'absolute', top: 20, left: 20}}

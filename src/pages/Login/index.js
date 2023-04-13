@@ -40,13 +40,6 @@ export default function Login({navigation}) {
 
     return(
         <View style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <View style={styles.top}>
                 <LinearGradient style={[styles.circulo]}
                     start={{x:1,y:1}}
