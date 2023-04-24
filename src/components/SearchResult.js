@@ -5,17 +5,17 @@ import { useNavigation } from '@react-navigation/native';
 export default function SearchResult(props) {
     const navigation = useNavigation();
     return(
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Profile")}}>
         <View style={styles.userField}>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+            <View>
                 <Image style={styles.userPhoto} source={props.photo}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+            </View>
+            <View>
                 <Text style={styles.userName}>{props.username}</Text>
-            </TouchableOpacity>
+            </View>
         </View>
         <Text style={styles.location}>{props.location}</Text>
-    </View>
+    </TouchableOpacity>
     )
 }
 

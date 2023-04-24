@@ -6,7 +6,10 @@ import styles from './style';
 
 export default function Welcome({ navigation }) {
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+             <StatusBar
+                barStyle={'default'}
+            />
             <Image
                 style={styles.imgLogo}
                 source={require('../../../assets/img/logo.png')}
@@ -20,6 +23,6 @@ export default function Welcome({ navigation }) {
                 <Text style={styles.buttonText}>Cadastre-se</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
   );
 }

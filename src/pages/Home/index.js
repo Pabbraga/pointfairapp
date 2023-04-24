@@ -1,7 +1,6 @@
 import React from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text } from 'react-native';
-import { ScrollView } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
 
 import styles from './style';
@@ -13,6 +12,7 @@ export default function Home({navigation, route }) {
 
     return(
         <SafeAreaView style={styles.container}>
+            <StatusBar barStyle={'light'} translucent={false}/>
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>

@@ -21,6 +21,10 @@ export default function Login({navigation}) {
             navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
         } else if (isSeller && cnpj === '12345678912' && password === '2345'){
             navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
+        } else {
+            // alert('Preencha os campos!')
+            // provisório
+            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }})
         }
     }
 
