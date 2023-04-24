@@ -13,7 +13,7 @@ export default function ProfileChange({navigation}) {
             </TouchableOpacity>
             <Text style={styles.title}>Editar perfil</Text>
             <View style={styles.form}>
-                <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
+                <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
                 <View style={styles.photoFilter}>
                     <Entypo name='camera' color={'black'} size={30}/>
                 </View>

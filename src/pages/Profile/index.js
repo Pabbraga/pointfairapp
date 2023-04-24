@@ -15,7 +15,7 @@ export default function Profile({navigation}) {
                 <Entypo name='arrow-with-circle-left' color={'black'} size={46}/>
             </TouchableOpacity>
             <View style={styles.perfil}>
-                <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
+                <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
                 <Text style={styles.h1}>JuliaRosas</Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
@@ -31,13 +31,13 @@ export default function Profile({navigation}) {
         
             <View style={styles.product}>
                 <View>
-                    <Image style={styles.productphoto} source={require('../../../assets/rosaAmarela.jpg')}/>
-                    <Image style={styles.productphoto} source={require('../../../assets/rosaVermelha.jpg')}/>
+                    <Image style={styles.productphoto} source={require('../../../assets/img/rosaAmarela.jpg')}/>
+                    <Image style={styles.productphoto} source={require('../../../assets/img/rosaVermelha.jpg')}/>
                 </View>
 
                 <View>
-                    <Image style={styles.productphoto} source={require('../../../assets/girassol.jpg')}/>
-                    <Image style={styles.productphoto} source={require('../../../assets/gerberaPink.jpg')}/>
+                    <Image style={styles.productphoto} source={require('../../../assets/img/girassol.jpg')}/>
+                    <Image style={styles.productphoto} source={require('../../../assets/img/gerberaPink.jpg')}/>
                 </View>
             </View>
         </SafeAreaView>

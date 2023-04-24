@@ -16,7 +16,7 @@ export default function Home({navigation, route }) {
             <View style={styles.header}>
                 <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
-                    <Image style={styles.userPhoto} source={require('../../../assets/florista.jpg')}/>
+                    <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scrollView} horizontal={false} showsVerticalScrollIndicator={false}>
@@ -37,21 +37,21 @@ export default function Home({navigation, route }) {
                 )}
                 <View style={styles.main}>
                     <Publish
-                    photo={require('../../../assets/florista.jpg')} 
+                    photo={require('../../../assets/user_img/florista.jpg')} 
                     username={'JuliaRosas'} 
-                    content={require('../../../assets/floricultura.jpg')}
+                    content={require('../../../assets/img/floricultura.jpg')}
                     location={'Embu das Artes - Feira de Flores'}
                     />
                     <Publish
-                    photo={require('../../../assets/bibliotecaria.jpg')}
+                    photo={require('../../../assets/user_img/bibliotecaria.jpg')}
                     username={'ClaudiaDosLivros'} 
-                    content={require('../../../assets/livros.jpg')}
+                    content={require('../../../assets/img/livros.jpg')}
                     location={'Santana - Feira de Livros'}
                     />
                     <Publish
-                    photo={require('../../../assets/artesa.jpg')}
+                    photo={require('../../../assets/user_img/artesa.jpg')}
                     username={'CraftyLeticia'} 
-                    content={require('../../../assets/artesanato.jpeg')}
+                    content={require('../../../assets/img/artesanato.jpeg')}
                     location={'Taboão da Serra - Feira de Artesanato'}
                     />
                 </View>

@@ -15,19 +15,19 @@ export default function Location({ route }) {
         {
            id: 1,
            name: "JuliaRosas",
-           photo: require('../../../assets/florista.jpg'),
+           photo: require('../../../assets/user_img/florista.jpg'),
            location: "Embu das Artes"
         },
         {
             id: 2,
             name: "ClaudiaDosLivros",
-            photo: require('../../../assets/bibliotecaria.jpg'),
+            photo: require('../../../assets/user_img/bibliotecaria.jpg'),
             location: "Paulista"
         },
         {
             id: 3,
             name: "CraftyLeticia",
-            photo: require('../../../assets/artesa.jpg'),
+            photo: require('../../../assets/user_img/artesa.jpg'),
             location: "Taboão da Serra"
         }
     ];

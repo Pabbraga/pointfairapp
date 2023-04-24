@@ -12,7 +12,7 @@ export default function Welcome({ navigation }) {
             />
             <Image
                 style={styles.imgLogo}
-                source={require('../../../assets/img/logo.png')}
+                source={require('../../../assets/logo.png')}
             />
             <Text style={styles.logo}>PointFair</Text>
             <View style={styles.buttonContainer}>
