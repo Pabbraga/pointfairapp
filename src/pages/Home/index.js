@@ -14,7 +14,7 @@ export default function Home({navigation, route }) {
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'light'} translucent={false}/>
             <View style={styles.header}>
-                <Entypo name="menu" size={50} color="black" style={{margin: 12}}/>
+                <Text style={styles.logoMark}>PointFair</Text>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
                     <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
                 </TouchableOpacity>

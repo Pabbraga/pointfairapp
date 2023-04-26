@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     userPhoto: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         borderRadius: 20,
         marginRight: 8
     },
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     location: {
         fontSize: 15,
-        color: '#FFC15E',
+        color: '#9B5277',
         fontWeight: 'bold'
     },
 })
