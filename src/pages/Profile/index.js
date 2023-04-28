@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons'; 
+import axios from 'axios';
 import styles from './style';
 
 export default function Profile({navigation}) {
+    const [usuario, setUsuario] = useState([]);
+    const id = 1;
+
+    const getUsuario = async () => {
+        try {
+            const res = await axios.get(`http://10.0.2.2:8000/user/${id}`);
+            setUsuario(res.data[0]);
+        } catch (error) {
+            alert(error);
+        }
+    };
+
+    useEffect(() => {
+        getUsuario();
+    }, [setUsuario]);
+    
     return(
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
@@ -16,7 +33,7 @@ export default function Profile({navigation}) {
             </TouchableOpacity>
             <View style={styles.perfil}>
                 <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
-                <Text style={styles.h1}>JuliaRosas</Text>
+                <Text style={styles.h1}>{usuario['nmUsuario']}</Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
                     <Text style={styles.buttonText}>Editar perfil</Text>

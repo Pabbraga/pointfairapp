@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     },
     location: {
         fontSize: 15,
-        color: '#9B5277',
+        color: '#FFC15E',
         fontWeight: 'bold'
     },
 })
