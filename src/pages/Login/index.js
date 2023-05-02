@@ -1,13 +1,15 @@
 //import React from 'react-native';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
+import axios from "axios";
 
 import styles from './style';
+import AuthContext from '../../context/auth';
 
 export default function Login({navigation}) {
-    const [login, setLogin] = useState('Login');
+    const [typeLogin, setTypeLogin] = useState('Login');
     const [link, setLink] = useState('Sou um vendedor');
     const [isSeller, setIsSeller] = useState(false);
     const [isUser, setIsUser] = useState(true);
@@ -16,36 +18,52 @@ export default function Login({navigation}) {
     const [cnpj, setCnpj] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleLogin = () => {
-        if(isUser && user === 'felipe' && password === '1234'){
-            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
-        } else if (isSeller && cnpj === '12345678912' && password === '2345'){
-            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
-        } else {
-            // alert('Preencha os campos!')
-            // provisório
-            navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }})
-        }
-    }
-
     const handlePress = () => {
         if(link === 'Sou um cliente') {
-            setLogin('Login');
+            setTypeLogin('Login');
             setLink('Sou um vededor');
             setIsSeller(false);
             setIsUser(true);
         } else {
-            setLogin('Login vendedor');
+            setTypeLogin('Login vendedor');
             setLink('Sou um cliente');
             setIsSeller(true);
             setIsUser(false)
         }
-    } 
+    }
+
+    const { data, signIn } = useContext(AuthContext);
+    const handleLogin = async () => {
+        
+        try {
+            const res = await axios.get('http://10.0.2.2:8000/user');
+            const usersData = res.data;
+            usersData.forEach(userData => {
+                if(typeof user === undefined || typeof cnpj === undefined || typeof password === undefined) {
+                    alert("Preencha todos os campos.");
+                    return;
+                } else if(userData["password"] !== password) {
+                    alert("Dados incorretos e/ou inválidos.");
+                    return;
+                } else {
+                    if(isSeller) {
+                        navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
+                        return;
+                    }
+                    navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
+                    signIn();
+                    return;
+                }
+            });
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
     return(
         <View style={styles.container}>
             <View style={styles.top}>
-                <LinearGradient style={[styles.circulo]}
+                <LinearGradient style={styles.circulo}
                     start={{x:1,y:1}}
                     end={{x:0,y:0}} 
                     locations={[0.5,.9]}
@@ -59,25 +77,25 @@ export default function Login({navigation}) {
                 </LinearGradient>
             </View>
             <View style={styles.form}>
-                <Text style={styles.h1}>{login}</Text>
+                <Text style={styles.h1}>{typeLogin}</Text>
                 
                 {isSeller && (
                     <View style={styles.group}>
-                        <Text  style={styles.p}>CNPJ</Text>
-                        <TextInput style={styles.input}  onChangeText={setCnpj}/>
+                        <Text style={styles.p}>CNPJ</Text>
+                        <TextInput style={styles.input} onChangeText={setCnpj}/>
                     </View>
                 )}
 
                 {isUser && (
                     <View style={styles.group}>
                         <Text  style={styles.p}>Usuário</Text>
-                        <TextInput style={styles.input}  onChangeText={setUser}/>
+                        <TextInput style={styles.input} onChangeText={setUser}/>
                     </View>
                     )}
 
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
-                    <TextInput style={styles.input}  onChangeText={setPassword}/>
+                    <TextInput style={styles.input} onChangeText={setPassword}/>
                 </View>             
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
@@ -91,7 +109,7 @@ export default function Login({navigation}) {
                     <Text style={styles.link}>Não possuo uma conta</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.opacity} onPress={handlePress}>
+                <TouchableOpacity style={styles.opacity} onPress={(handlePress)}>
                     <Text style={styles.link}>{link}</Text>
                 </TouchableOpacity>
             </View>

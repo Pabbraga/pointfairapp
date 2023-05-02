@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 export default function LocationTemplate(props) {
     const navigation = useNavigation();
     return(
-    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Location", { locationParam: props.city })}}>
+    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Location", { locationParam: props.location })}}>
         <Image style={styles.imageLocation} source={props.image}></Image>
         <Text style={styles.textLocation}>{props.location}</Text>
     </TouchableOpacity>

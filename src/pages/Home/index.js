@@ -16,7 +16,7 @@ export default function Home({navigation, route }) {
             <View style={styles.header}>
                 <Text style={styles.logoMark}>PointFair</Text>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
-                    <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
+                    <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
                 </TouchableOpacity>
             </View>
             <ScrollView style={styles.scrollView} horizontal={false} showsVerticalScrollIndicator={false}>

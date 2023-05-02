@@ -8,12 +8,12 @@ import styles from './style';
 
 export default function Profile({navigation}) {
     const [usuario, setUsuario] = useState([]);
-    const id = 1;
+    const id = "64504f18617dbaa7a94de644";
 
     const getUsuario = async () => {
         try {
             const res = await axios.get(`http://10.0.2.2:8000/user/${id}`);
-            setUsuario(res.data[0]);
+            setUsuario(res.data);
         } catch (error) {
             alert(error);
         }
@@ -32,8 +32,8 @@ export default function Profile({navigation}) {
                 <Entypo name='arrow-with-circle-left' color={'black'} size={46}/>
             </TouchableOpacity>
             <View style={styles.perfil}>
-                <Image style={styles.userPhoto} source={require('../../../assets/user_img/florista.jpg')}/>
-                <Text style={styles.h1}>{usuario['nmUsuario']}</Text>
+                <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
+                <Text style={styles.h1}>{usuario['nmUser']}</Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
                     <Text style={styles.buttonText}>Editar perfil</Text>
