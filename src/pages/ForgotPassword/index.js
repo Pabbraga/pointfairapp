@@ -8,20 +8,6 @@ import styles from './style';
 export default function ForgotPassword({navigation}) {
     return(
         <View style={styles.container}>
-            <View style={styles.top}>
-                <LinearGradient style={[styles.circulo]}
-                    start={{x:1,y:1}}
-                    end={{x:0,y:0}} 
-                    locations={[0.5,.9]}
-                    colors={['#FFC15E', '#CE6A85']}>
-                </LinearGradient>
-                <LinearGradient style={styles.circulo}
-                    start={{x:0,y:1}}
-                    end={{x:1,y:0}} 
-                    locations={[0.5,.9]}
-                    colors={['#FFC15E', '#CE6A85']}>
-                </LinearGradient>
-            </View>
             <View style={styles.form}>
                 <Text style={styles.h1}>Esqueci minha{'\n'}senha</Text>
                 
@@ -34,21 +20,6 @@ export default function ForgotPassword({navigation}) {
                 <TouchableOpacity style={styles.button}>
                     <Text style={styles.buttonText}>Enviar</Text>
                 </TouchableOpacity>
-            </View>
-
-            <View style={styles.top}>
-            <LinearGradient style={styles.circulo}
-                start={{x:1,y:0}}
-                end={{x:0,y:1}} 
-                locations={[0.5,.9]}
-                colors={['#FFC15E', '#CE6A85']}>
-            </LinearGradient>
-            <LinearGradient style={styles.circulo}
-                start={{x:0,y:0}}
-                end={{x:1,y:1}} 
-                locations={[0.5,.9]}
-                colors={['#FFC15E', '#CE6A85']}>
-            </LinearGradient>
             </View>
         </View>
     );

@@ -7,14 +7,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         //alignItems: 'center',
     },
-    top: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }, 
-    circulo: {
-        width: 100,
-        height: 100,
-    },
     form: {
         flex: 1,
         justifyContent: 'center',
