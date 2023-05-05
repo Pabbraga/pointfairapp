@@ -1,39 +1,31 @@
-import React, { useState, useEffect } from 'react';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons'; 
-import axios from 'axios';
 import styles from './style';
+import { useAuth } from '../../context/auth';
 
 export default function Profile({navigation}) {
-    const [usuario, setUsuario] = useState([]);
-    const id = "64504f18617dbaa7a94de644";
-
-    const getUsuario = async () => {
-        try {
-            const res = await axios.get(`http://10.0.2.2:8000/user/${id}`);
-            setUsuario(res.data);
-        } catch (error) {
-            alert(error);
-        }
-    };
-
-    useEffect(() => {
-        getUsuario();
-    }, [setUsuario]);
-    
+    const { user, signOut, signed } = useAuth();
     return(
         <SafeAreaView style={styles.container}>
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
-                style={{position: 'absolute', top: 20, left: 20}}
-            >
-                <Entypo name='arrow-with-circle-left' color={'black'} size={46}/>
+                style={{position: 'absolute', top: 25, left: 20}}>
+                <Entypo name='arrow-bold-left' color={'black'} size={46}/>
+            </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                    signOut();
+                    navigation.navigate("Login");
+                    console.log(signed);
+                }}
+                style={{position: 'absolute', top: 25, right: 20}}>
+                <Entypo name='log-out' color={'black'} size={40}/>
             </TouchableOpacity>
             <View style={styles.perfil}>
                 <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
-                <Text style={styles.h1}>{usuario['nmUser']}</Text>
+                <Text style={styles.h1}>{user?.nmUser}</Text>
 
                 <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
                     <Text style={styles.buttonText}>Editar perfil</Text>

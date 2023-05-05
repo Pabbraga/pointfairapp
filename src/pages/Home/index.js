@@ -2,13 +2,14 @@ import React from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
 import { Entypo } from '@expo/vector-icons'; 
+import { TextInput } from 'react-native-gesture-handler';
 
 import styles from './style';
 import Publish from '../../components/Publish';
-import { TextInput } from 'react-native-gesture-handler';
+import { useAuth } from '../../context/auth';
 
 export default function Home({navigation, route }) {
-    const { userType } = route.params;
+    const userType = "seller";
 
     return(
         <SafeAreaView style={styles.container}>

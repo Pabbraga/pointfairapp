@@ -1,4 +1,3 @@
-import React from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import Welcome from '../src/pages/Welcome';
@@ -10,11 +9,15 @@ import Profile from '../src/pages/Profile';
 import ProfileChange from '../src/pages/ProfileChange';
 import Location from '../src/pages/Location';
 
+import { useAuth } from '../src/context/auth';
+
 const Stack = createNativeStackNavigator();
 
-export default function Root(){
+export default function Root() {
+    const { signed } = useAuth();
+    const initialScreen = signed ? "HomeTabs" : "Welcome";
     return(
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName={initialScreen}>
             <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}}/>

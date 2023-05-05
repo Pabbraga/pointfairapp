@@ -1,12 +1,11 @@
 //import React from 'react-native';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
-import axios from "axios";
 
 import styles from './style';
-import AuthContext from '../../context/auth';
+import { useAuth } from '../../context/auth';
 
 export default function Login({navigation}) {
     const [typeLogin, setTypeLogin] = useState('Login');
@@ -32,33 +31,22 @@ export default function Login({navigation}) {
         }
     }
 
-    const { data, signIn } = useContext(AuthContext);
+    const { signed, signIn } = useAuth();
+
     const handleLogin = async () => {
-        
-        try {
-            const res = await axios.get('http://10.0.2.2:8000/user');
-            const usersData = res.data;
-            usersData.forEach(userData => {
-                if(typeof user === undefined || typeof cnpj === undefined || typeof password === undefined) {
-                    alert("Preencha todos os campos.");
-                    return;
-                } else if(userData["password"] !== password) {
-                    alert("Dados incorretos e/ou inválidos.");
-                    return;
-                } else {
-                    if(isSeller) {
-                        navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
-                        return;
-                    }
-                    navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
-                    signIn();
-                    return;
-                }
-            });
-        } catch (err) {
-            console.log(err);
-        }
+        await signIn(user, password).then(() => {
+            if(signed) {
+                navigation.navigate('HomeTabs');
+            } else {
+                return;
+            }
+        });
     };
+        // if(isSeller) {
+        //     navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
+        //     return;
+        // }
+        // navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
 
     return(
         <View style={styles.container}>
@@ -100,6 +88,8 @@ export default function Login({navigation}) {
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
+                
+                <Text>{signed ? "HomeTabs" : "Login"}</Text>
 
                 <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('ForgotPassword')}}>
                     <Text style={styles.link}>Esqueci minha senha</Text>
