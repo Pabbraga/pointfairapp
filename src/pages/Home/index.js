@@ -13,7 +13,7 @@ export default function Home({navigation, route }) {
     const { user } = useAuth();
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar barStyle={'light'} translucent={false}/>
+            <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <View style={styles.header}>
                 <Text style={styles.logoMark}>PointFair</Text>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>

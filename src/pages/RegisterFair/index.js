@@ -8,13 +8,7 @@ import styles from './style';
 export default function RegisterFair({navigation}) {
     return(
         <View style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
+            <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <View style={styles.form}>
                 <Text style={styles.h1}>Selecione sua feira</Text>
                 

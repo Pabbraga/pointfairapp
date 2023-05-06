@@ -1,6 +1,7 @@
 //import React from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 
 
@@ -23,6 +24,7 @@ export default function Register({navigation}) {
     };
     return(
         <View style={styles.container}>
+            <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.form}>
                     <Text style={styles.h1}>Cadastra-se</Text>

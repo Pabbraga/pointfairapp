@@ -1,5 +1,5 @@
 import React from 'react-native';
-import { StatusBar } from 'react-native-web';
+import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 import styles from './style';
@@ -7,9 +7,7 @@ import styles from './style';
 export default function Welcome({ navigation }) {
     return (
         <View style={styles.container}>
-             <StatusBar
-                barStyle={'default'}
-            />
+            <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <Image
                 style={styles.imgLogo}
                 source={require('../../../assets/logo.png')}

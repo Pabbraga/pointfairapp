@@ -41,6 +41,7 @@ export default function Login({navigation}) {
 
     return(
         <View style={styles.container}>
+            <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <View style={styles.form}>
                 <Text style={styles.h1}>{typeLogin}</Text>
                 

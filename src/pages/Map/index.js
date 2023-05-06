@@ -35,6 +35,7 @@ export default function Map() {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor='#CE6A85' translucent={false}/>
       <MapView 
         style={styles.map}
         initialRegion={origin}

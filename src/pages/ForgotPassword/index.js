@@ -8,6 +8,7 @@ import styles from './style';
 export default function ForgotPassword({navigation}) {
     return(
         <View style={styles.container}>
+            <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <View style={styles.form}>
                 <Text style={styles.h1}>Esqueci minha{'\n'}senha</Text>
                 

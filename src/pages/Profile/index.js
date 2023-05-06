@@ -9,6 +9,7 @@ export default function Profile({navigation}) {
     const { user, signOut, signed } = useAuth();
     return(
         <SafeAreaView style={styles.container}>
+            <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <TouchableOpacity
                 onPress={() => navigation.goBack()}
                 style={{position: 'absolute', top: 25, left: 20}}>
