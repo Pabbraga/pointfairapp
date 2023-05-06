@@ -5,6 +5,6 @@ export async function signIn(email, password) {
         return res.data;
     } catch (err) {
         console.log(err);
-        return err.response.data['msg'];
+        return err.response.data ? err.response.data['msg'] : "Ocorreu um erro, tente mais tarde.";
     }
 }

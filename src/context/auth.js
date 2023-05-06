@@ -10,14 +10,14 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         async function loadStoragedData() {
             const storagedUser = await AsyncStorage.getItem('@PointFairAuth:user');
             const storagedToken = await AsyncStorage.getItem('@PointFairAuth:token');
-            
             if(storagedUser && storagedToken) {
+                setLoading(true);
                 api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
 
                 setUser(JSON.parse(storagedUser));
@@ -29,17 +29,18 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function signIn(email, password) {
-        setLoading(true);
         const response = await auth.signIn(email, password);
         if(!response.user) {
+            setLoading(false);
             Alert.alert('Erro', `${response}`);
             return;
         }
+        setLoading(true);
         setUser(response.user);
         api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
-        setLoading(false);
         await AsyncStorage.setItem('@PointFairAuth:user', JSON.stringify(response.user));
         await AsyncStorage.setItem('@PointFairAuth:token', response.token);
+        setLoading(false);
     }
 
     function signOut() {

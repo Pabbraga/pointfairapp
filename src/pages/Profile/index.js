@@ -18,7 +18,6 @@ export default function Profile({navigation}) {
                 onPress={() => {
                     signOut();
                     navigation.navigate("Login");
-                    console.log(signed);
                 }}
                 style={{position: 'absolute', top: 25, right: 20}}>
                 <Entypo name='log-out' color={'black'} size={40}/>
