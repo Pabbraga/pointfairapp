@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, FlatList } from 'react-native';
+import { View, TextInput, Text, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Entypo } from '@expo/vector-icons'; 
 
 import styles from './style';
 import SearchResult from '../../components/SearchResult';
 
-export default function Location({ route }) {
+export default function Location({ navigation, route }) {
 
     const { locationParam } = route.params;
 
@@ -44,6 +45,13 @@ export default function Location({ route }) {
 
     return(
         <SafeAreaView style={styles.container}>
+            <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={() => navigation.goBack()}>
+                    <Entypo name='arrow-bold-left' color={'black'} size={46}/>
+                </TouchableOpacity>
+                <Text style={styles.logoMark}>{locationParam}</Text>
+            </View>
             <FlatList
                 keyExtractor={(item) => item.id}
                 data={results}

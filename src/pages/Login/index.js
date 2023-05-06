@@ -1,7 +1,6 @@
 //import React from 'react-native';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
@@ -33,20 +32,12 @@ export default function Login({navigation}) {
 
     const { signed, signIn } = useAuth();
 
-    const handleLogin = async () => {
-        await signIn(user, password).then(() => {
-            if(signed) {
-                navigation.navigate('HomeTabs');
-            } else {
-                return;
-            }
-        });
+    const handleLogin = () => {
+        signIn(user, password);
+        if(signed) {
+            navigation.navigate('HomeTabs');
+        }
     };
-        // if(isSeller) {
-        //     navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'seller' }});
-        //     return;
-        // }
-        // navigation.navigate('HomeTabs', {screen: 'Home', params: { userType: 'user' }});
 
     return(
         <View style={styles.container}>
@@ -74,8 +65,6 @@ export default function Login({navigation}) {
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
-                
-                <Text>{signed ? "HomeTabs" : "Login"}</Text>
 
                 <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('ForgotPassword')}}>
                     <Text style={styles.link}>Esqueci minha senha</Text>

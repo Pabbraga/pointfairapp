@@ -10,7 +10,7 @@ import { useAuth } from '../../context/auth';
 
 export default function Home({navigation, route }) {
     const userType = "seller";
-
+    const { user } = useAuth();
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar barStyle={'light'} translucent={false}/>

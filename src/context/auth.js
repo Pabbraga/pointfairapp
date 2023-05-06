@@ -1,4 +1,5 @@
 import { useContext, createContext, useState, useEffect } from 'react';
+import { View, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth.js';
 import api from '../services/api.js';
@@ -9,6 +10,7 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -19,6 +21,7 @@ export const AuthProvider = ({ children }) => {
                 api.defaults.headers['Authorization'] = `Bearer ${storagedToken}`;
 
                 setUser(JSON.parse(storagedUser));
+                setLoading(false);
             }
         }
 
@@ -26,15 +29,15 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function signIn(email, password) {
+        setLoading(true);
         const response = await auth.signIn(email, password);
         if(!response.user) {
             Alert.alert('Erro', `${response}`);
             return;
         }
         setUser(response.user);
-
         api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
-
+        setLoading(false);
         await AsyncStorage.setItem('@PointFairAuth:user', JSON.stringify(response.user));
         await AsyncStorage.setItem('@PointFairAuth:token', response.token);
     }
@@ -44,6 +47,15 @@ export const AuthProvider = ({ children }) => {
             setUser(null);
         });
     }
+
+    if(loading) {
+        return (
+            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+                <ActivityIndicator size='large' color='#999'/>
+            </View>
+        )
+    }
+
     return(
         <AuthContext.Provider value={{signed: !!user, user, signIn, signOut}}>
             {children}

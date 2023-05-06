@@ -15,9 +15,9 @@ const Stack = createNativeStackNavigator();
 
 export default function Root() {
     const { signed } = useAuth();
-    const initialScreen = signed ? "HomeTabs" : "Welcome";
+
     return(
-        <Stack.Navigator initialRouteName={initialScreen}>
+        <Stack.Navigator initialRouteName={signed ? "HomeTabs" : "Welcome"}>
             <Stack.Screen name="Welcome" component={Welcome} options={{headerShown: false}}/>
             <Stack.Screen name="Login" component={Login} options={{headerShown: false}}/>
             <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{headerShown: false}}/>
