@@ -24,24 +24,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 700
     },
-    makePublishSection: {
-        marginTop: 15,
-    },
-    publishForm: {
-        backgroundColor: 'white',
-        borderRadius: 5,
-        padding: 10,
-        textAlign: "left",
-        textAlignVertical: 'top',
-        fontSize: 18
-    },
-    publishButtons: {
-        flexDirection: 'row',
-        marginTop: 10,
-        alignSelf: 'flex-end',
-        columnGap: 5,
-        flexWrap: 'wrap'
-    },
     main: {
         flex: 1,
         paddingTop: 10

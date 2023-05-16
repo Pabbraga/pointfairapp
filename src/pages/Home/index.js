@@ -7,8 +7,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import styles from './style';
 import Publish from '../../components/Publish';
 import { useAuth } from '../../context/auth';
+import PublishContainer from '../../components/PublishContainer';
 
-export default function Home({navigation, route }) {
+export default function Home({navigation }) {
     const userType = "seller";
     const { user } = useAuth();
     return(
@@ -22,19 +23,7 @@ export default function Home({navigation, route }) {
             </View>
             <ScrollView style={styles.scrollView} horizontal={false} showsVerticalScrollIndicator={false}>
                 {userType === 'seller' && (
-                    <View style={styles.makePublishSection}>
-                        <TextInput
-                        style={styles.publishForm} 
-                        multiline
-                        numberOfLines={2}
-                        maxLength={60}
-                        />
-                        <View style={styles.publishButtons}>
-                            <TouchableOpacity><Entypo name='image' color={'black'} size={28}/></TouchableOpacity>
-                            <TouchableOpacity><Entypo name='location-pin' color={'black'} size={28}/></TouchableOpacity>
-                            <TouchableOpacity><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
-                        </View>
-                    </View>
+                    <PublishContainer/>
                 )}
                 <View style={styles.main}>
                     <Publish
