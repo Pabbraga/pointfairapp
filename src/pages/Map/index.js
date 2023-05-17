@@ -1,17 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect, useRef } from 'react';
-import { TextInput, View } from 'react-native';
+import { Alert, TextInput, View } from 'react-native';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { Entypo } from '@expo/vector-icons';
 import * as Location from 'expo-location';
 
 import styles from './style';
 
 export default function Map() {
   const [origin, setOrigin] = useState(null);
-  const [location, setLocation] = useState(null);
-  const [seachString, setSearchString] = useState(null)
   const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(()=>{
@@ -23,13 +20,16 @@ export default function Map() {
       }
 
       let location = await Location.getCurrentPositionAsync({});
-      setLocation(location);
       setOrigin({
         latitude: location.coords.latitude,
         longitude: location.coords.longitude,
         latitudeDelta: 0.0100,
         longitudeDelta: 0.0100
       })
+
+      if(errorMsg) {
+        Alert.alert(errorMsg);
+      }
     })();
   }, []);
 
@@ -50,17 +50,6 @@ export default function Map() {
         description={'Av. Armando de Andrade, 698-852 - Parque Santos Dumont'}
         />
       </MapView>
-      <View style={styles.searchSection}>
-        <View style={styles.searchBar}>
-          <TextInput
-              style={styles.input}
-              placeholder="Buscar"
-              underlineColorAndroid="transparent"
-              onChangeText={(value)=>{setSearchString(value)}}
-          />
-          <Entypo name={'magnifying-glass'} color={'grey'} size={36}/>
-        </View>
-      </View>
     </View>
   );
 }
