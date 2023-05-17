@@ -20,7 +20,7 @@ export default function UploadImage({handleGetImage}) {
         }
 
         let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: "Images",
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: true,
             aspect: [4,3],
             quality: 1
@@ -28,9 +28,7 @@ export default function UploadImage({handleGetImage}) {
 
         delete result.cancelled;
 
-        result.assets[0].fileName = Math.floor(Date.now() * Math.random()).toString(36); 
-
-        console.log(result);
+        // console.log(result);
 
         if(!result.canceled) {
             handleGetImage(result.assets[0]);

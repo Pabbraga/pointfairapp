@@ -14,6 +14,14 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "É necessário habilitar o acesso ao armazenamento para compartilhar imagens."
+        }
+      ]
+    ],
     "ios": {
       "supportsTablet": true
     },

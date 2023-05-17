@@ -1,17 +1,32 @@
-import React from 'react-native';
+import React, { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
-import { Entypo } from '@expo/vector-icons'; 
-import { TextInput } from 'react-native-gesture-handler';
+// import * as FileSystem from 'expo-file-system';
+
+import api from '../../services/api';
 
 import styles from './style';
 import Publish from '../../components/Publish';
 import { useAuth } from '../../context/auth';
 import PublishContainer from '../../components/PublishContainer';
+import { useEffect } from 'react';
 
-export default function Home({navigation }) {
+export default function Home({navigation}) {
     const userType = "seller";
     const { user } = useAuth();
+    // const [data, setData] = useState(null);
+
+    // const getData = async () => {
+    //     FileSystem.downloadAsync(
+    //         'http://techslides.com/demos/sample-videos/small.mp4',
+    //         FileSystem.documentDirectory + 'small.mp4'
+    //     )
+    // }
+
+    // useEffect(() => {
+    //     getData();
+    // }, []);
+
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>

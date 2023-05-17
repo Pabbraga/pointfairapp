@@ -10,17 +10,17 @@ export default function PublishContainer() {
     const [imageData, setImageData] = useState(null);
 
     function handleGetImage(image) {
-        setImage(image);
-        getDataBlob(image);
+        setImageData(image);
+        setImageBlob(image);
     }
 
-    async function getDataBlob (image) {
-        const imageData = await image;
+    async function setImageBlob(imageData) {
         const uri = imageData.uri;
-    
         const response = await fetch(uri);
         const blob = await response.blob();
-        setImageData(blob);
+        if(imageData.fileName) blob._data.name = imageData.fileName
+        blob._data.type = imageData.type;
+        setImage(blob);
     };
 
     function publish() {
@@ -29,13 +29,12 @@ export default function PublishContainer() {
             return;
         }
         const data = {
-            nmProduto: 'error',
-            descricao: 'um erro de objeto',
-            image: imageData,
-            inStock: true
+            name: image._data.name,
+            file: image,
+            src: imageData.uri
         }
         try {
-            api.post('/product', data);
+            api.post('/picture', data);
             Alert.alert("Publicado.");
         } catch (err) {
             console.log(err);
@@ -52,13 +51,13 @@ export default function PublishContainer() {
             />
             <View style={styles.publishButtons}>
                 {image && <View style={styles.preview}>
-                    <Text style={{color: '#ccc'}}>{image.fileName}</Text>
+                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{image._data.name}</Text>
                     <TouchableOpacity style={styles.cancelButton} onPress={()=>setImage(null)}>
                         <Entypo name='cross' color={'#ccc'} size={15}/>
                     </TouchableOpacity>
                 </View>}
                 <UploadImage handleGetImage={handleGetImage}/>
-                <TouchableOpacity><Entypo name='location-pin' color={'black'} size={28}/></TouchableOpacity>
+                {/* <TouchableOpacity><Entypo name='location-pin' color={'black'} size={28}/></TouchableOpacity> */}
                 <TouchableOpacity onPress={publish}><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
             </View>
             
@@ -86,16 +85,15 @@ const styles = StyleSheet.create({
         marginTop: 10,
         alignSelf: 'flex-end',
         columnGap: 5,
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
     },
     preview: {
-        width: 150,
         height: 30,
         borderRadius: 10,
-        marginRight: 70,
+        marginRight: 100,
         flexDirection: 'row',
-        justifyContent: 'space-around',
         alignItems: 'center',
+        paddingRight: 15,
         paddingLeft: 10,
         backgroundColor: '#985277',
     },
