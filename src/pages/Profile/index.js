@@ -48,12 +48,12 @@ function Box({ navigation }) {
 function Shop({ navigation }) {
   return (
     <View>
-        <View style={{backgroundColor: 'red', marginTop: 30, paddingHorizontal: 80}}>
-            <Text style={{backgroundColor: 'blue', fontSize: 24, paddingHorizontal: 20, marginTop: 10, marginBottom: 30}}>Feira</Text>
+        <View style={styles.article}>
+            <Text style={styles.articleH1}>Feira</Text>
 
-            <Text>Estado:</Text>
-            <Text>Cidade:</Text>
-            <Text>Feira:</Text>
+            <Text style={styles.articleP}>Estado:</Text>
+            <Text style={styles.articleP}>Cidade:</Text>
+            <Text style={styles.articleP}>Feira:</Text>
         </View>
     </View>
   );
@@ -62,71 +62,79 @@ function Shop({ navigation }) {
 function Calendar({ navigation }) {
   return (
     <View>
-        <View style={{backgroundColor: 'red', marginTop: 30, paddingHorizontal: 80}}>
-            <Text>Carga horaria da Semana</Text>
+        <View style={styles.article}>
+            <Text style={{fontWeight: '600', fontSize: 20}}>Carga horaria da Semana</Text>
+            <Text style={{fontWeight: '600', fontSize: 20}}>Horários:</Text>
+            <Text style={styles.articleP}>Domingo:</Text>
+            <Text style={styles.articleP}>Segunda:</Text>
+            <Text style={styles.articleP}>Terça:</Text>
+            <Text style={styles.articleP}>Quarta:</Text>
+            <Text style={styles.articleP}>Quinta:</Text>
+            <Text style={styles.articleP}>Sexta:</Text>
+            <Text style={styles.articleP}>Sábado:</Text>
         </View>
     </View>
   );
 }
 
 export default function Profile({ navigation }) {
-  const { user, signOut, signed } = useAuth();
-  const [activeSection, setActiveSection] = React.useState('box');
-  const [activeIcon, setActiveIcon] = React.useState('box');
+    const { user, signOut, signed } = useAuth();
+    const [activeSection, setActiveSection] = React.useState('box');
+    const [activeIcon, setActiveIcon] = React.useState('box');
 
-  const handleSignOut = () => {
-    signOut();
-    navigation.navigate('Login');
-  };
+    const handleSignOut = () => {
+        signOut();
+        navigation.navigate('Login');
+    };
 
-  const handleIconPress = (icon) => {
-    setActiveSection(icon);
-    setActiveIcon(icon);
-  };
+    const handleIconPress = (icon) => {
+        setActiveSection(icon);
+        setActiveIcon(icon);
+    };
 
-  const renderSection = () => {
-    if (activeSection === 'box') {
-      return <Box navigation={navigation} />;
-    } else if (activeSection === 'shop') {
-      return <Shop navigation={navigation} />;
-    } else if (activeSection === 'calendar') {
-      return <Calendar navigation={navigation} />;
-    }
-  };
-
-  return (
+    const renderSection = () => {
+        if (activeSection === 'box') {
+            return <Box navigation={navigation} />;
+        } else if (activeSection === 'shop') {
+            return <Shop navigation={navigation} />;
+        } else if (activeSection === 'calendar') {
+            return <Calendar navigation={navigation} />;
+        }
+    };
+    
+    return (
     <SafeAreaView style={styles.container}>
-      <StatusBar backgroundColor="#CE6A85" translucent={false} />
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
-        <Entypo name="arrow-bold-left" color="black" size={46} />
-      </TouchableOpacity>
-      <TouchableOpacity onPress={handleSignOut} style={{ position: 'absolute', top: 25, right: 20 }}>
-        <Entypo name="log-out" color="black" size={40} />
-      </TouchableOpacity>
-      <View style={styles.perfil}>
-        <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')} />
-        <Text style={styles.h1}>{user?.nmUser}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
-          <Text style={styles.buttonText}>Editar perfil</Text>
+        <StatusBar backgroundColor="#CE6A85" translucent={false} />
+        <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
+            <Entypo name="arrow-bold-left" color="black" size={46} />
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleSignOut} style={{ position: 'absolute', top: 25, right: 20 }}>
+            <Entypo name="log-out" color="black" size={40} />
+        </TouchableOpacity>
+        <View style={styles.perfil}>
+            <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')} />
+            <Text style={styles.h1}>{user?.nmUser}</Text>
 
-        <View style={styles.icons}>
-          <TouchableOpacity onPress={() => handleIconPress('box')}>
-            <BoxIcon active={activeIcon === 'box'} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleIconPress('shop')}>
-            <ShopIcon active={activeIcon === 'shop'} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleIconPress('calendar')}>
-            <CalendarIcon active={activeIcon === 'calendar'} />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
+                <Text style={styles.buttonText}>Editar perfil</Text>
+            </TouchableOpacity>
+
+            <View style={styles.icons}>
+                <TouchableOpacity onPress={() => handleIconPress('box')}>
+                    <BoxIcon active={activeIcon === 'box'} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleIconPress('shop')}>
+                    <ShopIcon active={activeIcon === 'shop'} />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => handleIconPress('calendar')}>
+                    <CalendarIcon active={activeIcon === 'calendar'} />
+                </TouchableOpacity>
+            </View>
         </View>
-      </View>
-
-      <View style={styles.section}>
-        {renderSection()}
-      </View>
+        
+        <View style={styles.section}>
+            {renderSection()}
+        </View>
     </SafeAreaView>
   );
 }

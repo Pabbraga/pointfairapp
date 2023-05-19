@@ -46,6 +46,22 @@ const styles = StyleSheet.create({
         height: 140,
         borderRadius: 10,
         margin: 10
+    },
+    article:{
+        backgroundColor: '#FAA275',
+        marginTop: 35,
+        paddingHorizontal: 50,
+        paddingVertical: 10  
+    },
+    articleH1:{
+        backgroundColor: '#985277',
+        fontSize: 26,
+        paddingHorizontal: 60,
+        marginBottom: 20
+    },
+    articleP:{
+        fontSize: 18,
+        paddingBottom: 5
     }
 })
 
