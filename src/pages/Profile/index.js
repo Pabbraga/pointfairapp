@@ -34,46 +34,6 @@ function CalendarIcon({ active }) {
   );
 }
 
-function Box({ navigation }) {
-  return (
-    <View>
-      <Text>BOX</Text>
-    </View>
-  );
-}
-
-function Shop({ navigation }) {
-  return (
-    <View>
-        <View style={styles.article}>
-            <Text style={styles.articleH1}>Feira</Text>
-
-            <Text style={styles.articleP}>Estado:</Text>
-            <Text style={styles.articleP}>Cidade:</Text>
-            <Text style={styles.articleP}>Feira:</Text>
-        </View>
-    </View>
-  );
-}
-
-function Calendar({ navigation }) {
-  return (
-    <View>
-        <View style={styles.article}>
-            <Text style={{fontWeight: '600', fontSize: 20}}>Carga horaria da Semana</Text>
-            <Text style={{fontWeight: '600', fontSize: 20}}>Horários:</Text>
-            <Text style={styles.articleP}>Domingo:</Text>
-            <Text style={styles.articleP}>Segunda:</Text>
-            <Text style={styles.articleP}>Terça:</Text>
-            <Text style={styles.articleP}>Quarta:</Text>
-            <Text style={styles.articleP}>Quinta:</Text>
-            <Text style={styles.articleP}>Sexta:</Text>
-            <Text style={styles.articleP}>Sábado:</Text>
-        </View>
-    </View>
-  );
-}
-
 function Profile({ navigation, route }) {
     const { idUser } = route.params;
     const [loading, setLoading] = useState(true);
