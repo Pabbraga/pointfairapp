@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, ScrollView } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
 // import * as FileSystem from 'expo-file-system';
 
 import api from '../../services/api';
@@ -9,12 +9,11 @@ import styles from './style';
 import Publish from '../../components/Publish';
 import { useAuth } from '../../context/auth';
 import PublishContainer from '../../components/PublishContainer';
-import { useEffect } from 'react';
 
 export default function Home({navigation}) {
-    const userType = "seller";
+    const isSeller = true;
     const { user } = useAuth();
-    // const [data, setData] = useState(null);
+    const [data, setData] = useState(null);
 
     // const getData = async () => {
     //     FileSystem.downloadAsync(
@@ -23,44 +22,52 @@ export default function Home({navigation}) {
     //     )
     // }
 
-    // useEffect(() => {
-    //     getData();
-    // }, []);
+    useEffect(() => {
+        loadPublications();
+    }, []);
+
+    async function loadPublications() {
+        const res = await api.get('/publication');
+        setData([...res.data]);
+    }
+
+    renderHeader = () => {
+        if(!isSeller) return null;
+
+        return(
+            <PublishContainer/>
+        );
+    };
+
+    const renderItem = ({item}) => (
+        <Publish
+        photo={item.owner.photo[0]} 
+        username={item.owner.nickname} 
+        content={item.image}
+        // location={item.owner.location.city}
+        />
+    );
 
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <View style={styles.header}>
-                <Text style={styles.logoMark}>PointFair</Text>
+                <TouchableOpacity onPress={loadPublications}>
+                    <Text style={styles.logoMark}>PointFair</Text>
+                </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
                     <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
                 </TouchableOpacity>
             </View>
-            <ScrollView style={styles.scrollView} horizontal={false} showsVerticalScrollIndicator={false}>
-                {userType === 'seller' && (
-                    <PublishContainer/>
-                )}
-                <View style={styles.main}>
-                    <Publish
-                    photo={require('../../../assets/user_img/florista.jpg')} 
-                    username={'JuliaRosas'} 
-                    content={require('../../../assets/img/floricultura.jpg')}
-                    location={'Embu das Artes - Feira de Flores'}
-                    />
-                    <Publish
-                    photo={require('../../../assets/user_img/bibliotecaria.jpg')}
-                    username={'ClaudiaDosLivros'} 
-                    content={require('../../../assets/img/livros.jpg')}
-                    location={'Santana - Feira de Livros'}
-                    />
-                    <Publish
-                    photo={require('../../../assets/user_img/artesa.jpg')}
-                    username={'CraftyLeticia'} 
-                    content={require('../../../assets/img/artesanato.jpeg')}
-                    location={'Taboão da Serra - Feira de Artesanato'}
-                    />
-                </View>
-            </ScrollView>
+            <FlatList
+                data={data}
+                renderItem={renderItem}
+                keyExtractor={(item) => item._id}
+                style={styles.list}
+                ListHeaderComponent={renderHeader}
+                onEndReached={()=>loadPublications}
+                onEndReachedThreshold={0.5}
+            />
         </SafeAreaView>
     );
 }

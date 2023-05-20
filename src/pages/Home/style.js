@@ -7,8 +7,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#CE6A85'
     },
-    scrollView: {
-        paddingHorizontal: 40
+    list: {
+        paddingHorizontal: 15
     },
     header: {
         width: '100%',
