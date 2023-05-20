@@ -68,9 +68,8 @@ const styles = StyleSheet.create({
         top: 25,
         right: 20,
         zIndex: 1,
-      },
-      
-      menu: {
+    },
+    menu: {
         position: 'absolute',
         top: 60,
         right: 40,
@@ -82,15 +81,21 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.2,
         shadowRadius: 4,
         elevation: 4,
-      },
-    
-      menuItem: {
+    },
+    menuItem: {
         paddingVertical: 8,
-      },
-    
-      menuItemText: {
+    },
+    menuItemText: {
         fontSize: 16,
-      }, 
+    },
+    activeSection: {
+        backgroundColor: '#FAA275',
+        borderRadius: 100,
+    },
+    activeSection: {
+        backgroundColor: '#FAA275',
+        borderRadius: 100,
+    }, 
 })
 
 export default styles;
