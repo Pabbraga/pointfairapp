@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 export default function Publish(props) {
     const navigation = useNavigation();
 
-    const userImages = require.context('../../assets/user_img/', true);
+    const id = props.id;
+    const userImages = require.context('../../assets/user_img', true);
     let photos = userImages(`./${props.photo}`);
     
     const contentImages = require.context('../../assets/img', true);
@@ -14,10 +15,10 @@ export default function Publish(props) {
     return(
     <View style={styles.container}>
         <View style={styles.userField}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
                 <Image style={styles.userPhoto} source={photos}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
                 <Text style={styles.userName}>{props.username}</Text>
             </TouchableOpacity>
         </View>

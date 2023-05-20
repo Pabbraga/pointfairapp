@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
 // import * as FileSystem from 'expo-file-system';
 
 import api from '../../services/api';
@@ -14,6 +14,7 @@ export default function Home({navigation}) {
     const isSeller = true;
     const { user } = useAuth();
     const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
 
     // const getData = async () => {
     //     FileSystem.downloadAsync(
@@ -24,7 +25,18 @@ export default function Home({navigation}) {
 
     useEffect(() => {
         loadPublications();
+        setTimeout(()=> {
+            setLoading(false);
+        }, 1500)
     }, []);
+
+    if(loading) {
+        return (
+            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+                <ActivityIndicator size='large' color='#999'/>
+            </View>
+        )
+    }
 
     async function loadPublications() {
         const res = await api.get('/publication');
@@ -39,8 +51,9 @@ export default function Home({navigation}) {
         );
     };
 
-    const renderItem = ({item}) => (
+    renderItem = ({item}) => (
         <Publish
+        id={item.owner._id}
         photo={item.owner.photo[0]} 
         username={item.owner.nickname} 
         content={item.image}
@@ -55,7 +68,7 @@ export default function Home({navigation}) {
                 <TouchableOpacity onPress={loadPublications}>
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{navigation.navigate('Profile')}}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
                     <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
                 </TouchableOpacity>
             </View>

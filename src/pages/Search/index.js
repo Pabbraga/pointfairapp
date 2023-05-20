@@ -24,7 +24,7 @@ export default function Search() {
             </View>
             <ScrollView style={styles.main}>
                 <LocationTemplate image={require('../../../assets/location_img/taboao.png')} location={'Taboão da Serra'} />
-                <LocationTemplate image={require('../../../assets/location_img/paulista.png')} location={'Paulista'} />
+                <LocationTemplate image={require('../../../assets/location_img/paulista.png')} location={'São Paulo'} />
                 <LocationTemplate image={require('../../../assets/location_img/embu.png')} location={'Embu das Artes'} />
                 <LocationTemplate image={require('../../../assets/location_img/eldorado.png')} location={'Eldorado'} />
             </ScrollView>

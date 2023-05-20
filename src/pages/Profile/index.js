@@ -1,10 +1,11 @@
-import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import styles from './style';
 import { useAuth } from '../../context/auth';
+import api from '../../services/api';
 
 const customStyles = StyleSheet.create({
   activeSection: {
@@ -77,11 +78,48 @@ function Calendar({ navigation }) {
   );
 }
 
-function Profile({ navigation }) {
+function Profile({ navigation, route }) {
+    const { idUser } = route.params;
+    const [loading, setLoading] = useState(true);
     const { user, signOut, signed } = useAuth();
+    const [userData, setUserData] = useState(null);
+    const [userPhoto, setUserPhoto] = useState(null);
     const [activeSection, setActiveSection] = React.useState('box');
     const [activeIcon, setActiveIcon] = React.useState('box');
     const [isMenuOpen, setMenuOpen] = React.useState(false);
+
+  useEffect(() => {
+    loadUser();
+  }, []);
+
+  async function loadUser() {
+    if(idUser === null) {
+      setUserData(user);
+      setTimeout(()=>{
+        const photo = require.context('../../../assets/user_img', true);
+        let userImage = photo(`./${user.photo[0]}`);
+        setUserPhoto(userImage);
+        setLoading(false);
+      }, 1000);
+      return;
+    }
+    const res = await api.get(`/user/${idUser}`);
+    setTimeout(()=>{
+      setUserData(res.data);
+      const photo = require.context('../../../assets/user_img', true);
+      let userImage = photo(`./${res.data.photo[0]}`);
+      setUserPhoto(userImage);
+      setLoading(false);
+    }, 1500);
+  }
+
+  if(loading) {
+    return (
+        <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+            <ActivityIndicator size='large' color='#999'/>
+        </View>
+    )
+  }
 
     const handleSignOut = () => {
         signOut();
@@ -132,8 +170,8 @@ function Profile({ navigation }) {
         </View>
       )}
         <View style={styles.perfil}>
-            <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')} />
-            <Text style={styles.h1}>{user?.nmUser}</Text>
+        <Image style={styles.userPhoto} source={userPhoto}/>
+        <Text style={styles.h1}>{userData.nickname}</Text>
 
             <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
                 <Text style={styles.buttonText}>Editar perfil</Text>

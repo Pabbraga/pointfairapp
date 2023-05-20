@@ -1,46 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, TextInput, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons'; 
 
 import styles from './style';
 import SearchResult from '../../components/SearchResult';
+import api from '../../services/api';
 
 export default function Location({ navigation, route }) {
 
     const { locationParam } = route.params;
+    const [usersData, setUsersData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [results, setResults] = useState(null);
 
-    var results = [];
+    useEffect(() => {
+        loadResults();
+    }, []);
 
-    const usersData = [
-        {
-           id: 1,
-           name: "JuliaRosas",
-           photo: require('../../../assets/user_img/florista.jpg'),
-           location: "Embu das Artes"
-        },
-        {
-            id: 2,
-            name: "ClaudiaDosLivros",
-            photo: require('../../../assets/user_img/bibliotecaria.jpg'),
-            location: "Paulista"
-        },
-        {
-            id: 3,
-            name: "CraftyLeticia",
-            photo: require('../../../assets/user_img/artesa.jpg'),
-            location: "Taboão da Serra"
-        }
-    ];
+    async function loadResults() {
+        const res = await api.get('/user');
+        setUsersData([...res.data]); 
+        const users = res.data.filter(user => (user.location.city == locationParam));
+        setResults([...users]);
+        setLoading(false);
+    }
+    if(loading) {
+        return (
+            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
+                <ActivityIndicator size='large' color='#999'/>
+            </View>
+        )
+    }
 
-    usersData.forEach(user => {
-        if(locationParam === user['location']) {
-            results.push(user);
-        }
-    });
-
-    function renderItem({item: {photo, name, location}}) {
-        return <SearchResult photo={photo} username={name} location={location}/>
+    function renderItem({item}) {
+        return <SearchResult id={item._id} photo={item.photo[0]} username={item.nickname} location={item.location.city}/>
     }
 
     return(
@@ -53,7 +47,7 @@ export default function Location({ navigation, route }) {
                 <Text style={styles.logoMark}>{locationParam}</Text>
             </View>
             <FlatList
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item._id}
                 data={results}
                 renderItem={renderItem}
             />
