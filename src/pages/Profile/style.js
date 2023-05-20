@@ -62,7 +62,35 @@ const styles = StyleSheet.create({
     articleP:{
         fontSize: 18,
         paddingBottom: 5
-    }
+    },
+    menuContainer: {
+        position: 'absolute',
+        top: 25,
+        right: 20,
+        zIndex: 1,
+      },
+      
+      menu: {
+        position: 'absolute',
+        top: 60,
+        right: 40,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        shadowColor: '#000000',
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 4,
+      },
+    
+      menuItem: {
+        paddingVertical: 8,
+      },
+    
+      menuItemText: {
+        fontSize: 16,
+      }, 
 })
 
 export default styles;

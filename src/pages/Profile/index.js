@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
@@ -77,10 +77,11 @@ function Calendar({ navigation }) {
   );
 }
 
-export default function Profile({ navigation }) {
+function Profile({ navigation }) {
     const { user, signOut, signed } = useAuth();
     const [activeSection, setActiveSection] = React.useState('box');
     const [activeIcon, setActiveIcon] = React.useState('box');
+    const [isMenuOpen, setMenuOpen] = React.useState(false);
 
     const handleSignOut = () => {
         signOut();
@@ -92,6 +93,10 @@ export default function Profile({ navigation }) {
         setActiveIcon(icon);
     };
 
+    const openAppWebsite = () => {
+        Linking.openURL('https://www.example.com');
+    };
+
     const renderSection = () => {
         if (activeSection === 'box') {
             return <Box navigation={navigation} />;
@@ -101,16 +106,31 @@ export default function Profile({ navigation }) {
             return <Calendar navigation={navigation} />;
         }
     };
-    
+
+    const toggleMenu = () => {
+        setMenuOpen(!isMenuOpen);
+    };
+
     return (
     <SafeAreaView style={styles.container}>
         <StatusBar backgroundColor="#CE6A85" translucent={false} />
         <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
             <Entypo name="arrow-bold-left" color="black" size={46} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleSignOut} style={{ position: 'absolute', top: 25, right: 20 }}>
-            <Entypo name="log-out" color="black" size={40} />
+        <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
+            <Entypo name="menu" color="black" size={40} />
         </TouchableOpacity>
+        {isMenuOpen && (
+        <View style={styles.menu}>
+          <TouchableOpacity style={styles.menuItem} onPress={openAppWebsite}>
+            <Text style={styles.menuItemText}>Site do App</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem} onPress={handleSignOut}>
+            <Text style={styles.menuItemText}>Sair</Text>
+          </TouchableOpacity>
+        </View>
+      )}
         <View style={styles.perfil}>
             <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')} />
             <Text style={styles.h1}>{user?.nmUser}</Text>
@@ -136,5 +156,7 @@ export default function Profile({ navigation }) {
             {renderSection()}
         </View>
     </SafeAreaView>
-  );
+  );  
 }
+
+export default Profile;
