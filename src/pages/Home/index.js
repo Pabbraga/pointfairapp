@@ -3,11 +3,11 @@ import { StatusBar } from 'expo-status-bar';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
 // import * as FileSystem from 'expo-file-system';
 
+import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
 import styles from './style';
 import Publish from '../../components/Publish';
-import { useAuth } from '../../context/auth';
 import PublishContainer from '../../components/PublishContainer';
 
 export default function Home({navigation}) {
@@ -15,7 +15,11 @@ export default function Home({navigation}) {
     const { user } = useAuth();
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
+    const photo = require.context('../../../assets/user_img', true);
+    const userImage = photo(`./${user.photo[0]}`);
+    
     // const getData = async () => {
     //     FileSystem.downloadAsync(
     //         'http://techslides.com/demos/sample-videos/small.mp4',
@@ -41,10 +45,11 @@ export default function Home({navigation}) {
     async function loadPublications() {
         const res = await api.get('/publication');
         setData([...res.data]);
+        setRefreshing(false);
     }
 
     renderHeader = () => {
-        if(!isSeller) return null;
+        if(!isSeller) return;
 
         return(
             <PublishContainer/>
@@ -61,6 +66,11 @@ export default function Home({navigation}) {
         />
     );
 
+    handleRefresh = () => {
+        setRefreshing(true);
+        loadPublications();
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
@@ -69,7 +79,7 @@ export default function Home({navigation}) {
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
-                    <Image style={styles.userPhoto} source={require('../../../assets/user_img/picture.jpg')}/>
+                    <Image style={styles.userPhoto} source={userImage}/>
                 </TouchableOpacity>
             </View>
             <FlatList
@@ -80,6 +90,8 @@ export default function Home({navigation}) {
                 ListHeaderComponent={renderHeader}
                 onEndReached={()=>loadPublications}
                 onEndReachedThreshold={0.5}
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
             />
         </SafeAreaView>
     );

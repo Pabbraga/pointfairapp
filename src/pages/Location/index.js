@@ -10,17 +10,16 @@ import api from '../../services/api';
 export default function Location({ navigation, route }) {
 
     const { locationParam } = route.params;
-    const [usersData, setUsersData] = useState(null);
-    const [loading, setLoading] = useState(true);
     const [results, setResults] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     useEffect(() => {
         loadResults();
     }, []);
 
     async function loadResults() {
-        const res = await api.get('/user');
-        setUsersData([...res.data]); 
+        const res = await api.get('/user'); 
         const users = res.data.filter(user => (user.location.city == locationParam));
         setResults([...users]);
         setLoading(false);
@@ -37,6 +36,11 @@ export default function Location({ navigation, route }) {
         return <SearchResult id={item._id} photo={item.photo[0]} username={item.nickname} location={item.location.city}/>
     }
 
+    handleRefresh = () => {
+        setRefreshing(true);
+        loadPublications();
+    }
+
     return(
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -50,6 +54,8 @@ export default function Location({ navigation, route }) {
                 keyExtractor={(item) => item._id}
                 data={results}
                 renderItem={renderItem}
+                refreshing={refreshing}
+                onRefresh={handleRefresh}
             />
         </SafeAreaView>
     );
