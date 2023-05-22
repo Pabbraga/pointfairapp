@@ -3,7 +3,6 @@ import { View, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth.js';
 import api from '../services/api.js';
-import { Alert } from 'react-native';
 
 
 const AuthContext = createContext();
@@ -45,9 +44,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     function signOut() {
-        AsyncStorage.clear().then(() => {
-            setUser(null);
-        });
+        AsyncStorage.clear();
     }
 
     if(loading) {

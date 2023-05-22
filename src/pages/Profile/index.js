@@ -123,8 +123,8 @@ function Profile({ navigation, route }) {
     }
 
     const handleSignOut = () => {
-        signOut();
-        navigation.navigate('Login');
+      signOut();
+      navigation.navigate('Welcome');
     };
 
     const handleIconPress = (icon) => {
@@ -170,7 +170,7 @@ function Profile({ navigation, route }) {
           </TouchableOpacity>
         </View>
       )}
-       <View style={styles.perfil}>
+      <View style={styles.perfil}>
         <Image style={styles.userPhoto} source={userPhoto}/>
         <Text style={styles.h1}>{userData.nickname}</Text>
 

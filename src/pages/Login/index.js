@@ -1,6 +1,5 @@
-//import React from 'react-native';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
@@ -10,20 +9,17 @@ export default function Login({navigation}) {
     const [user, setUser] = useState('');
     const [password, setPassword] = useState('');
 
-    const { signed, signIn, error } = useAuth();
+    const { signIn, error } = useAuth();
 
     const handleLogin = () => {
         signIn(user, password);
-        if(signed) {
-            navigation.navigate('HomeTabs');
-        }
     };
 
     return(
         <View style={styles.container}>
             <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <View style={styles.form}>
-                <Text style={styles.h1}>Login</Text>
+                <Text style={styles.h1}>Entrar</Text>
                 <View style={styles.group}>
                     <Text  style={styles.p}>E-mail</Text>
                     <TextInput style={styles.input} onChangeText={setUser} value={user}/>

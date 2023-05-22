@@ -1,4 +1,3 @@
-//import React from 'react-native';
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -7,21 +6,24 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import { useAuth } from '../../context/auth';
+import api from '../../services/api';
 import styles from './style';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
+    const { signIn } = useAuth();
 
     const schema = yup.object({
         firstName: step == 1 && yup.string().required("Informe o seu nome."),
         surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
         email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
-        cnpj: step == 1 && isSeller && yup.string().required("Informe o seu CNPJ"),
-        nickname: step == 2 && yup.string().required("Digite o seu nome de usuário."),
-        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
-        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
+        cnpj: step == 2 && yup.string().required("Informe o seu CNPJ"),
+        fantasyName: step == 2 && yup.string().required("Informe o seu nome fantasia."),
+        segment: step == 2 && yup.string().required("Informe o seu segmento."),
+        nickname: step == 3 && yup.string().required("Digite o seu nome de usuário."),
         password: step == 3 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
         confirmPass: step == 3 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.")
     })
@@ -31,7 +33,7 @@ export default function Register({navigation}) {
     })
 
     function handleRegister(data) {
-        console.log(data)
+        console.log(data);
     }
 
     const handleSellerClick = () => {
@@ -40,7 +42,6 @@ export default function Register({navigation}) {
             setLink('Sou um cliente');
         }
         else {
-            //scrollViewRef.current.scrollTo({ y: 0 });
             setIsSeller(false);
             setLink('Sou um vendedor');
         }
@@ -92,17 +93,18 @@ export default function Register({navigation}) {
                         label="E-mail*"
                         name="email"
                     />
-                    {isSeller && <Field
-                        control={control}
-                        label="CNPJ*"
-                        name="cnpj"
-                    />}
                     <Field
                         control={control}
                         label="Telefone"
                         name="phone"
                     />
-                    <TouchableOpacity style={styles.button} onPress={handleSubmit(()=>setStep(step+1))}>
+                    <TouchableOpacity 
+                        style={styles.button} 
+                        onPress={handleSubmit(() => {
+                            if(isSeller) setStep(step+1);
+                            setStep(step+2)
+                            }
+                        )}>
                         <Text style={styles.buttonText}>Continuar</Text>
                     </TouchableOpacity>
 
@@ -118,9 +120,15 @@ export default function Register({navigation}) {
             <View style={styles.form}>
                 <TouchableOpacity 
                     style={{ position: 'absolute', top: 25, left: 20 }}
-                    onPress={()=>setStep(step-1)}>
+                    onPress={() => {setStep(step-1)}}>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
+                <Text style={styles.h1}>Cadastro</Text>
+                <Field
+                    control={control}
+                    label="CNPJ*"
+                    name="cnpj"
+                />
                 <Field
                     control={control}
                     label="Nome Fantasia*"
@@ -130,11 +138,6 @@ export default function Register({navigation}) {
                     control={control}
                     label="Segmento*"
                     name="segment"
-                />
-                <Field
-                    control={control}
-                    label="Nome de Usuário*"
-                    name="nickname"
                 />
                 <TouchableOpacity 
                     style={styles.button} 
@@ -146,10 +149,19 @@ export default function Register({navigation}) {
             <View style={styles.form}>
                 <TouchableOpacity 
                     style={{ position: 'absolute', top: 25, left: 20 }}
-                    onPress={() =>setStep(step-1)} 
-                    >
+                    onPress={() => {
+                        if(isSeller) setStep(step-1);
+                        setStep(step-2);
+                    }
+                    }>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
+                <Text style={styles.h1}>Cadastro</Text>
+                <Field
+                    control={control}
+                    label="Nome de Usuário*"
+                    name="nickname"
+                />
                 <Field
                     control={control}
                     label="Senha*"

@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#FFC15E",
         justifyContent: 'space-between',
-        //alignItems: 'center',
     },
     form: {
         flex: 1,
