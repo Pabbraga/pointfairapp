@@ -17,13 +17,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: "#5C374C",
         fontWeight: '700',
-    },
-    h2:{
-        fontSize: 21,
-        textAlign: 'center',
-        color: "#000",
-        fontWeight: '500',
-        margin: 50,
+        marginBottom: 50,
     },
     group: {
         marginBottom: 20,
@@ -43,6 +37,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#5C374C",
         fontSize: 16,
     },
+    opacity: {
+        marginVertical: 10
+    },
     button: {
         backgroundColor: "#985277",
         borderRadius: 10,
@@ -54,6 +51,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '500',
     },
+    link: {
+        color: "#985277",
+        fontSize: 16
+    }
 })
 
 export default styles;

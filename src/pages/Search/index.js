@@ -1,40 +1,33 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text } from 'react-native';
+import { View, TextInput, Text, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
-import styles from './style'
-import SearchResult from '../../components/SearchResult';
+import styles from './style';
+import LocationTemplate from '../../components/LocationTemplate';
 
 export default function Search() {
     const [searchString, setSearchString] = useState('');
 
     return(
         <SafeAreaView style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
             <View style={styles.searchSection}>
+                <Entypo name={'magnifying-glass'} color={'#FCDC5D'} size={38} style={{marginTop: 10}}/>
                 <TextInput
                     style={styles.input}
                     placeholder="Buscar"
                     underlineColorAndroid="transparent"
                     onChangeText={(value)=>{setSearchString(value)}}
-                />
-                <Entypo name={'magnifying-glass'} color={'grey'} size={36}/>
-            </View>
-            <View style={styles.main}>
-                <SearchResult
-                username={'JuliaRosas'}
-                photo={require('../../../assets/florista.jpg')}
-                location={'Embu das Artes'} 
+                    value={searchString}
                 />
             </View>
+            <ScrollView style={styles.main}>
+                <LocationTemplate image={require('../../../assets/location_img/taboao.png')} location={'Taboão da Serra'} />
+                <LocationTemplate image={require('../../../assets/location_img/paulista.png')} location={'São Paulo'} />
+                <LocationTemplate image={require('../../../assets/location_img/embu.png')} location={'Embu das Artes'} />
+                <LocationTemplate image={require('../../../assets/location_img/eldorado.png')} location={'Eldorado'} />
+            </ScrollView>
         </SafeAreaView>
     )
 }

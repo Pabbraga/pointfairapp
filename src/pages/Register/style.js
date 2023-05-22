@@ -7,28 +7,19 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         //alignItems: 'center',
     },
-    top: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }, 
-    circulo: {
-        width: 100,
-        height: 100,
-    },
     form: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
+        padding: 30
     },
     h1: {
         fontSize: 32,
-        textAlign: 'center',
         color: "#5C374C",
         fontWeight: '700',
         marginBottom: 50,
     },
     group: {
-        marginBottom: 20,
+        marginBottom: 15,
         width: "80%"
     },
     p: {
@@ -44,6 +35,11 @@ const styles = StyleSheet.create({
         color: "#fff",
         backgroundColor: "#5C374C",
         fontSize: 16,
+    },
+    labelError: {
+      alignSelf: 'flex-start',
+      color: '#ff375b',
+      marginLeft: 15  
     },
     opacity: {
         marginVertical: 10

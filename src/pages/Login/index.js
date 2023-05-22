@@ -1,91 +1,44 @@
-//import React from 'react-native';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
+import { useAuth } from '../../context/auth';
 
 export default function Login({navigation}) {
-    const [login, setLogin] = React.useState('Login');
-    const [link, setLink] = React.useState('Sou um vendedor');
-    const [usuario, setUsuario ] = React.useState('Usuário');
-    const handlePress = () => {
-        if(link === 'Sou um cliente') {
-            setLogin('Login');
-            setLink('Sou um vededor');
-            setUsuario('Usuário')
-        } else {
-            setLogin('Login vendedor');
-            setLink('Sou um cliente');
-            setUsuario('CNPJ')
-        }
-    } 
+    const [user, setUser] = useState('');
+    const [password, setPassword] = useState('');
+
+    const { signIn, error } = useAuth();
+
+    const handleLogin = () => {
+        signIn(user, password);
+    };
+
     return(
         <View style={styles.container}>
-            <StatusBar 
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
-            <View style={styles.top}>
-                <LinearGradient style={[styles.circulo]}
-                    start={{x:1,y:1}}
-                    end={{x:0,y:0}} 
-                    locations={[0.5,.9]}
-                    colors={['#FFC15E', '#CE6A85']}>
-                </LinearGradient>
-                <LinearGradient style={styles.circulo}
-                    start={{x:0,y:1}}
-                    end={{x:1,y:0}} 
-                    locations={[0.5,.9]}
-                    colors={['#FFC15E', '#CE6A85']}>
-                </LinearGradient>
-            </View>
+            <StatusBar backgroundColor='#FFC15E' translucent={false}/>
             <View style={styles.form}>
-                <Text style={styles.h1}>{login}</Text>
-                
+                <Text style={styles.h1}>Entrar</Text>
                 <View style={styles.group}>
-                    <Text style={styles.p}>{usuario}</Text>
-                    <TextInput style={styles.input}/>
+                    <Text  style={styles.p}>E-mail</Text>
+                    <TextInput style={styles.input} onChangeText={setUser} value={user}/>
+                    {error && <Text style={styles.labelError}>{error.email}</Text>}
                 </View>
-
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
-                    <TextInput style={styles.input}/>
-                </View>             
-                <TouchableOpacity style={styles.button} onPress={()=>{navigation.navigate('HomeTabs')}}>
+                    <TextInput style={styles.input} onChangeText={setPassword} value={password}/>
+                    {error && <Text style={styles.labelError}>{error.password}</Text>}
+                </View>        
+                <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('ForgotPassword')}}>
                     <Text style={styles.link}>Esqueci minha senha</Text>
                 </TouchableOpacity>
-
                 <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('Register')}}>
                     <Text style={styles.link}>Não possuo uma conta</Text>
                 </TouchableOpacity>
-
-                <TouchableOpacity style={styles.opacity} onPress={handlePress}>
-                    <Text style={styles.link}>{link}</Text>
-                </TouchableOpacity>
-            </View>
-
-            <View style={styles.top}>
-            <LinearGradient style={styles.circulo}
-                start={{x:1,y:0}}
-                end={{x:0,y:1}} 
-                locations={[0.5,.9]}
-                colors={['#FFC15E', '#CE6A85']}>
-            </LinearGradient>
-            <LinearGradient style={styles.circulo}
-                start={{x:0,y:0}}
-                end={{x:1,y:1}} 
-                locations={[0.5,.9]}
-                colors={['#FFC15E', '#CE6A85']}>
-            </LinearGradient>
             </View>
         </View>
     );

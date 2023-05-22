@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
         flexDirection: "row",
     }, 
     product:{
-       flexDirection: "row",
-       justifyContent: 'space-around',
+        flexDirection: "row",
+        justifyContent: 'space-around',
         marginTop: 30
     },
     productphoto: {
@@ -46,7 +46,56 @@ const styles = StyleSheet.create({
         height: 140,
         borderRadius: 10,
         margin: 10
-    }
+    },
+    article:{
+        backgroundColor: '#FAA275',
+        marginTop: 35,
+        paddingHorizontal: 50,
+        paddingVertical: 10  
+    },
+    articleH1:{
+        backgroundColor: '#985277',
+        fontSize: 26,
+        paddingHorizontal: 60,
+        marginBottom: 20
+    },
+    articleP:{
+        fontSize: 18,
+        paddingBottom: 5
+    },
+    menuContainer: {
+        position: 'absolute',
+        top: 25,
+        right: 20,
+        zIndex: 1,
+    },
+    menu: {
+        position: 'absolute',
+        top: 60,
+        right: 40,
+        backgroundColor: '#FFFFFF',
+        borderRadius: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        shadowColor: '#000000',
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 4,
+    },
+    menuItem: {
+        paddingVertical: 8,
+    },
+    menuItemText: {
+        fontSize: 16,
+    },
+    activeSection: {
+        backgroundColor: '#FAA275',
+        borderRadius: 100,
+    },
+    activeSection: {
+        backgroundColor: '#FAA275',
+        borderRadius: 100,
+    }, 
 })
 
 export default styles;

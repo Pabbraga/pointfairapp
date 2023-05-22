@@ -4,18 +4,20 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function SearchResult(props) {
     const navigation = useNavigation();
+    const userImages = require.context('../../assets/user_img', true);
+    let photos = userImages(`./${props.photo}`);
     return(
-    <View style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Profile", {idUser: props.id})}}>
         <View style={styles.userField}>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
-                <Image style={styles.userPhoto} source={props.photo}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate("Profile")}}>
+            <View>
+                <Image style={styles.userPhoto} source={photos}/>
+            </View>
+            <View>
                 <Text style={styles.userName}>{props.username}</Text>
-            </TouchableOpacity>
+            </View>
         </View>
         <Text style={styles.location}>{props.location}</Text>
-    </View>
+    </TouchableOpacity>
     )
 }
 

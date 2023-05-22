@@ -1,22 +1,16 @@
 import React from 'react-native';
-import { StatusBar } from 'react-native-web';
+import { StatusBar } from 'expo-status-bar';
 import { Text, View, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 import styles from './style';
 
 export default function Welcome({ navigation }) {
     return (
-        <SafeAreaView style={styles.container}>
-            <StatusBar
-            barStyle = "dark-content"
-            hidden = {false}
-            backgroundColor = "white"
-            translucent = {false}
-            networkActivityIndicatorVisible = {true}
-            />
+        <View style={styles.container}>
+            <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <Image
                 style={styles.imgLogo}
-                source={require('../../../assets/img/logo.png')}
+                source={require('../../../assets/logo.png')}
             />
             <Text style={styles.logo}>PointFair</Text>
             <View style={styles.buttonContainer}>
@@ -27,6 +21,6 @@ export default function Welcome({ navigation }) {
                 <Text style={styles.buttonText}>Cadastre-se</Text>
                 </TouchableOpacity>
             </View>
-        </SafeAreaView>
+        </View>
   );
 }
