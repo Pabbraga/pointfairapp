@@ -6,15 +6,14 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { useAuth } from '../../context/auth';
-import api from '../../services/api';
 import styles from './style';
+import axios from 'axios';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
-    const { signIn } = useAuth();
+    const [error, setError] = useState('');
 
     const schema = yup.object({
         firstName: step == 1 && yup.string().required("Informe o seu nome."),
@@ -26,14 +25,28 @@ export default function Register({navigation}) {
         nickname: step == 3 && yup.string().required("Digite o seu nome de usuário."),
         password: step == 3 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
         confirmPass: step == 3 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.")
-    })
+    });
 
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema)
-    })
+    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
+        defaultValues: {
+            cnpj: "",
+            fantasyName: "",
+            segment: "",
+            phone: "",
+            location: "64693c5914e6f088aa8d9c66"
+        },
+        resolver: yupResolver(schema),
+        shouldFocusError: true
+    });
 
     function handleRegister(data) {
-        console.log(data);
+        const fullName = data.firstName.trim()+' '+data.surName.trim();
+        data.fullName = fullName;
+        data.isSeller = isSeller;
+        data.phone = "";
+        data.photo = "picture.jpg";
+        axios.post("https://pointfair.onrender.com/user", data).catch((error) => console.log(error));
+        navigation.navigate('Login');
     }
 
     const handleSellerClick = () => {
@@ -172,6 +185,8 @@ export default function Register({navigation}) {
                     label="Confirmar Senha*"
                     name="confirmPass"
                 />
+                {error.email && <Text style={styles.labelError}>{error.email}</Text>}
+                {error.cnpj && <Text style={styles.labelError}>{error.cnpj}</Text>}
                 <TouchableOpacity 
                     style={styles.button} 
                     onPress={handleSubmit(handleRegister)}>
