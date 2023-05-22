@@ -36,6 +36,7 @@ export default function Register({navigation}) {
             location: "64693c5914e6f088aa8d9c66"
         },
         resolver: yupResolver(schema),
+        reValidateMode: "onSubmit",
         shouldFocusError: true
     });
 
