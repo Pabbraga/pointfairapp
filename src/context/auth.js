@@ -11,6 +11,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -32,7 +33,7 @@ export const AuthProvider = ({ children }) => {
         const response = await auth.signIn(email, password);
         if(!response.user) {
             setLoading(false);
-            Alert.alert('Erro', `${response}`);
+            setError(response);
             return;
         }
         setLoading(true);
@@ -58,7 +59,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return(
-        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut}}>
+        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut, error}}>
             {children}
         </AuthContext.Provider>
     )

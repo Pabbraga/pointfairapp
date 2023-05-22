@@ -1,15 +1,38 @@
 //import React from 'react-native';
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { LinearGradient } from 'expo-linear-gradient';
-
+import { Entypo } from '@expo/vector-icons';
+import { useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 
 import styles from './style';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
     const [link, setLink] = React.useState('Sou um vendedor');
+    const [step, setStep] = useState(1);
+
+    const schema = yup.object({
+        firstName: step == 1 && yup.string().required("Informe o seu nome."),
+        surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
+        email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
+        cnpj: step == 1 && isSeller && yup.string().required("Informe o seu CNPJ"),
+        nickname: step == 2 && yup.string().required("Digite o seu nome de usuário."),
+        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
+        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
+        password: step == 3 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
+        confirmPass: step == 3 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.")
+    })
+
+    const { control, handleSubmit, formState: { errors } } = useForm({
+        resolver: yupResolver(schema)
+    })
+
+    function handleRegister(data) {
+        console.log(data)
+    }
 
     const handleSellerClick = () => {
         if(link === 'Sou um vendedor') {
@@ -22,61 +45,65 @@ export default function Register({navigation}) {
             setLink('Sou um vendedor');
         }
     };
+
+    function Field(props) {
+        return (
+            <Controller
+                control={control}
+                name={props.name}
+                render={({ field: { onChange, value }})=>(
+                    <View style={styles.group}>
+                        <Text style={styles.p}>{props.label}</Text>
+                        <TextInput 
+                            style={styles.input} 
+                            onChangeText={onChange}
+                            value={value}
+                        />
+                        {errors[props.name] && <Text style={styles.labelError}>{errors[props.name]?.message}</Text>}
+                    </View>
+                )}
+            />
+        )
+    }
+
     return(
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#FFC15E' translucent={false}/>
-            <ScrollView showsVerticalScrollIndicator={false}>
+            {step == 1 && 
                 <View style={styles.form}>
-                    <Text style={styles.h1}>Cadastra-se</Text>
-                    
-                    <View style={styles.group}>
-                        <Text style={styles.p}>Nome completo</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>Nome do usuário</Text>
-                        <TextInput style={styles.input}/>
-                    </View> 
-
-                    {isSeller && (
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>CNPJ</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-                    )}
-
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>E-mail</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-
-                    {isSeller && (
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>Nome fantasia</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-                    )}
-
-                    {isSeller && (
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>Segmento</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-                    )}
-
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>Senha</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-
-                    <View style={styles.group}>
-                        <Text  style={styles.p}>confirmação de Senha</Text>
-                        <TextInput style={styles.input}/>
-                    </View>
-
-                    <TouchableOpacity style={styles.button}>
-                        <Text style={styles.buttonText}>Cadastrar</Text>
+                    <TouchableOpacity 
+                        style={{ position: 'absolute', top: 25, left: 15 }}
+                        onPress={()=>navigation.goBack()}>
+                        <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
+                    </TouchableOpacity>
+                    <Text style={styles.h1}>Cadastrar-se</Text>
+                    <Field
+                        control={control}
+                        label="Nome*"
+                        name="firstName"
+                    />
+                    <Field
+                        control={control}
+                        label="Sobrenome*"
+                        name="surName"
+                    />
+                    <Field
+                        control={control}
+                        label="E-mail*"
+                        name="email"
+                    />
+                    {isSeller && <Field
+                        control={control}
+                        label="CNPJ*"
+                        name="cnpj"
+                    />}
+                    <Field
+                        control={control}
+                        label="Telefone"
+                        name="phone"
+                    />
+                    <TouchableOpacity style={styles.button} onPress={handleSubmit(()=>setStep(step+1))}>
+                        <Text style={styles.buttonText}>Continuar</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity style={styles.opacity} onPress={()=>{navigation.navigate('Login')}}>
@@ -86,8 +113,59 @@ export default function Register({navigation}) {
                     <TouchableOpacity style={styles.opacity} onPress={handleSellerClick}>
                         <Text style={styles.link}>{link}</Text>
                     </TouchableOpacity>
-                </View>
-            </ScrollView>
-        </View>
+                </View>}
+            {step == 2 &&
+            <View style={styles.form}>
+                <TouchableOpacity 
+                    style={{ position: 'absolute', top: 25, left: 20 }}
+                    onPress={()=>setStep(step-1)}>
+                    <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
+                </TouchableOpacity>
+                <Field
+                    control={control}
+                    label="Nome Fantasia*"
+                    name="fantasyName"
+                />
+                <Field
+                    control={control}
+                    label="Segmento*"
+                    name="segment"
+                />
+                <Field
+                    control={control}
+                    label="Nome de Usuário*"
+                    name="nickname"
+                />
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={handleSubmit(()=>setStep(step+1))}>
+                    <Text style={styles.buttonText}>Continuar</Text>
+                </TouchableOpacity>
+            </View>}
+            {step == 3 &&
+            <View style={styles.form}>
+                <TouchableOpacity 
+                    style={{ position: 'absolute', top: 25, left: 20 }}
+                    onPress={() =>setStep(step-1)} 
+                    >
+                    <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
+                </TouchableOpacity>
+                <Field
+                    control={control}
+                    label="Senha*"
+                    name="password"
+                />
+                <Field
+                    control={control}
+                    label="Confirmar Senha*"
+                    name="confirmPass"
+                />
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={handleSubmit(handleRegister)}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
+                </TouchableOpacity>
+            </View>}
+        </SafeAreaView>
     );
 }
