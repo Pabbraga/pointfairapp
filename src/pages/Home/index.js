@@ -49,9 +49,9 @@ export default function Home({navigation}) {
     }
 
     renderHeader = () => {
+        if(isSeller === false) return;
+        if(user.debugMode) setIsSeller(true);
         setIsSeller(user.isSeller);
-        if(!isSeller) return;
-
         return(
             <PublishContainer/>
         );
