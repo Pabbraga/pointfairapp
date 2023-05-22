@@ -1,6 +1,7 @@
 # PointFair App
 
 <img 
+width="250px"
 src="./assets/icon.png"
 style="display: inline-block; margin: 0 auto; max-width: 250px; border-radius: 50px">
 
