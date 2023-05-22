@@ -11,8 +11,8 @@ import Publish from '../../components/Publish';
 import PublishContainer from '../../components/PublishContainer';
 
 export default function Home({navigation}) {
-    const isSeller = true;
     const { user } = useAuth();
+    const [isSeller, setIsSeller] = useState(true);
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
@@ -49,6 +49,7 @@ export default function Home({navigation}) {
     }
 
     renderHeader = () => {
+        setIsSeller(user.isSeller);
         if(!isSeller) return;
 
         return(

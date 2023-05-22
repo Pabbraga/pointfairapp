@@ -38,7 +38,7 @@ function CalendarIcon({ active }) {
   );
 }
 
-function Box({ navigation }) {
+function Box() {
   return (
     <View>
       <Text>BOX</Text>
@@ -46,12 +46,11 @@ function Box({ navigation }) {
   );
 }
 
-function Shop({ navigation }) {
+function Shop() {
   return (
     <View>
         <View style={styles.article}>
             <Text style={styles.articleH1}>Feira</Text>
-
             <Text style={styles.articleP}>Estado:</Text>
             <Text style={styles.articleP}>Cidade:</Text>
             <Text style={styles.articleP}>Feira:</Text>
@@ -60,7 +59,7 @@ function Shop({ navigation }) {
   );
 }
 
-function Calendar({ navigation }) {
+function Calendar() {
   return (
     <View>
         <View style={styles.article}>
@@ -133,7 +132,7 @@ function Profile({ navigation, route }) {
     };
 
     const openAppWebsite = () => {
-        Linking.openURL('https://www.example.com');
+        Linking.openURL('https://pointfair.up.railway.app');
     };
 
     const renderSection = () => {
