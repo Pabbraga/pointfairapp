@@ -1,38 +1,33 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Entypo } from '@expo/vector-icons';
+import axios from "axios";
 
-import api from '../services/api';
-import UploadImage from './UploadImage';
+import PickImage from './PickImage';
 
 export default function PublishContainer() {
     const [imageData, setImageData] = useState(null);
 
     function handleGetImage(image) {
-        let picture = []
-        if(image.fileName) {
-            picture.push(image);
-            picture.name = image.fileName
-            delete picture.fileName
-            console.log(picture[0].base64);
-            setImageData(picture);
-            return;
-        }
-        picture.name = Math.floor(Math.random() * Date.now());
-        setImageData(picture);
+        setImageData(image);
     }
 
-    function publish() {
-        if(!imageData) {
-            Alert.alert("Imagem não encontrada", "Nenhuma imagem selecionada e/ou encontrada.");
-            return;
-        }
-        const data = {
-            name: imageData.name,
-            file: imageData[0].base64
-        }
+    async function handlePublication() {
+        const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
+        const formData = new FormData();
+        const extend = filename.split('.')[1];
+        formData.append('file', JSON.parse(JSON.stringify({
+            name: filename,
+            uri: imageData[0].uri,
+            type: 'image/' + extend,
+        })))
         try {
-            api.post('/picture', data);
+            const response = await axios.post('https://pointfair.onrender.com/picture', formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                },
+            });
             Alert.alert("Publicado.");
         } catch (err) {
             console.log(err);
@@ -49,14 +44,13 @@ export default function PublishContainer() {
             />
             <View style={styles.publishButtons}>
                 {imageData && <View style={styles.preview}>
-                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{imageData.name}</Text>
-                    <TouchableOpacity style={styles.cancelButton} onPress={()=>setImageData()}>
+                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
+                    <TouchableOpacity style={styles.cancelButton} onPress={()=>setImageData(null)}>
                         <Entypo name='cross' color={'#ccc'} size={15}/>
                     </TouchableOpacity>
                 </View>}
-                <UploadImage handleGetImage={handleGetImage}/>
-                {/* <TouchableOpacity><Entypo name='location-pin' color={'black'} size={28}/></TouchableOpacity> */}
-                <TouchableOpacity onPress={publish}><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
+                <PickImage handleGetImage={handleGetImage}/>
+                <TouchableOpacity onPress={handlePublication}><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
             </View>
             
         </View>        

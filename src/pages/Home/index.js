@@ -20,18 +20,18 @@ export default function Home({navigation}) {
     const photo = require.context('../../../assets/user_img', true);
     const userImage = photo(`./${user.photo[0]}`);
     
-    const getImage = async () => {
-        response = await api.get(`/picture/646c116ff016c0e98f83733e`);
-        let image = `data:image/png;${response.data.data}`;
-        console.log(response.data);
-    }
+    // const getImage = async () => {
+    //     response = await api.get(`/picture/646c116ff016c0e98f83733e`);
+    //     let image = `data:image/png;${response.data.data}`;
+    //     console.log(response.data);
+    // }
 
     useEffect(() => {
+        setIsSeller(user.isSeller);
         loadPublications();
         setTimeout(()=> {
             setLoading(false);
-            getImage();
-        }, 1500)
+        }, 2000)
     }, []);
 
     if(loading) {
@@ -50,11 +50,11 @@ export default function Home({navigation}) {
 
     renderHeader = () => {
         if(isSeller === false) return;
-        if(user.debugMode) setIsSeller(true);
-        setIsSeller(user.isSeller);
-        return(
-            <PublishContainer/>
-        );
+        if(isSeller || user.debugMode) {
+            return(
+                <PublishContainer/>
+            );
+        }
     };
 
     renderItem = ({item}) => (
