@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 
@@ -6,32 +6,30 @@ import api from '../services/api';
 import UploadImage from './UploadImage';
 
 export default function PublishContainer() {
-    const [image, setImage] = useState(null);
     const [imageData, setImageData] = useState(null);
 
     function handleGetImage(image) {
-        setImageData(image);
-        setImageBlob(image);
+        let picture = []
+        if(image.fileName) {
+            picture.push(image);
+            picture.name = image.fileName
+            delete picture.fileName
+            console.log(picture[0].base64);
+            setImageData(picture);
+            return;
+        }
+        picture.name = Math.floor(Math.random() * Date.now());
+        setImageData(picture);
     }
 
-    async function setImageBlob(imageData) {
-        const uri = imageData.uri;
-        const response = await fetch(uri);
-        const blob = await response.blob();
-        if(imageData.fileName) blob._data.name = imageData.fileName
-        blob._data.type = imageData.type;
-        setImage(blob);
-    };
-
     function publish() {
-        if(!image) {
+        if(!imageData) {
             Alert.alert("Imagem não encontrada", "Nenhuma imagem selecionada e/ou encontrada.");
             return;
         }
         const data = {
-            name: image._data.name,
-            file: image,
-            src: imageData.uri
+            name: imageData.name,
+            file: imageData[0].base64
         }
         try {
             api.post('/picture', data);
@@ -50,9 +48,9 @@ export default function PublishContainer() {
                 maxLength={50}
             />
             <View style={styles.publishButtons}>
-                {image && <View style={styles.preview}>
-                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{image._data.name}</Text>
-                    <TouchableOpacity style={styles.cancelButton} onPress={()=>setImage(null)}>
+                {imageData && <View style={styles.preview}>
+                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{imageData.name}</Text>
+                    <TouchableOpacity style={styles.cancelButton} onPress={()=>setImageData()}>
                         <Entypo name='cross' color={'#ccc'} size={15}/>
                     </TouchableOpacity>
                 </View>}
