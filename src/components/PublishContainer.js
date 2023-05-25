@@ -3,10 +3,13 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import { Entypo } from '@expo/vector-icons';
 import axios from "axios";
 
+import { useAuth } from '../context/auth';
 import PickImage from './PickImage';
 
 export default function PublishContainer() {
+    const { user } = useAuth();
     const [imageData, setImageData] = useState(null);
+    const [description, setDescription] = useState('');
 
     function handleGetImage(image) {
         setImageData(image);
@@ -20,14 +23,26 @@ export default function PublishContainer() {
             name: filename,
             uri: imageData[0].uri,
             type: 'image/' + extend,
+            base64: imageData[0].base64,
         })))
+
         try {
-            const response = await axios.post('https://pointfair.onrender.com/picture', formData, {
+            const response = await axios.post('https://pointfair.onrender.com/picture/upload/', formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
                 },
             });
+
+            const data = {
+                description: description,
+                imageUrl: response.data.imageUrl,
+                inStock: true,
+                owner: user._id,
+                location: 'teste'
+            };
+            const publication = await axios.post('https://pointfair.onrender.com/publication', data);
+            console.log(publication.data);
             Alert.alert("Publicado.");
         } catch (err) {
             console.log(err);
@@ -41,6 +56,7 @@ export default function PublishContainer() {
                 multiline
                 numberOfLines={3}
                 maxLength={50}
+                onChangeText={(value)=>setDescription(value)}
             />
             <View style={styles.publishButtons}>
                 {imageData && <View style={styles.preview}>
