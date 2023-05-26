@@ -9,14 +9,13 @@ export default function Publish(props) {
     const userImages = require.context('../../assets/user_img', true);
     let photos = userImages(`./${props.photo}`);
     
-    const contentImages = require.context('../../assets/img', true);
-    let images = contentImages(`./${props.content}`)
+    const contentImageUrl = `https://drive.google.com/uc?export=view&id=${props.content}`;
 
     return(
     <View style={styles.container}>
         <View style={styles.userField}>
             <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
-                <Image style={styles.userPhoto} source={photos}/>
+                <Image style={styles.userPhoto} source={{uri:contentImageUrl}}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
                 <Text style={styles.userName}>{props.username}</Text>

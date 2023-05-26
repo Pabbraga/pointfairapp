@@ -62,7 +62,7 @@ export default function Home({navigation}) {
         id={item.owner._id}
         photo={item.owner.photo[0]} 
         username={item.owner.nickname} 
-        content={item.image}
+        content={item.imageUrl}
         // location={item.owner.location.city}
         />
     );
