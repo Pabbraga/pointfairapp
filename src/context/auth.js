@@ -44,6 +44,7 @@ export const AuthProvider = ({ children }) => {
 
     function signOut() {
         AsyncStorage.clear();
+        setUser(null);
     }
 
     if(loading) {

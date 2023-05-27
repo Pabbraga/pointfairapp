@@ -15,13 +15,13 @@ export default function Publish(props) {
     <View style={styles.container}>
         <View style={styles.userField}>
             <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
-                <Image style={styles.userPhoto} source={{uri:contentImageUrl}}/>
+                <Image style={styles.userPhoto} source={photos}/>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
                 <Text style={styles.userName}>{props.username}</Text>
             </TouchableOpacity>
         </View>
-        <Image style={styles.image} source={images}/>
+        <Image style={styles.image} source={{uri:contentImageUrl}}/>
         <Text style={styles.location}>{props.location}</Text>
     </View>
     )

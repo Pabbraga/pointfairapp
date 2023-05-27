@@ -96,7 +96,7 @@ function Profile({ navigation, route }) {
         setUserData(user);
         setTimeout(()=>{
           const photo = require.context('../../../assets/user_img', true);
-          let userImage = photo(`./${user.photo[0]}`);
+          let userImage = photo(`./${user?.photo[0]}`);
           setUserPhoto(userImage);
           setLoading(false);
         }, 1000);
@@ -107,7 +107,7 @@ function Profile({ navigation, route }) {
       setTimeout(()=>{
         setUserData(res.data);
         const photo = require.context('../../../assets/user_img', true);
-        let userImage = photo(`./${res.data.photo[0]}`);
+        let userImage = photo(`./${res?.data.photo[0]}`);
         setUserPhoto(userImage);
         setLoading(false);
       }, 1500);
@@ -171,7 +171,7 @@ function Profile({ navigation, route }) {
       )}
       <View style={styles.perfil}>
         <Image style={styles.userPhoto} source={userPhoto}/>
-        <Text style={styles.h1}>{userData.nickname}</Text>
+        <Text style={styles.h1}>{userData?.nickname}</Text>
 
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
           <Text style={styles.buttonText}>Editar perfil</Text>

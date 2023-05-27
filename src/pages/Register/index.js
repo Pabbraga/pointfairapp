@@ -6,6 +6,9 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import PickPhoto from '../../components/PickPhoto';
+import DropList from '../../components/DropList';
+
 import styles from './style';
 import axios from 'axios';
 
@@ -19,12 +22,14 @@ export default function Register({navigation}) {
         firstName: step == 1 && yup.string().required("Informe o seu nome."),
         surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
         email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
-        cnpj: step == 2 && yup.string().required("Informe o seu CNPJ"),
-        fantasyName: step == 2 && yup.string().required("Informe o seu nome fantasia."),
-        segment: step == 2 && yup.string().required("Informe o seu segmento."),
-        nickname: step == 3 && yup.string().required("Digite o seu nome de usuário."),
-        password: step == 3 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
-        confirmPass: step == 3 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.")
+        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ"),
+        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
+        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
+        city: step == 3 && yup.string().required("Digite o seu nome da sua cidade."),
+        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro."),
+        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário."),
+        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
+        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
     });
 
     const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
@@ -93,22 +98,18 @@ export default function Register({navigation}) {
                     </TouchableOpacity>
                     <Text style={styles.h1}>Cadastrar-se</Text>
                     <Field
-                        control={control}
                         label="Nome*"
                         name="firstName"
                     />
                     <Field
-                        control={control}
                         label="Sobrenome*"
                         name="surName"
                     />
                     <Field
-                        control={control}
                         label="E-mail*"
                         name="email"
                     />
                     <Field
-                        control={control}
                         label="Telefone"
                         name="phone"
                     />
@@ -137,19 +138,16 @@ export default function Register({navigation}) {
                     onPress={() => {setStep(step-1)}}>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
-                <Text style={styles.h1}>Cadastro</Text>
+                <Text style={styles.h1}>Feirante</Text>
                 <Field
-                    control={control}
                     label="CNPJ*"
                     name="cnpj"
                 />
                 <Field
-                    control={control}
                     label="Nome Fantasia*"
                     name="fantasyName"
                 />
                 <Field
-                    control={control}
                     label="Segmento*"
                     name="segment"
                 />
@@ -170,19 +168,56 @@ export default function Register({navigation}) {
                     }>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
-                <Text style={styles.h1}>Cadastro</Text>
+                <Text style={styles.h1}>Localização</Text>
                 <Field
-                    control={control}
+                    label="Cidade*"
+                    name="city"
+                />
+                {error.city && <Text style={styles.labelError}>{error.city}</Text>}
+                <Field
+                    label="Bairro*"
+                    name="district"
+                />
+                {error.district && <Text style={styles.labelError}>{error.district}</Text>}
+                {isSeller &&
+                    <View>
+                        <Text style={styles.p}>Qual feira você costuma frequentar?</Text>
+                        <Field
+                            label="Nenhuma das anteriores?"
+                            name="fair"
+                        />
+                    </View>
+                }
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={handleSubmit(()=>setStep(step+1))}>
+                    <Text style={styles.buttonText}>Continuar</Text>
+                </TouchableOpacity>
+            </View>}
+            {step == 4 &&
+            <View style={styles.form}>
+                <TouchableOpacity 
+                    style={{ position: 'absolute', top: 25, left: 20 }}
+                    onPress={() => {
+                        if(isSeller) setStep(step-1);
+                        setStep(step-1);
+                    }
+                    }>
+                    <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
+                </TouchableOpacity>
+                <Text style={styles.h1}>Cadastro</Text>
+                <View>
+                    <PickPhoto />
+                </View>
+                <Field
                     label="Nome de Usuário*"
                     name="nickname"
                 />
                 <Field
-                    control={control}
                     label="Senha*"
                     name="password"
                 />
                 <Field
-                    control={control}
                     label="Confirmar Senha*"
                     name="confirmPass"
                 />

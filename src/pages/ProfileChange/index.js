@@ -1,16 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { Entypo } from '@expo/vector-icons'; 
-import styles from './style';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-import { TextInput } from 'react-native-gesture-handler';
+import { Entypo } from '@expo/vector-icons'; 
+import PickPhoto from '../../components/PickPhoto';
+import styles from './style';
 import { useAuth } from '../../context/auth';
 
 export default function ProfileChange({navigation}) {
     const { user } = useAuth();
-    const photo = require.context('../../../assets/user_img', true);
-    const userImage = photo(`./${user.photo[0]}`); 
+
     return(
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
@@ -19,10 +17,7 @@ export default function ProfileChange({navigation}) {
             </TouchableOpacity>
             <Text style={styles.title}>Editar perfil</Text>
             <View style={styles.form}>
-                <Image style={styles.userPhoto} source={userImage}/>
-                <View style={styles.photoFilter}>
-                    <Entypo name='camera' color={'black'} size={30}/>
-                </View>
+                <PickPhoto />
                 <TextInput style={styles.textInput} placeholder={user.nickname}/>
                 <TextInput style={styles.textInput} placeholder={user.email}/>
                 <TextInput style={styles.textInput} placeholder={user.password}/>

@@ -32,17 +32,17 @@ export default function PublishContainer() {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
                 },
-            });
+            })
 
             const data = {
                 description: description,
                 imageUrl: response.data.imageUrl,
                 inStock: true,
                 owner: user._id,
-                location: 'teste'
             };
             const publication = await axios.post('https://pointfair.onrender.com/publication', data);
             console.log(publication.data);
+            
             Alert.alert("Publicado.");
         } catch (err) {
             console.log(err);

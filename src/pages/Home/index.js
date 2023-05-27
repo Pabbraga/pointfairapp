@@ -19,12 +19,6 @@ export default function Home({navigation}) {
 
     const photo = require.context('../../../assets/user_img', true);
     const userImage = photo(`./${user.photo[0]}`);
-    
-    // const getImage = async () => {
-    //     response = await api.get(`/picture/646c116ff016c0e98f83733e`);
-    //     let image = `data:image/png;${response.data.data}`;
-    //     console.log(response.data);
-    // }
 
     useEffect(() => {
         setIsSeller(user.isSeller);
