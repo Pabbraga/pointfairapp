@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
-// import * as FileSystem from 'expo-file-system';
 
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
@@ -16,12 +15,10 @@ export default function Home({navigation}) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-
-    const photo = require.context('../../../assets/user_img', true);
-    const userImage = photo(`./${user.photo[0]}`);
+    const userPhotoUrl = `https://drive.google.com/uc?export=view&id=${user?.photo}`;
 
     useEffect(() => {
-        setIsSeller(user.isSeller);
+        setIsSeller(user?.isSeller);
         loadPublications();
         setTimeout(()=> {
             setLoading(false);
@@ -44,7 +41,7 @@ export default function Home({navigation}) {
 
     renderHeader = () => {
         if(isSeller === false) return;
-        if(isSeller || user.debugMode) {
+        if(isSeller || user?.debugMode) {
             return(
                 <PublishContainer/>
             );
@@ -54,7 +51,7 @@ export default function Home({navigation}) {
     renderItem = ({item}) => (
         <Publish
         id={item.owner._id}
-        photo={item.owner.photo[0]} 
+        photo={item.owner.photo} 
         username={item.owner.nickname} 
         content={item.imageUrl}
         // location={item.owner.location.city}
@@ -74,7 +71,7 @@ export default function Home({navigation}) {
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
-                    <Image style={styles.userPhoto} source={userImage}/>
+                    <Image style={styles.userPhoto} source={{uri:userPhotoUrl}}/>
                 </TouchableOpacity>
             </View>
             <FlatList

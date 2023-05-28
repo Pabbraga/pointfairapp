@@ -11,22 +11,30 @@ import DropList from '../../components/DropList';
 
 import styles from './style';
 import axios from 'axios';
+import api from '../../services/api';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
+    const [imageData, setImageData] = useState(null);
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
     const [error, setError] = useState('');
+
+    function handleGetImage(image) {
+        setImageData(image);
+    }
 
     const schema = yup.object({
         firstName: step == 1 && yup.string().required("Informe o seu nome."),
         surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
         email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
+        phone: step == 3 && yup.string(),
         cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ"),
         fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
         segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
         city: step == 3 && yup.string().required("Digite o seu nome da sua cidade."),
         district: step == 3 && yup.string().required("Digite o seu nome do seu bairro."),
+        fair: step == 3 && yup.string(),
         nickname: step == 4 && yup.string().required("Digite o seu nome de usuário."),
         password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
         confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
@@ -46,11 +54,31 @@ export default function Register({navigation}) {
     });
 
     function handleRegister(data) {
+        if(imageData) {
+            const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
+            const formData = new FormData();
+            const extend = filename.split('.')[1];
+            formData.append('file', JSON.parse(JSON.stringify({
+                name: filename,
+                uri: imageData[0].uri,
+                type: 'image/' + extend,
+                base64: imageData[0].base64,
+            })));
+            responseImage = api.post("/picture/upload", formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                },
+            });    
+        }
+        
         const fullName = data.firstName.trim()+' '+data.surName.trim();
         data.fullName = fullName;
         data.isSeller = isSeller;
         data.phone = "";
-        data.photo = "picture.jpg";
+        data.photo = responseImage;
+        data.email = data.email.trim();
+        data.password = data.password.trim();
         axios.post("https://pointfair.onrender.com/user", data).catch((error) => console.log(error));
         navigation.navigate('Login');
     }
@@ -58,7 +86,7 @@ export default function Register({navigation}) {
     const handleSellerClick = () => {
         if(link === 'Sou um vendedor') {
             setIsSeller(true);
-            setLink('Sou um cliente');
+            setLink('Sou um usuário');
         }
         else {
             setIsSeller(false);
@@ -183,7 +211,7 @@ export default function Register({navigation}) {
                     <View>
                         <Text style={styles.p}>Qual feira você costuma frequentar?</Text>
                         <Field
-                            label="Nenhuma das anteriores?"
+                            label="Feira"
                             name="fair"
                         />
                     </View>
@@ -207,7 +235,7 @@ export default function Register({navigation}) {
                 </TouchableOpacity>
                 <Text style={styles.h1}>Cadastro</Text>
                 <View>
-                    <PickPhoto />
+                    <PickPhoto handleGetImage={handleGetImage}/>
                 </View>
                 <Field
                     label="Nome de Usuário*"

@@ -12,7 +12,7 @@ export default function Login({navigation}) {
     const { signIn, error } = useAuth();
 
     const handleLogin = () => {
-        signIn(user, password);
+        signIn(user.trim(), password.trim());
     };
 
     return(

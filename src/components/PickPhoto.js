@@ -7,12 +7,12 @@ import { useAuth } from '../context/auth';
 
 export default function PickPhoto({handleGetImage}) {
 const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-const [userPhoto, setUserPhoto] = useState('');
+const [changePhoto, setChangePhoto] = useState('');
 const { user } = useAuth();
 
 const photo = require.context('../../assets/user_img', true);
 
-const uriImage = userPhoto?{uri:userPhoto}:photo(`./${user?.photo[0]}`)
+const uriImage = changePhoto?{uri:changePhoto}:photo(`./${user?.photo}`)
 
 useEffect(() => {
     (async () => {
@@ -35,7 +35,7 @@ const pickImage = async() => {
     });
 
     if(!canceled) {
-        setUserPhoto(assets[0].uri);
+        setChangePhoto(assets[0].uri);
     } else {
         return;
     }
