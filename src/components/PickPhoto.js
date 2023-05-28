@@ -36,6 +36,7 @@ const pickImage = async() => {
 
     if(!canceled) {
         setChangePhoto(assets[0].uri);
+        handleGetImage(assets);
     } else {
         return;
     }

@@ -45,15 +45,15 @@ export default function Register({navigation}) {
             cnpj: "",
             fantasyName: "",
             segment: "",
-            phone: "",
-            location: "64693c5914e6f088aa8d9c66"
+            photoUrl: "11gws99uAMTomOdVFwcn5fm5cZgP37Ol8",
+            phone: ""
         },
         resolver: yupResolver(schema),
         reValidateMode: "onSubmit",
         shouldFocusError: true
     });
 
-    function handleRegister(data) {
+    async function handleRegister(data) {
         if(imageData) {
             const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
             const formData = new FormData();
@@ -64,7 +64,7 @@ export default function Register({navigation}) {
                 type: 'image/' + extend,
                 base64: imageData[0].base64,
             })));
-            responseImage = api.post("/picture/upload", formData, {
+            responseImage = await api.post("/picture/upload", formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
@@ -75,11 +75,17 @@ export default function Register({navigation}) {
         const fullName = data.firstName.trim()+' '+data.surName.trim();
         data.fullName = fullName;
         data.isSeller = isSeller;
-        data.phone = "";
-        data.photo = responseImage;
-        data.email = data.email.trim();
-        data.password = data.password.trim();
-        axios.post("https://pointfair.onrender.com/user", data).catch((error) => console.log(error));
+        data.photoUrl = responseImage.data.imageUrl;
+        data.location = [
+            {'city' : data.city},
+            {'district' : data.district}
+        ]
+        console.log(data.photoUrl);
+        try {
+            api.post("/user", data);
+        } catch (err) {
+            console.log(err);
+        }
         navigation.navigate('Login');
     }
 
@@ -144,7 +150,10 @@ export default function Register({navigation}) {
                     <TouchableOpacity 
                         style={styles.button} 
                         onPress={handleSubmit(() => {
-                            if(isSeller) setStep(step+1);
+                            if(isSeller) {
+                                setStep(step+1);
+                                return;
+                            }
                             setStep(step+2)
                             }
                         )}>
@@ -190,7 +199,10 @@ export default function Register({navigation}) {
                 <TouchableOpacity 
                     style={{ position: 'absolute', top: 25, left: 20 }}
                     onPress={() => {
-                        if(isSeller) setStep(step-1);
+                        if(isSeller) {
+                            setStep(step-1);
+                            return;
+                        };
                         setStep(step-2);
                     }
                     }>
@@ -226,10 +238,7 @@ export default function Register({navigation}) {
             <View style={styles.form}>
                 <TouchableOpacity 
                     style={{ position: 'absolute', top: 25, left: 20 }}
-                    onPress={() => {
-                        if(isSeller) setStep(step-1);
-                        setStep(step-1);
-                    }
+                    onPress={() => {setStep(step-1);}
                     }>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>

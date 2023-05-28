@@ -86,8 +86,8 @@ function Profile({ navigation, route }) {
   const [activeSection, setActiveSection] = React.useState('box');
   const [activeIcon, setActiveIcon] = React.useState('box');
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-    let userPhotoUrl = "";  const isSeller = user?.isSeller || false;
-  
+  const isSeller = user?.isSeller || false;
+
   useEffect(() => {
     loadUser();
   }, []);
@@ -95,14 +95,14 @@ function Profile({ navigation, route }) {
     async function loadUser() {
       if(idUser === null) {
         setUserData(user);
-        userPhotoUrl = `https://drive.google.com/uc?export=view&id=${user?.photo}`;
+        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
         setLoading(false);
         return;
       }
 
       const res = await api.get(`/user/${idUser}`);
       setUserData(res.data);
-      userPhotoUrl = `https://drive.google.com/uc?export=view&id=${res?.data.photo}`;
+      setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
       setLoading(false);
     }
 
@@ -165,7 +165,7 @@ function Profile({ navigation, route }) {
         </View>
       )}
       <View style={styles.perfil}>
-        <Image style={styles.userPhoto} source={{uri:userPhotoUrl}}/>
+        <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.h1}>{userData?.nickname}</Text>
 
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>

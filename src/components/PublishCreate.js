@@ -3,10 +3,11 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import { Entypo } from '@expo/vector-icons';
 import axios from "axios";
 
+import api from '../services/api';
 import { useAuth } from '../context/auth';
 import PickImage from './PickImage';
 
-export default function PublishContainer() {
+export default function PublishCreate() {
     const { user } = useAuth();
     const [imageData, setImageData] = useState(null);
     const [description, setDescription] = useState('');
@@ -27,7 +28,7 @@ export default function PublishContainer() {
         })))
 
         try {
-            const response = await axios.post('https://pointfair.onrender.com/picture/upload/', formData, {
+            const response = await api.post('/picture/upload/', formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
@@ -40,7 +41,7 @@ export default function PublishContainer() {
                 inStock: true,
                 owner: user._id,
             };
-            const publication = await axios.post('https://pointfair.onrender.com/publication', data);
+            const publication = await api.post('/publication', data);
             console.log(publication.data);
             
             Alert.alert("Publicado.");

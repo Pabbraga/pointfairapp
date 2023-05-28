@@ -7,7 +7,7 @@ import api from '../../services/api';
 
 import styles from './style';
 import Publish from '../../components/Publish';
-import PublishContainer from '../../components/PublishContainer';
+import PublishCreate from '../../components/PublishCreate';
 
 export default function Home({navigation}) {
     const { user } = useAuth();
@@ -15,10 +15,11 @@ export default function Home({navigation}) {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-    const userPhotoUrl = `https://drive.google.com/uc?export=view&id=${user?.photo}`;
+    const [userPhoto, setUserPhoto] = useState(null);
 
     useEffect(() => {
         setIsSeller(user?.isSeller);
+        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`)
         loadPublications();
         setTimeout(()=> {
             setLoading(false);
@@ -43,7 +44,7 @@ export default function Home({navigation}) {
         if(isSeller === false) return;
         if(isSeller || user?.debugMode) {
             return(
-                <PublishContainer/>
+                <PublishCreate/>
             );
         }
     };
@@ -51,7 +52,7 @@ export default function Home({navigation}) {
     renderItem = ({item}) => (
         <Publish
         id={item.owner._id}
-        photo={item.owner.photo} 
+        photo={item.owner?.photoUrl} 
         username={item.owner.nickname} 
         content={item.imageUrl}
         // location={item.owner.location.city}
@@ -71,7 +72,7 @@ export default function Home({navigation}) {
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
-                    <Image style={styles.userPhoto} source={{uri:userPhotoUrl}}/>
+                    <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
                 </TouchableOpacity>
             </View>
             <FlatList
