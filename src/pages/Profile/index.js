@@ -14,25 +14,25 @@ const customStyles = StyleSheet.create({
   },
 });
 
-function BoxIcon({ active }) {
+function BoxIcon({ active, isSeller }) {
   return (
-    <Entypo name="box" size={32} color="black"
+    <Entypo name="box" size={32} color={isSeller ? 'black' : 'gray'}
       style={[active ? customStyles.activeSection : {}, { marginRight: 30 }]}
     />
   );
 }
 
-function ShopIcon({ active }) {
+function ShopIcon({ active, isSeller }) {
   return (
-    <Entypo name="shop" size={32} color="black"
+    <Entypo name="shop" size={32} color={isSeller ? 'black' : 'gray'}
       style={[active ? customStyles.activeSection : {}, { marginRight: 30 }]}
     />
   );
 }
 
-function CalendarIcon({ active }) {
+function CalendarIcon({ active, isSeller }) {
   return (
-    <Entypo name="calendar" size={32} color="black"
+    <Entypo name="calendar" size={32} color={isSeller ? 'black' : 'gray'}
       style={active ? customStyles.activeSection : {}}
     />
   );
@@ -49,12 +49,12 @@ function Box() {
 function Shop() {
   return (
     <View>
-        <View style={styles.article}>
-            <Text style={styles.articleH1}>Feira</Text>
-            <Text style={styles.articleP}>Estado:</Text>
-            <Text style={styles.articleP}>Cidade:</Text>
-            <Text style={styles.articleP}>Feira:</Text>
-        </View>
+      <View style={styles.article}>
+        <Text style={styles.articleH1}>Feira</Text>
+        <Text style={styles.articleP}>Estado:</Text>
+        <Text style={styles.articleP}>Cidade:</Text>
+        <Text style={styles.articleP}>Feira:</Text>
+      </View>
     </View>
   );
 }
@@ -62,34 +62,35 @@ function Shop() {
 function Calendar() {
   return (
     <View>
-        <View style={styles.article}>
-            <Text style={{fontWeight: '600', fontSize: 20}}>Carga horaria da Semana</Text>
-            <Text style={{fontWeight: '600', fontSize: 20}}>Horários:</Text>
-            <Text style={styles.articleP}>Domingo:</Text>
-            <Text style={styles.articleP}>Segunda:</Text>
-            <Text style={styles.articleP}>Terça:</Text>
-            <Text style={styles.articleP}>Quarta:</Text>
-            <Text style={styles.articleP}>Quinta:</Text>
-            <Text style={styles.articleP}>Sexta:</Text>
-            <Text style={styles.articleP}>Sábado:</Text>
-        </View>
+      <View style={styles.article}>
+        <Text style={{fontWeight: '600', fontSize: 20}}>Carga horaria da Semana</Text>
+        <Text style={{fontWeight: '600', fontSize: 20}}>Horários:</Text>
+        <Text style={styles.articleP}>Domingo:</Text>
+        <Text style={styles.articleP}>Segunda:</Text>
+        <Text style={styles.articleP}>Terça:</Text>
+        <Text style={styles.articleP}>Quarta:</Text>
+        <Text style={styles.articleP}>Quinta:</Text>
+        <Text style={styles.articleP}>Sexta:</Text>
+        <Text style={styles.articleP}>Sábado:</Text>
+      </View>
     </View>
   );
 }
 
 function Profile({ navigation, route }) {
-    const { idUser } = route.params;
-    const [loading, setLoading] = useState(true);
-    const { user, signOut, signed } = useAuth();
-    const [userData, setUserData] = useState(null);
-    const [userPhoto, setUserPhoto] = useState(null);
-    const [activeSection, setActiveSection] = React.useState('box');
-    const [activeIcon, setActiveIcon] = React.useState('box');
-    const [isMenuOpen, setMenuOpen] = React.useState(false);
-    let userPhotoUrl = "";
-    useEffect(() => {
-      loadUser();
-    }, []);
+  const { idUser } = route.params;
+  const [loading, setLoading] = useState(true);
+  const { user, signOut, signed } = useAuth();
+  const [userData, setUserData] = useState(null);
+  const [userPhoto, setUserPhoto] = useState(null);
+  const [activeSection, setActiveSection] = React.useState('box');
+  const [activeIcon, setActiveIcon] = React.useState('box');
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
+    let userPhotoUrl = "";  const isSeller = user?.isSeller || false;
+  
+  useEffect(() => {
+    loadUser();
+  }, []);
   
     async function loadUser() {
       if(idUser === null) {
@@ -113,44 +114,46 @@ function Profile({ navigation, route }) {
       )
     }
 
-    const handleSignOut = () => {
-      signOut();
-      navigation.navigate('Welcome');
-    };
+  const handleSignOut = () => {
+    signOut();
+    navigation.navigate('Welcome');
+  };
 
-    const handleIconPress = (icon) => {
-        setActiveSection(icon);
-        setActiveIcon(icon);
-    };
+  const handleIconPress = (icon) => {
+    setActiveSection(icon);
+    setActiveIcon(icon);
+  };
+  
+  const openAppWebsite = () => {
+    Linking.openURL('https://pointfair.up.railway.app');
+  };
 
-    const openAppWebsite = () => {
-        Linking.openURL('https://pointfair.up.railway.app');
-    };
+  const renderSection = () => {
+    if (activeSection === 'box' && activeIcon === 'box' && isSeller) {
+      return <Box navigation={navigation} />;
+    } else if (activeSection === 'shop') {
+      return <Shop navigation={navigation} />;
+    } else if (activeSection === 'calendar') {
+      return <Calendar navigation={navigation} />;
+    } else {
+      return null; // Retornar null quando nenhuma seção deve ser exibida
+    }
+  };
 
-    const renderSection = () => {
-        if (activeSection === 'box') {
-            return <Box navigation={navigation} />;
-        } else if (activeSection === 'shop') {
-            return <Shop navigation={navigation} />;
-        } else if (activeSection === 'calendar') {
-            return <Calendar navigation={navigation} />;
-        }
-    };
-
-    const toggleMenu = () => {
-        setMenuOpen(!isMenuOpen);
-    };
-
-    return (
+  const toggleMenu = () => {
+    setMenuOpen(!isMenuOpen);
+  };
+  
+  return (
     <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor="#CE6A85" translucent={false} />
-        <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
-            <Entypo name="arrow-bold-left" color="black" size={46} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
-            <Entypo name="menu" color="black" size={40} />
-        </TouchableOpacity>
-        {isMenuOpen && (
+      <StatusBar backgroundColor="#CE6A85" translucent={false} />
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
+        <Entypo name="arrow-bold-left" color="black" size={46} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
+          <Entypo name="menu" color="black" size={40} />
+      </TouchableOpacity>
+      {isMenuOpen && (
         <View style={styles.menu}>
           <TouchableOpacity style={styles.menuItem} onPress={openAppWebsite}>
             <Text style={styles.menuItemText}>Site do App</Text>
@@ -168,23 +171,23 @@ function Profile({ navigation, route }) {
         <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
           <Text style={styles.buttonText}>Editar perfil</Text>
         </TouchableOpacity>
-
-            <View style={styles.icons}>
-                <TouchableOpacity onPress={() => handleIconPress('box')}>
-                    <BoxIcon active={activeIcon === 'box'} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleIconPress('shop')}>
-                    <ShopIcon active={activeIcon === 'shop'} />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleIconPress('calendar')}>
-                    <CalendarIcon active={activeIcon === 'calendar'} />
-                </TouchableOpacity>
-            </View>
-        </View>
         
-        <View style={styles.section}>
-            {renderSection()}
+        <View style={styles.icons}>
+        {isSeller && (<TouchableOpacity onPress={() => handleIconPress('box')}>
+          <BoxIcon active={activeIcon === 'box'} isSeller={isSeller} />
+        </TouchableOpacity>)}
+          {isSeller && (<TouchableOpacity onPress={() => handleIconPress('shop')}>
+            <ShopIcon active={activeIcon === 'shop'} isSeller={isSeller} />
+          </TouchableOpacity>)}
+          {isSeller && (<TouchableOpacity onPress={() => handleIconPress('calendar')}>
+            <CalendarIcon active={activeIcon === 'calendar'} isSeller={isSeller} />
+          </TouchableOpacity>)}
         </View>
+      </View>
+        
+      <View style={styles.section}>
+        {renderSection()}
+      </View>
     </SafeAreaView>
   );  
 }
