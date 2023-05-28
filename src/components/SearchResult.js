@@ -4,13 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function SearchResult(props) {
     const navigation = useNavigation();
-    const userImages = require.context('../../assets/user_img', true);
-    let photos = userImages(`./${props.photo}`);
+    const userPhoto = `https://drive.google.com/uc?export=view&id=${props?.photo}`;
     return(
     <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Profile", {idUser: props.id})}}>
         <View style={styles.userField}>
             <View>
-                <Image style={styles.userPhoto} source={photos}/>
+                <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
             </View>
             <View>
                 <Text style={styles.userName}>{props.username}</Text>

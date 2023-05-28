@@ -76,10 +76,10 @@ export default function Register({navigation}) {
         data.fullName = fullName;
         data.isSeller = isSeller;
         data.photoUrl = responseImage.data.imageUrl;
-        data.location = [
-            {'city' : data.city},
-            {'district' : data.district}
-        ]
+        data.location = {
+            city : data.city,
+            district : data.district
+        }
         console.log(data.photoUrl);
         try {
             api.post("/user", data);

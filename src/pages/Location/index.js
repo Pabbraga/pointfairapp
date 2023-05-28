@@ -20,6 +20,7 @@ export default function Location({ navigation, route }) {
 
     async function loadResults() {
         const res = await api.get('/user'); 
+        console.log(res.data);
         const users = res.data.filter(user => (user.location.city == locationParam));
         setResults([...users]);
         setLoading(false);
@@ -33,7 +34,7 @@ export default function Location({ navigation, route }) {
     }
 
     function renderItem({item}) {
-        return <SearchResult id={item._id} photo={item.photo[0]} username={item.nickname} location={item.location.district}/>
+        return <SearchResult id={item._id} photo={item.photoUrl} username={item.nickname} location={item.location.district}/>
     }
 
     handleRefresh = () => {
