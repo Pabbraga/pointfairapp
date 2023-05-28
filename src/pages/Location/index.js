@@ -19,8 +19,7 @@ export default function Location({ navigation, route }) {
     }, []);
 
     async function loadResults() {
-        const res = await api.get('/user'); 
-        console.log(res.data);
+        const res = await api.get('/user');
         const users = res.data.filter(user => (user.location.city == locationParam));
         setResults([...users]);
         setLoading(false);

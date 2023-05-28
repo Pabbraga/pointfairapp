@@ -10,7 +10,6 @@ import PickPhoto from '../../components/PickPhoto';
 import DropList from '../../components/DropList';
 
 import styles from './style';
-import axios from 'axios';
 import api from '../../services/api';
 
 export default function Register({navigation}) {
