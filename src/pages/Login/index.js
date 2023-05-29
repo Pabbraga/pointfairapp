@@ -22,12 +22,12 @@ export default function Login({navigation}) {
                 <Text style={styles.h1}>Entrar</Text>
                 <View style={styles.group}>
                     <Text  style={styles.p}>E-mail</Text>
-                    <TextInput style={styles.input} onChangeText={setUser} value={user}/>
+                    <TextInput style={styles.input} onChangeText={setUser} value={user} inputMode='email'/>
                     {error && <Text style={styles.labelError}>{error.email}</Text>}
                 </View>
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
-                    <TextInput style={styles.input} onChangeText={setPassword} value={password}/>
+                    <TextInput style={styles.input} onChangeText={setPassword} value={password} secureTextEntry={true}/>
                     {error && <Text style={styles.labelError}>{error.password}</Text>}
                 </View>        
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>

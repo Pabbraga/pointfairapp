@@ -18,8 +18,8 @@ export default function Home({navigation}) {
     const [userPhoto, setUserPhoto] = useState(null);
 
     useEffect(() => {
-        setIsSeller(user?.isSeller);
-        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`)
+        setIsSeller(user.isSeller);
+        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user.photoUrl}`)
         loadPublications();
         setTimeout(()=> {
             setLoading(false);
@@ -41,8 +41,8 @@ export default function Home({navigation}) {
     }
 
     renderHeader = () => {
-        if(isSeller === false) return;
-        if(isSeller || user?.debugMode) {
+        if(!isSeller && !user.debugMode) return;
+        if(isSeller || user.debugMode) {
             return(
                 <PublishCreate/>
             );

@@ -111,6 +111,7 @@ export default function Register({navigation}) {
                             style={styles.input} 
                             onChangeText={onChange}
                             value={value}
+                            secureTextEntry={props.isPassword}
                         />
                         {errors[props.name] && <Text style={styles.labelError}>{errors[props.name]?.message}</Text>}
                     </View>
@@ -252,10 +253,12 @@ export default function Register({navigation}) {
                 <Field
                     label="Senha*"
                     name="password"
+                    isPassword={true}
                 />
                 <Field
                     label="Confirmar Senha*"
                     name="confirmPass"
+                    isPassword={true}
                 />
                 {error.email && <Text style={styles.labelError}>{error.email}</Text>}
                 {error.cnpj && <Text style={styles.labelError}>{error.cnpj}</Text>}

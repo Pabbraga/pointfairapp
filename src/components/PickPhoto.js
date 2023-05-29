@@ -12,7 +12,7 @@ const { user } = useAuth();
 
 const photo = require.context('../../assets/user_img', true);
 
-const uriImage = changePhoto?{uri:changePhoto}:photo(`./${user?.photo}`)
+const uriImage = changePhoto?{uri:changePhoto}:photo(`./${user?.photoUrl}`)
 
 useEffect(() => {
     (async () => {
@@ -45,6 +45,7 @@ const pickImage = async() => {
     return (
         <View>
             <Image style={styles.userPhoto} source={uriImage}/>
+            {}
             <TouchableOpacity style={styles.photoFilter} onPress={()=> {pickImage()}}>
                 <Entypo name='camera' color={'black'} size={30}/>
             </TouchableOpacity>
