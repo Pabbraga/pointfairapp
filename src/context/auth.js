@@ -28,13 +28,14 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function signIn(email, password) {
-        setLoading(true);
+        setError(null);
         const response = await auth.signIn(email, password);
         if(!response.user) {
             setLoading(false);
             setError(response);
             return;
         }
+        setLoading(true);
         setUser(response.user);
         api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
         await AsyncStorage.setItem('@PointFairAuth:user', JSON.stringify(response.user));

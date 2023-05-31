@@ -18,6 +18,7 @@ export default function Register({navigation}) {
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
     const [error, setError] = useState('');
+    const [responseImage, setResponseImage] = useState('');
 
     function handleGetImage(image) {
         setImageData(image);
@@ -44,7 +45,6 @@ export default function Register({navigation}) {
             cnpj: "",
             fantasyName: "",
             segment: "",
-            photoUrl: "11gws99uAMTomOdVFwcn5fm5cZgP37Ol8",
             phone: ""
         },
         resolver: yupResolver(schema),
@@ -63,23 +63,23 @@ export default function Register({navigation}) {
                 type: 'image/' + extend,
                 base64: imageData[0].base64,
             })));
-            responseImage = await api.post("/picture/upload", formData, {
+            res = await api.post("/picture/upload", formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
                 },
-            });    
+            });
+            setResponseImage(res);    
         }
         
         const fullName = data.firstName.trim()+' '+data.surName.trim();
         data.fullName = fullName;
         data.isSeller = isSeller;
-        data.photoUrl = responseImage.data.imageUrl;
+        data.photoUrl = responseImage?responseImage.data.imageUrl:"11gws99uAMTomOdVFwcn5fm5cZgP37Ol8";
         data.location = {
             city : data.city,
             district : data.district
         }
-        console.log(data.photoUrl);
         try {
             api.post("/user", data);
         } catch (err) {

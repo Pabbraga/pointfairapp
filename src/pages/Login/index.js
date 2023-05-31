@@ -6,13 +6,27 @@ import styles from './style';
 import { useAuth } from '../../context/auth';
 
 export default function Login({navigation}) {
-    const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [errors, setErrors] = useState({});
 
     const { signIn, error } = useAuth();
 
     const handleLogin = () => {
-        signIn(user.trim(), password.trim());
+        if(!email && !password) {
+            setErrors({both:"Preencha os campos acima."});
+            return;
+        }
+        if(!email) {
+            setErrors({email:"Preencha o campo de e-mail."});
+            return;
+        }
+        if(!password) {
+            setErrors({password:"Preencha o campo de senha."});
+            return;
+        }
+        signIn(email.trim(), password.trim());
+        setErrors(null);
     };
 
     return(
@@ -22,13 +36,16 @@ export default function Login({navigation}) {
                 <Text style={styles.h1}>Entrar</Text>
                 <View style={styles.group}>
                     <Text  style={styles.p}>E-mail</Text>
-                    <TextInput style={styles.input} onChangeText={setUser} value={user} inputMode='email'/>
+                    <TextInput style={styles.input} onChangeText={setEmail} value={email} inputMode='email'/>
                     {error && <Text style={styles.labelError}>{error.email}</Text>}
+                    {errors && <Text style={styles.labelError}>{errors.email}</Text>}
                 </View>
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
                     <TextInput style={styles.input} onChangeText={setPassword} value={password} secureTextEntry={true}/>
+                    {errors && <Text style={styles.labelError}>{errors.both}</Text>}
                     {error && <Text style={styles.labelError}>{error.password}</Text>}
+                    {errors && <Text style={styles.labelError}>{errors.password}</Text>}
                 </View>        
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
