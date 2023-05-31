@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { Entypo } from '@expo/vector-icons';
-import axios from "axios";
 
 import api from '../services/api';
 import { useAuth } from '../context/auth';
@@ -17,6 +16,18 @@ export default function PublishCreate() {
     }
 
     async function handlePublication() {
+        if(!imageData && !description) {
+            Alert.alert("Erro", "Não é possível criar uma publicação em branco.");
+            return;
+        }
+        if(!imageData) {
+            Alert.alert("Selecione uma imagem!");
+            return;
+        } 
+        if(!description) {
+            Alert.alert("Defina uma descrição para a publicação");
+            return;
+        }
         const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
         const formData = new FormData();
         const extend = filename.split('.')[1];
@@ -33,7 +44,7 @@ export default function PublishCreate() {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
                 },
-            })
+            });
 
             const data = {
                 description: description,
@@ -41,10 +52,17 @@ export default function PublishCreate() {
                 inStock: true,
                 owner: user._id,
             };
-            const publication = await api.post('/publication', data);
-            console.log(publication.data);
+            try {
+                const publication = await api.post('/publication', data).catch((err)=>{
+                    Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
+                    return;
+                });
+                console.log(publication?.data);
             
-            Alert.alert("Publicado.");
+                Alert.alert("Publicado.");
+            } catch (err) {
+            }
+            
         } catch (err) {
             console.log(err);
         }

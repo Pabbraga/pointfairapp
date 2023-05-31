@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons'; 
 
 import styles from './style';
 import SearchResult from '../../components/SearchResult';
+import LoadingScreen from '../../components/LoadingScreen';
 import api from '../../services/api';
 
 export default function Location({ navigation, route }) {
-
     const { locationParam } = route.params;
     const [results, setResults] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -25,10 +25,8 @@ export default function Location({ navigation, route }) {
         setLoading(false);
     }
     if(loading) {
-        return (
-            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
-                <ActivityIndicator size='large' color='#999'/>
-            </View>
+        return(
+            <LoadingScreen />
         )
     }
 

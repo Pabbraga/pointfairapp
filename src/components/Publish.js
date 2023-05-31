@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     userPhoto: {
         width: 45,
         height: 45,
-        borderRadius: 20,
+        borderRadius: 25,
         marginRight: 8
     },
     userName: {

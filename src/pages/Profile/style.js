@@ -4,12 +4,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        //justifyContent: 'center',
         backgroundColor: '#CE6A85'
     },
     perfil: {
         marginTop: 50,
         alignItems: 'center',
+        zIndex: -1
     },
     userPhoto: {
         width: 100,
@@ -67,7 +67,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 25,
         right: 20,
-        zIndex: 1,
     },
     menu: {
         position: 'absolute',
