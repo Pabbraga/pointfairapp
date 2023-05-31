@@ -7,15 +7,15 @@ import { useAuth } from '../context/auth';
 
 export default function PickPhoto({handleGetImage}) {
 const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
-const [changePhoto, setChangePhoto] = useState('');
+const [changePhoto, setChangePhoto] = useState(null);
+const [userPhoto, setUserPhoto] = useState(null);
 const { user } = useAuth();
 
-const photo = require.context('../../assets/user_img', true);
-
-const uriImage = changePhoto?{uri:changePhoto}:photo(`./${user?.photoUrl}`)
+const uriImage = changePhoto?{uri:changePhoto}:{uri:userPhoto}
 
 useEffect(() => {
     (async () => {
+        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
         const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
         setHasGalleryPermission(galleryStatus.status === 'granted');
     })();

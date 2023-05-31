@@ -159,6 +159,10 @@ function Profile({ navigation, route }) {
             <Text style={styles.menuItemText}>Site do App</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ProfileChange')}>
+            <Text style={styles.menuItemText}>Editar perfil</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.menuItem} onPress={handleSignOut}>
             <Text style={styles.menuItemText}>Sair</Text>
           </TouchableOpacity>
@@ -167,10 +171,6 @@ function Profile({ navigation, route }) {
       <View style={styles.perfil}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.h1}>{userData?.nickname}</Text>
-
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('ProfileChange')}>
-          <Text style={styles.buttonText}>Editar perfil</Text>
-        </TouchableOpacity>
         
         <View style={styles.icons}>
         {isSeller && (<TouchableOpacity onPress={() => handleIconPress('box')}>

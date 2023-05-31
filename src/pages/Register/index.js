@@ -40,7 +40,7 @@ export default function Register({navigation}) {
         confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
     });
 
-    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
+    const { control, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             cnpj: "",
             fantasyName: "",
@@ -86,6 +86,7 @@ export default function Register({navigation}) {
             console.log(err);
         }
         navigation.navigate('Login');
+        Alert.alert("Cadastro efetuado com sucesso!");
     }
 
     const handleSellerClick = () => {
