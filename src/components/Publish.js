@@ -1,9 +1,14 @@
-import React from 'react-native';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Publish(props) {
     const navigation = useNavigation();
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
+
+    const toggleInfo = () => {
+        setIsInfoOpen(!isInfoOpen);
+    };
 
     const id = props.id;
     const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${props.photo}`
@@ -20,7 +25,14 @@ export default function Publish(props) {
                 <Text style={styles.userName}>{props.username}</Text>
             </TouchableOpacity>
         </View>
-        <Image style={styles.image} source={{uri:contentImageUrl}}/>
+        <TouchableOpacity onPress={toggleInfo}>
+            <Image style={styles.image} source={{uri:contentImageUrl}}/>
+        </TouchableOpacity>
+        {isInfoOpen && 
+        <View style={styles.info}>
+            <Text>{props.description}</Text>
+            <Text style={styles.location}>{props.location}</Text>
+        </View>}
         <Text style={styles.location}>{props.location}</Text>
     </View>
     )
@@ -50,6 +62,12 @@ const styles = StyleSheet.create({
         width: 320,
         height: 180,
         borderRadius: 5,
+    },
+    info: {
+        backgroundColor: '#FAA275',
+        width: 320,
+        height: 60,
+        padding: 10
     },
     location: {
         fontSize: 15,

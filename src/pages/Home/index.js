@@ -39,8 +39,8 @@ export default function Home({navigation}) {
     }
 
     renderHeader = () => {
-        if(!isSeller && !user.debugMode) return;
-        if(isSeller || user.debugMode) {
+        if(!isSeller && !user?.debugMode) return;
+        if(isSeller || user?.debugMode) {
             return(
                 <PublishCreate/>
             );
@@ -53,6 +53,7 @@ export default function Home({navigation}) {
         photo={item.owner?.photoUrl} 
         username={item.owner.nickname} 
         content={item.imageUrl}
+        description={item.description}
         // location={item.owner.location.city}
         />
     );

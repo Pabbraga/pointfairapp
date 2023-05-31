@@ -6,6 +6,7 @@ import { Entypo } from '@expo/vector-icons';
 import styles from './style';
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
+import LoadingScreen from '../../components/LoadingScreen';
 
 const customStyles = StyleSheet.create({
   activeSection: {
@@ -108,9 +109,7 @@ function Profile({ navigation, route }) {
 
     if(loading) {
       return (
-        <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
-            <ActivityIndicator size='large' color='#999'/>
-        </View>
+        <LoadingScreen/>
       )
     }
 
@@ -129,7 +128,7 @@ function Profile({ navigation, route }) {
   };
 
   const renderSection = () => {
-    if (activeSection === 'box' && activeIcon === 'box' && isSeller) {
+    if (activeSection === 'box' && activeIcon === 'box' && userData.isSeller) {
       return <Box navigation={navigation} />;
     } else if (activeSection === 'shop') {
       return <Shop navigation={navigation} />;
@@ -173,14 +172,14 @@ function Profile({ navigation, route }) {
         <Text style={styles.h1}>{userData?.nickname}</Text>
         
         <View style={styles.icons}>
-        {isSeller && (<TouchableOpacity onPress={() => handleIconPress('box')}>
-          <BoxIcon active={activeIcon === 'box'} isSeller={isSeller} />
+        {userData.isSeller && (<TouchableOpacity onPress={() => handleIconPress('box')}>
+          <BoxIcon active={activeIcon === 'box'} isSeller={userData.isSeller} />
         </TouchableOpacity>)}
-          {isSeller && (<TouchableOpacity onPress={() => handleIconPress('shop')}>
-            <ShopIcon active={activeIcon === 'shop'} isSeller={isSeller} />
+          {userData.isSeller && (<TouchableOpacity onPress={() => handleIconPress('shop')}>
+            <ShopIcon active={activeIcon === 'shop'} isSeller={userData.isSeller} />
           </TouchableOpacity>)}
-          {isSeller && (<TouchableOpacity onPress={() => handleIconPress('calendar')}>
-            <CalendarIcon active={activeIcon === 'calendar'} isSeller={isSeller} />
+          {userData.isSeller && (<TouchableOpacity onPress={() => handleIconPress('calendar')}>
+            <CalendarIcon active={activeIcon === 'calendar'} isSeller={userData.isSeller} />
           </TouchableOpacity>)}
         </View>
       </View>

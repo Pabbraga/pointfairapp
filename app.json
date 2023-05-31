@@ -19,10 +19,6 @@
         "expo-image-picker",
         {
           "photosPermission": "É necessário habilitar o acesso ao armazenamento para compartilhar imagens."
-        },
-        "expo-media-library",
-        {
-          "photosPermission": "É necessário habilitar o acesso ao armazenamento para compartilhar imagens."
         }
       ]
     ],
