@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     labelError: {
         alignSelf: 'flex-start',
         color: '#ff375b',
-        marginLeft: 10  
+        marginLeft: 20,
     },
     opacity: {
         marginVertical: 10

@@ -1,29 +1,40 @@
-import React from 'react-native';
+import React, { useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Publish(props) {
     const navigation = useNavigation();
+    const [isInfoOpen, setIsInfoOpen] = useState(false);
 
-    const id = props.id;
-    const userImages = require.context('../../assets/user_img', true);
-    let photos = userImages(`./${props.photo}`);
+    const toggleInfo = () => {
+        setIsInfoOpen(!isInfoOpen);
+    };
+
+    const publication = props.item;
+    const authorId = publication.owner._id
+    const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${publication.owner.photoUrl}`
     
-    const contentImages = require.context('../../assets/img', true);
-    let images = contentImages(`./${props.content}`)
+    const contentImageUrl = `https://drive.google.com/uc?export=view&id=${publication.imageUrl}`;
 
     return(
     <View style={styles.container}>
         <View style={styles.userField}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
-                <Image style={styles.userPhoto} source={photos}/>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: authorId})}}>
+                <Image style={styles.userPhoto} source={{uri:contentPhotoUrl}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
-                <Text style={styles.userName}>{props.username}</Text>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: authorId})}}>
+                <Text style={styles.userName}>{publication.owner.nickname}</Text>
             </TouchableOpacity>
         </View>
-        <Image style={styles.image} source={images}/>
-        <Text style={styles.location}>{props.location}</Text>
+        <TouchableOpacity onPress={toggleInfo}>
+            <Image style={styles.image} source={{uri:contentImageUrl}}/>
+        </TouchableOpacity>
+        {isInfoOpen && 
+        <View style={styles.info}>
+            <Text>{publication.description}</Text>
+            <Text style={styles.location}>{publication.location}</Text>
+        </View>}
+        <Text style={styles.location}>{publication.location}</Text>
     </View>
     )
 }
@@ -40,7 +51,7 @@ const styles = StyleSheet.create({
     userPhoto: {
         width: 45,
         height: 45,
-        borderRadius: 20,
+        borderRadius: 25,
         marginRight: 8
     },
     userName: {
@@ -52,6 +63,12 @@ const styles = StyleSheet.create({
         width: 320,
         height: 180,
         borderRadius: 5,
+    },
+    info: {
+        backgroundColor: '#FAA275',
+        width: 320,
+        height: 60,
+        padding: 10
     },
     location: {
         fontSize: 15,

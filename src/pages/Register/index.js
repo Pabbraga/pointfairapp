@@ -6,54 +6,93 @@ import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
+import PickPhoto from '../../components/PickPhoto';
+import DropList from '../../components/DropList';
+
 import styles from './style';
-import axios from 'axios';
+import api from '../../services/api';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
+    const [imageData, setImageData] = useState(null);
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
     const [error, setError] = useState('');
+    const [responseImage, setResponseImage] = useState('');
+
+    function handleGetImage(image) {
+        setImageData(image);
+    }
 
     const schema = yup.object({
         firstName: step == 1 && yup.string().required("Informe o seu nome."),
         surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
         email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
-        cnpj: step == 2 && yup.string().required("Informe o seu CNPJ"),
-        fantasyName: step == 2 && yup.string().required("Informe o seu nome fantasia."),
-        segment: step == 2 && yup.string().required("Informe o seu segmento."),
-        nickname: step == 3 && yup.string().required("Digite o seu nome de usuário."),
-        password: step == 3 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
-        confirmPass: step == 3 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.")
+        phone: step == 3 && yup.string(),
+        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ"),
+        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
+        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
+        city: step == 3 && yup.string().required("Digite o seu nome da sua cidade."),
+        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro."),
+        fair: step == 3 && yup.string(),
+        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário."),
+        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
+        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
     });
 
-    const { control, handleSubmit, formState: { errors }, setFocus } = useForm({
+    const { control, handleSubmit, formState: { errors }} = useForm({
         defaultValues: {
             cnpj: "",
             fantasyName: "",
             segment: "",
-            phone: "",
-            location: "64693c5914e6f088aa8d9c66"
+            phone: ""
         },
         resolver: yupResolver(schema),
         reValidateMode: "onSubmit",
         shouldFocusError: true
     });
 
-    function handleRegister(data) {
+    async function handleRegister(data) {
+        if(imageData) {
+            const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
+            const formData = new FormData();
+            const extend = filename.split('.')[1];
+            formData.append('file', JSON.parse(JSON.stringify({
+                name: filename,
+                uri: imageData[0].uri,
+                type: 'image/' + extend,
+                base64: imageData[0].base64,
+            })));
+            res = await api.post("/picture/upload", formData, {
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'multipart/form-data'
+                },
+            });
+            setResponseImage(res);    
+        }
+        
         const fullName = data.firstName.trim()+' '+data.surName.trim();
         data.fullName = fullName;
         data.isSeller = isSeller;
-        data.phone = "";
-        data.photo = "picture.jpg";
-        axios.post("https://pointfair.onrender.com/user", data).catch((error) => console.log(error));
+        data.photoUrl = responseImage?responseImage.data.imageUrl:"11gws99uAMTomOdVFwcn5fm5cZgP37Ol8";
+        data.location = {
+            city : data.city,
+            district : data.district
+        }
+        try {
+            api.post("/user", data);
+        } catch (err) {
+            console.log(err);
+        }
         navigation.navigate('Login');
+        Alert.alert("Cadastro efetuado com sucesso!");
     }
 
     const handleSellerClick = () => {
         if(link === 'Sou um vendedor') {
             setIsSeller(true);
-            setLink('Sou um cliente');
+            setLink('Sou um usuário');
         }
         else {
             setIsSeller(false);
@@ -73,6 +112,7 @@ export default function Register({navigation}) {
                             style={styles.input} 
                             onChangeText={onChange}
                             value={value}
+                            secureTextEntry={props.isPassword}
                         />
                         {errors[props.name] && <Text style={styles.labelError}>{errors[props.name]?.message}</Text>}
                     </View>
@@ -93,29 +133,28 @@ export default function Register({navigation}) {
                     </TouchableOpacity>
                     <Text style={styles.h1}>Cadastrar-se</Text>
                     <Field
-                        control={control}
                         label="Nome*"
                         name="firstName"
                     />
                     <Field
-                        control={control}
                         label="Sobrenome*"
                         name="surName"
                     />
                     <Field
-                        control={control}
                         label="E-mail*"
                         name="email"
                     />
                     <Field
-                        control={control}
                         label="Telefone"
                         name="phone"
                     />
                     <TouchableOpacity 
                         style={styles.button} 
                         onPress={handleSubmit(() => {
-                            if(isSeller) setStep(step+1);
+                            if(isSeller) {
+                                setStep(step+1);
+                                return;
+                            }
                             setStep(step+2)
                             }
                         )}>
@@ -137,19 +176,16 @@ export default function Register({navigation}) {
                     onPress={() => {setStep(step-1)}}>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
-                <Text style={styles.h1}>Cadastro</Text>
+                <Text style={styles.h1}>Feirante</Text>
                 <Field
-                    control={control}
                     label="CNPJ*"
                     name="cnpj"
                 />
                 <Field
-                    control={control}
                     label="Nome Fantasia*"
                     name="fantasyName"
                 />
                 <Field
-                    control={control}
                     label="Segmento*"
                     name="segment"
                 />
@@ -164,27 +200,62 @@ export default function Register({navigation}) {
                 <TouchableOpacity 
                     style={{ position: 'absolute', top: 25, left: 20 }}
                     onPress={() => {
-                        if(isSeller) setStep(step-1);
+                        if(isSeller) {
+                            setStep(step-1);
+                            return;
+                        };
                         setStep(step-2);
                     }
                     }>
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
-                <Text style={styles.h1}>Cadastro</Text>
+                <Text style={styles.h1}>Localização</Text>
                 <Field
-                    control={control}
+                    label="Cidade*"
+                    name="city"
+                />
+                {error.city && <Text style={styles.labelError}>{error.city}</Text>}
+                <Field
+                    label="Bairro*"
+                    name="district"
+                />
+                {error.district && <Text style={styles.labelError}>{error.district}</Text>}
+                {isSeller && 
+                <Field
+                    label="Qual feira você costuma frequentar?"
+                    name="fair"
+                />}
+                <TouchableOpacity 
+                    style={styles.button} 
+                    onPress={handleSubmit(()=>setStep(step+1))}>
+                    <Text style={styles.buttonText}>Continuar</Text>
+                </TouchableOpacity>
+            </View>}
+            {step == 4 &&
+            <View style={styles.form}>
+                <TouchableOpacity 
+                    style={{ position: 'absolute', top: 25, left: 20 }}
+                    onPress={() => {setStep(step-1);}
+                    }>
+                    <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
+                </TouchableOpacity>
+                <Text style={styles.h1}>Cadastro</Text>
+                <View>
+                    <PickPhoto handleGetImage={handleGetImage}/>
+                </View>
+                <Field
                     label="Nome de Usuário*"
                     name="nickname"
                 />
                 <Field
-                    control={control}
                     label="Senha*"
                     name="password"
+                    isPassword={true}
                 />
                 <Field
-                    control={control}
                     label="Confirmar Senha*"
                     name="confirmPass"
+                    isPassword={true}
                 />
                 {error.email && <Text style={styles.labelError}>{error.email}</Text>}
                 {error.cnpj && <Text style={styles.labelError}>{error.cnpj}</Text>}

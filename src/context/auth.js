@@ -1,9 +1,8 @@
 import { useContext, createContext, useState, useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as auth from '../services/auth.js';
 import api from '../services/api.js';
-
+import LoadingScreen from '../components/LoadingScreen.js';
 
 const AuthContext = createContext();
 
@@ -29,13 +28,14 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function signIn(email, password) {
+        setError(null);
+        setLoading(true);
         const response = await auth.signIn(email, password);
         if(!response.user) {
             setLoading(false);
             setError(response);
             return;
         }
-        setLoading(true);
         setUser(response.user);
         api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
         await AsyncStorage.setItem('@PointFairAuth:user', JSON.stringify(response.user));
@@ -45,13 +45,12 @@ export const AuthProvider = ({ children }) => {
 
     function signOut() {
         AsyncStorage.clear();
+        setUser(null);
     }
 
     if(loading) {
-        return (
-            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
-                <ActivityIndicator size='large' color='#999'/>
-            </View>
+        return(
+            <LoadingScreen/>
         )
     }
 
@@ -60,7 +59,6 @@ export const AuthProvider = ({ children }) => {
             {children}
         </AuthContext.Provider>
     )
- 
 };
 
 export function useAuth() {

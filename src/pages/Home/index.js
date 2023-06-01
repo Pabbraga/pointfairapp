@@ -1,44 +1,34 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList, ActivityIndicator } from 'react-native';
-// import * as FileSystem from 'expo-file-system';
+import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
 
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
 import styles from './style';
 import Publish from '../../components/Publish';
-import PublishContainer from '../../components/PublishContainer';
+import PublishCreate from '../../components/PublishCreate';
+import LoadingScreen from '../../components/LoadingScreen';
 
 export default function Home({navigation}) {
-    const isSeller = true;
     const { user } = useAuth();
+    const [isSeller, setIsSeller] = useState(true);
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-
-    const photo = require.context('../../../assets/user_img', true);
-    const userImage = photo(`./${user.photo[0]}`);
-    
-    // const getData = async () => {
-    //     FileSystem.downloadAsync(
-    //         'http://techslides.com/demos/sample-videos/small.mp4',
-    //         FileSystem.documentDirectory + 'small.mp4'
-    //     )
-    // }
+    const [userPhoto, setUserPhoto] = useState(null);
 
     useEffect(() => {
+        setLoading(true);
+        setIsSeller(user.isSeller);
+        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user.photoUrl}`)
         loadPublications();
-        setTimeout(()=> {
-            setLoading(false);
-        }, 1500)
+        setLoading(false);
     }, []);
 
     if(loading) {
-        return (
-            <View style={{ flex:1, justifyContent:'center', alignItems:'center' }}>
-                <ActivityIndicator size='large' color='#999'/>
-            </View>
+        return(
+            <LoadingScreen />
         )
     }
 
@@ -49,20 +39,17 @@ export default function Home({navigation}) {
     }
 
     renderHeader = () => {
-        if(!isSeller) return;
-
-        return(
-            <PublishContainer/>
-        );
+        if(!isSeller && !user?.debugMode) return;
+        if(isSeller || user?.debugMode) {
+            return(
+                <PublishCreate/>
+            );
+        }
     };
 
     renderItem = ({item}) => (
         <Publish
-        id={item.owner._id}
-        photo={item.owner.photo[0]} 
-        username={item.owner.nickname} 
-        content={item.image}
-        // location={item.owner.location.city}
+        item={item}
         />
     );
 
@@ -79,7 +66,7 @@ export default function Home({navigation}) {
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
-                    <Image style={styles.userPhoto} source={userImage}/>
+                    <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
                 </TouchableOpacity>
             </View>
             <FlatList
@@ -92,6 +79,8 @@ export default function Home({navigation}) {
                 onEndReachedThreshold={0.5}
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
+                maxToRenderPerBatch={10}
+                showsVerticalScrollIndicator={false}
             />
         </SafeAreaView>
     );
