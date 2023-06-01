@@ -81,31 +81,35 @@ function Calendar() {
 function Profile({ navigation, route }) {
   const { idUser } = route.params;
   const [loading, setLoading] = useState(true);
-  const { user, signOut, signed } = useAuth();
+  const { user, signOut } = useAuth();
   const [userData, setUserData] = useState(null);
   const [userPhoto, setUserPhoto] = useState(null);
   const [activeSection, setActiveSection] = React.useState('box');
   const [activeIcon, setActiveIcon] = React.useState('box');
   const [isMenuOpen, setMenuOpen] = React.useState(false);
-  const isSeller = user?.isSeller || false;
+  const [personalProfile, setPersonalProfile] = React.useState(false);
 
   useEffect(() => {
     loadUser();
   }, []);
   
-    async function loadUser() {
-      if(idUser === null) {
-        setUserData(user);
-        setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
-        setLoading(false);
-        return;
-      }
-
-      const res = await api.get(`/user/${idUser}`);
-      setUserData(res.data);
-      setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
-      setLoading(false);
+  async function loadUser() {
+    if(idUser == user._id) {
+      setPersonalProfile(true);
     }
+    if(idUser === null) {
+      setUserData(user);
+      setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
+      setPersonalProfile(true);
+      setLoading(false);
+      return;
+    }
+
+    const res = await api.get(`/user/${idUser}`);
+    setUserData(res.data);
+    setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
+    setLoading(false);
+  }
 
     if(loading) {
       return (
@@ -115,7 +119,7 @@ function Profile({ navigation, route }) {
 
   const handleSignOut = () => {
     signOut();
-    navigation.navigate('Welcome');
+    navigation.navigate('Login');
   };
 
   const handleIconPress = (icon) => {
@@ -124,7 +128,7 @@ function Profile({ navigation, route }) {
   };
   
   const openAppWebsite = () => {
-    Linking.openURL('https://pointfair.up.railway.app');
+    Linking.openURL('https://pointfair.netlify.app/');
   };
 
   const renderSection = () => {
@@ -149,10 +153,10 @@ function Profile({ navigation, route }) {
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
         <Entypo name="arrow-bold-left" color="black" size={46} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
+      {personalProfile && <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
           <Entypo name="menu" color="black" size={40} />
-      </TouchableOpacity>
-      {isMenuOpen && (
+      </TouchableOpacity>}
+      {isMenuOpen && personalProfile &&
         <View style={styles.menu}>
           <TouchableOpacity style={styles.menuItem} onPress={openAppWebsite}>
             <Text style={styles.menuItemText}>Site do App</Text>
@@ -166,7 +170,7 @@ function Profile({ navigation, route }) {
             <Text style={styles.menuItemText}>Sair</Text>
           </TouchableOpacity>
         </View>
-      )}
+      }
       <View style={styles.perfil}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.h1}>{userData?.nickname}</Text>

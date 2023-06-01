@@ -10,19 +10,20 @@ export default function Publish(props) {
         setIsInfoOpen(!isInfoOpen);
     };
 
-    const id = props.id;
-    const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${props.photo}`
+    const publication = props.item;
+    const authorId = publication.owner._id
+    const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${publication.owner.photoUrl}`
     
-    const contentImageUrl = `https://drive.google.com/uc?export=view&id=${props.content}`;
+    const contentImageUrl = `https://drive.google.com/uc?export=view&id=${publication.imageUrl}`;
 
     return(
     <View style={styles.container}>
         <View style={styles.userField}>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: authorId})}}>
                 <Image style={styles.userPhoto} source={{uri:contentPhotoUrl}}/>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: id})}}>
-                <Text style={styles.userName}>{props.username}</Text>
+            <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: authorId})}}>
+                <Text style={styles.userName}>{publication.owner.nickname}</Text>
             </TouchableOpacity>
         </View>
         <TouchableOpacity onPress={toggleInfo}>
@@ -30,10 +31,10 @@ export default function Publish(props) {
         </TouchableOpacity>
         {isInfoOpen && 
         <View style={styles.info}>
-            <Text>{props.description}</Text>
-            <Text style={styles.location}>{props.location}</Text>
+            <Text>{publication.description}</Text>
+            <Text style={styles.location}>{publication.location}</Text>
         </View>}
-        <Text style={styles.location}>{props.location}</Text>
+        <Text style={styles.location}>{publication.location}</Text>
     </View>
     )
 }

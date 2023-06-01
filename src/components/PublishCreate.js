@@ -67,7 +67,6 @@ export default function PublishCreate() {
             console.log(err);
         }
     }
-
     return(
         <View style={styles.publishSection}>
             <TextInput
@@ -79,7 +78,7 @@ export default function PublishCreate() {
             />
             <View style={styles.publishButtons}>
                 {imageData && <View style={styles.preview}>
-                    <Text style={{color: '#ccc', fontSize: 13, marginRight: 10}}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
+                    <Text style={styles.previewText}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
                     <TouchableOpacity style={styles.cancelButton} onPress={()=>setImageData(null)}>
                         <Entypo name='cross' color={'#ccc'} size={15}/>
                     </TouchableOpacity>
@@ -105,24 +104,28 @@ const styles = StyleSheet.create({
         textAlignVertical: "top",
         fontSize: 20,
         height: 80,
-        justifyContent:"center"
     },
     publishButtons: {
         flexDirection: 'row',
         marginTop: 10,
         alignSelf: 'flex-end',
         columnGap: 5,
-        flexWrap: 'wrap',
     },
     preview: {
+        width: 200,
         height: 30,
+        marginRight: 55,
         borderRadius: 10,
-        marginRight: 100,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingRight: 15,
-        paddingLeft: 10,
+        paddingLeft: 5,
         backgroundColor: '#985277',
+        flexWrap: 'nowrap'
+    },
+    previewText: {
+        color: '#ccc', 
+        fontSize: 13, 
+        marginRight: 5,
     },
     cancelButton: {
         borderWidth: 1,

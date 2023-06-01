@@ -19,8 +19,8 @@ export default function ProfileChange({navigation}) {
             <View style={styles.form}>
                 <PickPhoto />
                 <TextInput style={styles.textInput} placeholder={user.nickname}/>
-                <TextInput style={styles.textInput} placeholder={user.email}/>
-                <TextInput style={styles.textInput} placeholder={user.password}/>
+                <TextInput style={styles.textInput} placeholder={user.location.city}/>
+                <TextInput style={styles.textInput} placeholder={user.location.district}/>
                 <TextInput style={styles.textInput} placeholder={user.phone}/>
                 <TouchableOpacity style={styles.button} onPress={() => navigation.goBack()}>
                     <Text style={styles.buttonText}>Concluído</Text>

@@ -49,12 +49,7 @@ export default function Home({navigation}) {
 
     renderItem = ({item}) => (
         <Publish
-        id={item.owner._id}
-        photo={item.owner?.photoUrl} 
-        username={item.owner.nickname} 
-        content={item.imageUrl}
-        description={item.description}
-        // location={item.owner.location.city}
+        item={item}
         />
     );
 

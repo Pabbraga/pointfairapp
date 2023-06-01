@@ -220,15 +220,11 @@ export default function Register({navigation}) {
                     name="district"
                 />
                 {error.district && <Text style={styles.labelError}>{error.district}</Text>}
-                {isSeller &&
-                    <View>
-                        <Text style={styles.p}>Qual feira você costuma frequentar?</Text>
-                        <Field
-                            label="Feira"
-                            name="fair"
-                        />
-                    </View>
-                }
+                {isSeller && 
+                <Field
+                    label="Qual feira você costuma frequentar?"
+                    name="fair"
+                />}
                 <TouchableOpacity 
                     style={styles.button} 
                     onPress={handleSubmit(()=>setStep(step+1))}>
