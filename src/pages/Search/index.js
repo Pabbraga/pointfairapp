@@ -12,20 +12,19 @@ import api from '../../services/api';
 export default function Search() {
     const [isTyping, setIsTyping] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
-    const search = async (value) => {
+    const handleSearch = async (value) => {
         setIsTyping(true);
         if(!value) {
             setIsTyping(false);
+            setSearchResults(null);
             return;
         }
-        const res = await api.get('/user/search', {search: value});
-        setSearchResults(res.data);
-        console.log(res.data);
-        // if(value.match(/[a-zA-Z0-9]{1,}/im)) {
-            
-        // } else {
-        //     Alert.alert("Insira apenas alfanuméricos!");
-        // }
+        if(value.match(/^[a-zA-Z0-9]{1,}$/im)) {
+            const res = await api.get(`/user/search/${value}`);
+            setSearchResults(res.data);
+        } else {
+            Alert.alert("Insira apenas letras e números!");
+        }
     } 
 
     renderItem = ({item}) => (
@@ -43,8 +42,9 @@ export default function Search() {
                     placeholder="Buscar"
                     underlineColorAndroid="transparent"
                     onChangeText={(value)=> {
-                        search(value)
+                        handleSearch(value)
                     }}
+                    clearButtonMode='always'
                 />
             </View>
             {!isTyping && <ScrollView style={styles.main}>

@@ -34,7 +34,7 @@ export default function Home({navigation}) {
 
     async function loadPublications() {
         const res = await api.get('/publication');
-        setData([...res.data]);
+        setData(res.data);
         setRefreshing(false);
     }
 
