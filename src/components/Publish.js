@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function Publish(props) {
     const navigation = useNavigation();
-    const [isInfoOpen, setIsInfoOpen] = useState(false);
+    const [isInfoOpen, setIsInfoOpen] = useState(true); // Alterado para true
 
     const toggleInfo = () => {
         setIsInfoOpen(!isInfoOpen);
