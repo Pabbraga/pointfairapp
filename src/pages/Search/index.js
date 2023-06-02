@@ -1,14 +1,38 @@
-import React, { useState } from 'react';
-import { View, TextInput, Text, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import { View, TextInput, ScrollView, Alert, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
 import LocationTemplate from '../../components/LocationTemplate';
+import SearchResult from '../../components/SearchResult';
+import api from '../../services/api';
 
 export default function Search() {
-    const [searchString, setSearchString] = useState('');
+    const [isTyping, setIsTyping] = useState(false);
+    const [searchResults, setSearchResults] = useState(null);
+    const search = async (value) => {
+        setIsTyping(true);
+        if(!value) {
+            setIsTyping(false);
+            return;
+        }
+        const res = await api.get('/user/search', {search: value});
+        setSearchResults(res.data);
+        console.log(res.data);
+        // if(value.match(/[a-zA-Z0-9]{1,}/im)) {
+            
+        // } else {
+        //     Alert.alert("Insira apenas alfanuméricos!");
+        // }
+    } 
+
+    renderItem = ({item}) => (
+        <SearchResult
+        item={item}
+        />
+    );
 
     return(
         <SafeAreaView style={styles.container}>
@@ -18,16 +42,24 @@ export default function Search() {
                     style={styles.input}
                     placeholder="Buscar"
                     underlineColorAndroid="transparent"
-                    onChangeText={(value)=>{setSearchString(value)}}
-                    value={searchString}
+                    onChangeText={(value)=> {
+                        search(value)
+                    }}
                 />
             </View>
-            <ScrollView style={styles.main}>
+            {!isTyping && <ScrollView style={styles.main}>
                 <LocationTemplate image={require('../../../assets/location_img/taboao.png')} location={'Taboão da Serra'} />
                 <LocationTemplate image={require('../../../assets/location_img/paulista.png')} location={'São Paulo'} />
                 <LocationTemplate image={require('../../../assets/location_img/embu.png')} location={'Embu das Artes'} />
                 <LocationTemplate image={require('../../../assets/location_img/eldorado.png')} location={'Eldorado'} />
-            </ScrollView>
+            </ScrollView>}
+            {isTyping && 
+            <FlatList
+            keyExtractor={(item) => item._id}
+            data={searchResults}
+            renderItem={renderItem}
+            style={styles.list}
+            />}
         </SafeAreaView>
     )
 }

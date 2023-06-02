@@ -31,7 +31,11 @@ export default function Location({ navigation, route }) {
     }
 
     function renderItem({item}) {
-        return <SearchResult id={item._id} photo={item.photoUrl} username={item.nickname} location={item.location.district}/>
+        return (
+        <SearchResult 
+            item={item}
+        />
+        )
     }
 
     handleRefresh = () => {
