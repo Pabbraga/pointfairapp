@@ -7,7 +7,7 @@ style="display: inline-block; margin: 0 auto; max-width: 250px; border-radius: 5
 
 *O pequeno vendedor mais próximo de você.*
 
-Acesse o nosso [site](https://pointfair.up.railway.app/).
+Acesse o nosso [site](https://pointfair.netlify.app).
 
 ## Instalação
 
