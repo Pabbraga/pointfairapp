@@ -74,8 +74,7 @@ export default function PublishCreate() {
                 multiline
                 numberOfLines={3}
                 maxLength={50}
-                onChangeText={(value)=>setDescription(value)}
-            />
+                onChangeText={(value)=>setDescription(value)}/>
             <View style={styles.publishButtons}>
                 {imageData && <View style={styles.preview}>
                     <Text style={styles.previewText}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
