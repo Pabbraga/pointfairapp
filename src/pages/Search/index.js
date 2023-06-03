@@ -13,7 +13,6 @@ export default function Search() {
     const [isTyping, setIsTyping] = useState(false);
     const [searchResults, setSearchResults] = useState(null);
     const handleSearch = async (value) => {
-        setIsTyping(true);
         if(!value) {
             setIsTyping(false);
             setSearchResults(null);
@@ -22,6 +21,7 @@ export default function Search() {
         if(value.match(/^[a-zA-Z0-9]{1,}$/im)) {
             const res = await api.get(`/user/search/${value}`);
             setSearchResults(res.data);
+            setIsTyping(true);
         } else {
             Alert.alert("Insira apenas letras e números!");
         }

@@ -15,7 +15,9 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        marginBottom: 15
+        marginBottom: 15,
+        borderWidth: 3,
+        borderColor: '#5C374C',
     }, 
     h1: {
         fontSize: 20,
@@ -53,16 +55,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 50,
         paddingVertical: 10  
     },
-    articleH1:{
-        backgroundColor: '#985277',
-        fontSize: 26,
-        paddingHorizontal: 60,
-        marginBottom: 20
-    },
-    articleP:{
-        fontSize: 18,
-        paddingBottom: 5
-    },
     menuContainer: {
         position: 'absolute',
         top: 25,
@@ -87,14 +79,6 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 16,
     },
-    activeSection: {
-        backgroundColor: '#FAA275',
-        borderRadius: 100,
-    },
-    activeSection: {
-        backgroundColor: '#FAA275',
-        borderRadius: 100,
-    }, 
 })
 
 export default styles;

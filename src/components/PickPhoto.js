@@ -45,7 +45,6 @@ const pickImage = async() => {
     return (
         <View>
             <Image style={styles.userPhoto} source={uriImage}/>
-            {}
             <TouchableOpacity style={styles.photoFilter} onPress={()=> {pickImage()}}>
                 <Entypo name='camera' color={'black'} size={30}/>
             </TouchableOpacity>
@@ -67,6 +66,8 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        marginBottom: 20
+        marginBottom: 20,
+        borderWidth: 2,
+        borderColor: '#5C374C',
     },
 });

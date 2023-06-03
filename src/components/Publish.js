@@ -52,7 +52,9 @@ const styles = StyleSheet.create({
         width: 45,
         height: 45,
         borderRadius: 25,
-        marginRight: 8
+        marginRight: 8,
+        borderWidth: 2,
+        borderColor: '#5C374C',
     },
     userName: {
         fontSize: 15,
