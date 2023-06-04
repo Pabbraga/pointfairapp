@@ -1,17 +1,43 @@
 import {useEffect, useState} from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, FlatList } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
+import api from '../services/api';
 
-export default function SectionSeller() {
+export default function SectionSeller(props) {
     const [activeIcon, setActiveIcon] = useState('box');
+    const [data, setData] = useState(null);
+    const [refreshing, setRefreshing] = useState(false);
+    const userData = props.userData;
+
+    useEffect(() => {
+        loadPublications();
+    }, [])
 
     function BoxView(props) {
-        const image = props.image;
+        const image = `https://drive.google.com/uc?export=view&id=${props.item.imageUrl}`;
         return(
             <TouchableOpacity style={styles.box}>
-                <Image style={styles.image} source={image}/>
+                <Image style={styles.image} source={{uri:image}}/>
             </TouchableOpacity>
         )
+    }
+
+    async function loadPublications() {
+        const res = await api.get('/publication');
+        const userPublications = res.data.filter(publication => (publication.owner.email == userData.email));
+        setData(userPublications);
+        setRefreshing(false);
+    }
+
+    handleRefresh = () => {
+        setRefreshing(true);
+        loadPublications();
+    }
+
+    const renderItem = ({item}) => {
+        return (
+            <BoxView item={item}/>
+        );
     }
 
     const renderSection = () => {
@@ -19,11 +45,16 @@ export default function SectionSeller() {
             return (
                 <View style={styles.section}>
                     <Text style={styles.articleH1}>Publicações</Text>
-                    <View style={styles.contentImages}>
-                        <BoxView image={require('../../assets/img/rosaVermelha.jpg')}/>
-                        <BoxView image={require('../../assets/img/rosaAmarela.jpg')}/>
-                        <BoxView image={require('../../assets/img/floricultura.jpg')}/>
-                    </View>
+                    <FlatList
+                        keyExtractor={(item) => item._id}
+                        renderItem={renderItem}
+                        data={data}
+                        style={styles.contentImages}
+                        showsVerticalScrollIndicator={false}
+                        numColumns={2}
+                        refreshing={refreshing}
+                        onRefresh={handleRefresh}
+                    />
                 </View>
             );
         } else if (activeIcon == 'shop') {
@@ -123,22 +154,18 @@ const styles = StyleSheet.create({
         color: '#5C374C',
     },
     contentImages: {
-        flex: 1,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         paddingTop: 2,
         backgroundColor: '#fff',
-        alignItems: 'center'
     },
     image: {
-        width: 130,
+        width: 125,
         height: 100,
         margin: 2,
-        marginStart: 3,
         borderWidth: 2,
         borderColor: '#5C374C',
-        borderRadius: 5,
+        borderRadius: 3,
         resizeMode: 'cover',
+        alignSelf: 'center'
     }
 });
 

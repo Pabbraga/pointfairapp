@@ -47,7 +47,9 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        marginRight: 8
+        marginRight: 8,
+        borderWidth: 2,
+        borderColor: '#5C374C',
     },
     userName: {
         fontSize: 20,
