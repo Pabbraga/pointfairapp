@@ -8,6 +8,7 @@ import ForgotPassword from '../src/pages/ForgotPassword';
 import Profile from '../src/pages/Profile';
 import ProfileChange from '../src/pages/ProfileChange';
 import Location from '../src/pages/Location';
+import PostProfile from '../src/pages/PostProfile';
 
 import { useAuth } from '../src/context/auth';
 
@@ -26,6 +27,7 @@ export default function Root() {
             <Stack.Screen name="Profile" component={Profile} options={{headerShown: false}}/>
             <Stack.Screen name="ProfileChange" component={ProfileChange} options={{headerShown: false}}/>
             <Stack.Screen name="Location" component={Location} options={{headerShown: false}}/>
+            <Stack.Screen name="PostProfile" component={PostProfile} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }
