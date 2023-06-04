@@ -26,7 +26,7 @@ export default function Publish(props) {
                 <Text style={styles.userName}>{publication.owner.nickname}</Text>
             </TouchableOpacity>
         </View>
-        <TouchableOpacity onPress={toggleInfo}>
+        <TouchableOpacity onPress={()=>{navigation.navigate('PostProfile', {idUser: authorId})}}>
             <Image style={styles.image} source={{uri:contentImageUrl}}/>
         </TouchableOpacity>
         {isInfoOpen && 
