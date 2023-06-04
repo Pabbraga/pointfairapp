@@ -93,6 +93,7 @@ export default function PublishCreate() {
 const styles = StyleSheet.create({
     publishSection: {
         marginTop: 15,
+        marginBottom: 10
     },
     publishForm: {
         flex: 1,
@@ -117,7 +118,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 5,
+        paddingLeft: 10,
+        paddingRight: 25,
         backgroundColor: '#985277',
         flexWrap: 'nowrap'
     },
