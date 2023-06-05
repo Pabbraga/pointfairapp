@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import styles from './style';
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
-import LoadingScreen from '../../components/LoadingScreen';
-import SectionSeller from '../../components/SectionSeller';
 
 function PostProfile({ navigation, route }) {
   const { idUser } = route.params;
@@ -15,8 +13,6 @@ function PostProfile({ navigation, route }) {
   const { user, signOut } = useAuth();
   const [userData, setUserData] = useState(null);
   const [userPhoto, setUserPhoto] = useState(null);
-  const [isMenuOpen, setMenuOpen] = React.useState(false);
-  const [personalProfile, setPersonalProfile] = React.useState(false);
 
   useEffect(() => {
     loadUser();
@@ -24,12 +20,8 @@ function PostProfile({ navigation, route }) {
 
   async function loadUser() {
     if (idUser === user._id) {
-      setPersonalProfile(true);
-    }
-    if (idUser === null) {
       setUserData(user);
       setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
-      setPersonalProfile(true);
       setLoading(false);
       return;
     }
@@ -40,10 +32,6 @@ function PostProfile({ navigation, route }) {
     setLoading(false);
   }
 
-  if (loading) {
-    return <LoadingScreen />;
-  }
-
   const handleSignOut = () => {
     signOut();
     navigation.navigate('Login');
@@ -51,10 +39,6 @@ function PostProfile({ navigation, route }) {
 
   const openAppWebsite = () => {
     Linking.openURL('https://pointfair.netlify.app/');
-  };
-
-  const toggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
   };
 
   return (
