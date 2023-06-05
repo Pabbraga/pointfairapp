@@ -52,15 +52,19 @@ export default function PublishCreate() {
                 inStock: true,
                 owner: user._id,
             };
-            try {
-                const publication = await api.post('/publication', data).catch((err)=>{
-                    Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
-                    return;
-                });
-                console.log(publication?.data);
-            
+
+            const publication = await api.post('/publication', data)
+            .then(()=>{
+                return true;
+            })
+            .catch((err)=>{
+                Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
+                console.log(err);
+                return false;
+            });
+        
+            if(publication) {
                 Alert.alert("Publicado.");
-            } catch (err) {
             }
             
         } catch (err) {
@@ -83,7 +87,9 @@ export default function PublishCreate() {
                     </TouchableOpacity>
                 </View>}
                 <PickImage handleGetImage={handleGetImage}/>
-                <TouchableOpacity onPress={handlePublication}><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
+                <TouchableOpacity onPress={handlePublication}>
+                    <Entypo name='paper-plane' color={'black'} size={28}/>
+                </TouchableOpacity>
             </View>
             
         </View>        

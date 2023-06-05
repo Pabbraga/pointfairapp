@@ -7,9 +7,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: '#CE6A85'
     },
-    list: {
-        paddingHorizontal: 15
-    },
     header: {
         width: '100%',
         backgroundColor: '#CE6A85',
@@ -24,10 +21,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 700
     },
-    main: {
-        flex: 1,
-        paddingTop: 10
-    },
     userPhoto: {
         width: 60,
         height: 60,
@@ -36,6 +29,9 @@ const styles = StyleSheet.create({
         marginRight: 10,
         borderWidth: 3,
         borderColor: '#5C374C',
+    },
+    list: {
+        paddingHorizontal: 15
     },
 })
 

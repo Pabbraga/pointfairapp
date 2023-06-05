@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#CE6A85'
     },
-    perfil: {
+    profile: {
         marginTop: 50,
         alignItems: 'center',
         zIndex: -1
@@ -19,51 +19,16 @@ const styles = StyleSheet.create({
         borderWidth: 3,
         borderColor: '#5C374C',
     }, 
-    h1: {
-        fontSize: 20,
+    nickname: {
+        fontSize: 24,
         color: '#FFF',
         marginBottom: 15
     }, 
-    button: {
-        backgroundColor: "#FFC15E",
-        borderRadius: 10,
-        padding: 10,
-    }, 
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: '500',
-    },
-    icons: {
-        marginTop: 35,
-        flexDirection: "row",
-    }, 
-    product:{
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginTop: 30
-    },
-    productphoto: {
-        width: 140,
-        height: 140,
-        borderRadius: 10,
-        margin: 10
-    },
-    article:{
-        backgroundColor: '#FAA275',
-        marginTop: 35,
-        paddingHorizontal: 50,
-        paddingVertical: 10  
-    },
-    menuContainer: {
-        position: 'absolute',
-        top: 25,
-        right: 20,
-    },
     menu: {
+        width: 150,
         position: 'absolute',
         top: 60,
-        right: 40,
+        right: 20,
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         paddingVertical: 8,

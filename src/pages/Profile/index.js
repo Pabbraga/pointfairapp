@@ -83,9 +83,9 @@ function Profile({ navigation, route }) {
           </TouchableOpacity>
         </View>
       }
-      <View style={styles.perfil}>
+      <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
-        <Text style={styles.h1}>{userData?.nickname}</Text>
+        <Text style={styles.nickname}>{userData?.nickname}</Text>
       </View>        
       {userData.isSeller && <SectionSeller userData={userData}/> || userData.debugMode && <SectionSeller userData={userData}/>}
     </SafeAreaView>
