@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import { useForm, Controller } from 'react-hook-form';
@@ -25,19 +25,19 @@ export default function Register({navigation}) {
     }
 
     const schema = yup.object({
-        firstName: step == 1 && yup.string().required("Informe o seu nome."),
-        surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
-        email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
-        phone: step == 3 && yup.string(),
-        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ"),
-        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
-        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
-        city: step == 3 && yup.string().required("Digite o seu nome da sua cidade."),
-        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro."),
-        fair: step == 3 && yup.string(),
-        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário."),
-        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
-        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
+        firstName: step == 1 && yup.string().required("Informe o seu nome.").trim(),
+        surName: step == 1 && yup.string().required("Informe o seu sobrenome.").trim(),
+        email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail.").trim(),
+        phone: step == 1 && yup.string().nullable().trim(),
+        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ").trim(),
+        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia.").trim(),
+        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento.").trim(),
+        city: step == 3 && yup.string().required("Digite o seu nome da sua cidade.").trim(),
+        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro.").trim(),
+        fair: step == 3 && yup.string().nullable().trim(),
+        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário.").trim(),
+        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha.").trim(),
+        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.").trim(),
     });
 
     const { control, handleSubmit, formState: { errors }} = useForm({
@@ -71,22 +71,29 @@ export default function Register({navigation}) {
             });
             setResponseImage(res);    
         }
-        
+        console.log(data);
         const fullName = data.firstName.trim()+' '+data.surName.trim();
+        const location = {
+            city : data.city,
+            district : data.district
+        }; 
         data.fullName = fullName;
         data.isSeller = isSeller;
         data.photoUrl = responseImage?responseImage.data.imageUrl:"11gws99uAMTomOdVFwcn5fm5cZgP37Ol8";
-        data.location = {
-            city : data.city,
-            district : data.district
-        }
+        data.location = location 
         try {
-            api.post("/user", data);
+            api.post("/user", data)
+                .then((res)=>{
+                    Alert.alert(res.data.msg);
+                }).catch((err, res) => {
+                    Alert.alert(res.data.msg);
+                    console.log(err);
+                });
         } catch (err) {
             console.log(err);
         }
         navigation.navigate('Login');
-        Alert.alert("Cadastro efetuado com sucesso!");
+        // Alert.alert("Cadastro efetuado com sucesso!");
     }
 
     const handleSellerClick = () => {

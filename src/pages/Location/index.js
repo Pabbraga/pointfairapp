@@ -23,6 +23,7 @@ export default function Location({ navigation, route }) {
         const users = res.data.filter(user => (user.location.city == locationParam));
         setResults(users);
         setLoading(false);
+        setRefreshing(false);
     }
     if(loading) {
         return(
@@ -40,7 +41,7 @@ export default function Location({ navigation, route }) {
 
     handleRefresh = () => {
         setRefreshing(true);
-        loadPublications();
+        loadResults();
     }
 
     return(
