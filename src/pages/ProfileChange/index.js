@@ -8,7 +8,7 @@ import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
 export default function ProfileChange({navigation}) {
-    const { user, signIn } = useAuth();
+    const { user, signIn, signed } = useAuth();
     const [imageData, setImageData] = useState(null);
     const [responseImage, setResponseImage] = useState(null);
     const [nickname, setNickname] = useState(user.nickname);
@@ -38,9 +38,10 @@ export default function ProfileChange({navigation}) {
         }
         const data = {
             nickname: nickname,
-            photoUrl: responseImage?responseImage.data.imageUrl:user.photoUrl
+            photoUrl: responseImage?responseImage.data.imageUrl:user.photoUrl,
+            description: ''
         }
-        api.put(`/user/${user._id}`, data)
+        api.put(`/user/profile/${user._id}`, data)
             .then((res)=>{
                 Alert.alert(res.data.msg)
             })
@@ -53,7 +54,7 @@ export default function ProfileChange({navigation}) {
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <TouchableOpacity onPress={() => navigation.goBack()} style={{position: 'absolute', top: 30, left: 20}}>
-                <Entypo name='arrow-with-circle-left' color={'black'} size={46}/>
+                <Entypo name='arrow-bold-left' color={'black'} size={46}/>
             </TouchableOpacity>
             <Text style={styles.title}>Editar perfil</Text>
             <View style={styles.form}>
@@ -61,10 +62,10 @@ export default function ProfileChange({navigation}) {
                 <TextInput style={styles.textInput} value={nickname} onChangeText={(value)=> {setNickname(value)}}/>
                 <TouchableOpacity 
                 style={styles.button} 
-                onPress={() => {
-                    handleUpdate();
-                    signIn(user.email, user.password);
-                    }}>
+                onPress={async () => {
+                    await handleUpdate();
+                    signIn(user.email, signed);
+                }}>
                     <Text style={styles.buttonText}>Concluído</Text>
                 </TouchableOpacity>                
             </View>
