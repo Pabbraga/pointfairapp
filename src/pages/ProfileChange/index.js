@@ -34,11 +34,11 @@ export default function ProfileChange({navigation}) {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            setResponseImage(res);    
+            setResponseImage(res.data.imageUrl);
         }
         const data = {
             nickname: nickname,
-            photoUrl: responseImage?responseImage.data.imageUrl:user?.photoUrl,
+            photoUrl: imageData?responseImage:user?.photoUrl,
             description: ''
         }
         api.put(`/user/profile/${user._id}`, data)
@@ -55,7 +55,7 @@ export default function ProfileChange({navigation}) {
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <TouchableOpacity onPress={() => navigation.goBack()} style={{position: 'absolute', top: 30, left: 20}}>
-                <Entypo name='arrow-bold-left' color={'black'} size={46}/>
+                <Entypo name='arrow-bold-left' color={'#5C374C'} size={46}/>
             </TouchableOpacity>
             <Text style={styles.title}>Editar perfil</Text>
             <View style={styles.form}>

@@ -24,6 +24,18 @@ const styles = StyleSheet.create({
         color: '#FFF',
         marginBottom: 15
     }, 
+    description: {
+        height: 60,
+        width: 150,
+        padding: 5,
+        marginBottom: 10,
+        backgroundColor: '#FAA275'
+    },
+    text: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: '#fff'
+    },
     menu: {
         width: 150,
         position: 'absolute',

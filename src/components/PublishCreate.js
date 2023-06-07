@@ -84,10 +84,9 @@ export default function PublishCreate() {
                 </View>}
                 <PickImage handleGetImage={handleGetImage}/>
                 <TouchableOpacity onPress={handlePublication}>
-                    <Entypo name='paper-plane' color={'black'} size={28}/>
+                    <Entypo name='paper-plane' color={'#5C374C'} size={28}/>
                 </TouchableOpacity>
             </View>
-            
         </View>        
     )
 }

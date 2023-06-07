@@ -36,7 +36,7 @@ const pickImage = async() => {
 
 return (
     <TouchableOpacity onPress={()=> {pickImage()}}>
-        <Entypo name='image' color={'black'} size={28}/>
+        <Entypo name='image' color={'#5C374C'} size={28}/>
     </TouchableOpacity>
 );
 }

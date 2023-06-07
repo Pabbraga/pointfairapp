@@ -49,7 +49,7 @@ export default function Location({ navigation, route }) {
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>
-                    <Entypo name='arrow-bold-left' color={'black'} size={46}/>
+                    <Entypo name='arrow-bold-left' color={'#5C374C'} size={46}/>
                 </TouchableOpacity>
                 <Text style={styles.logoMark}>{locationParam}</Text>
             </View>

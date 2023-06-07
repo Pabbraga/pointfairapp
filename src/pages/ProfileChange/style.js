@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#CE6A85'
     },
     title: {
-        marginTop: 30,
+        marginTop: 35,
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#5C374C'
     },
     form: {
         marginTop: 50,

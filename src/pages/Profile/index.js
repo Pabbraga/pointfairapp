@@ -63,10 +63,10 @@ function Profile({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="#CE6A85" translucent={false} />
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
-        <Entypo name="arrow-bold-left" color="black" size={46} />
+        <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
       </TouchableOpacity>
       {personalProfile && <TouchableOpacity onPress={toggleMenu} style={{ position: 'absolute', top: 25, right: 20 }}>
-          <Entypo name="menu" color="black" size={40} />
+          <Entypo name="menu" color="#5C374C" size={40} />
       </TouchableOpacity>}
       {isMenuOpen &&
         <View style={styles.menu}>
@@ -86,6 +86,9 @@ function Profile({ navigation, route }) {
       <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.nickname}>{userData?.nickname}</Text>
+        <View style={styles.description}>
+          <Text style={styles.text}>Testeee</Text>
+        </View>
       </View>        
       {userData.isSeller && <SectionSeller userData={userData}/> || userData.debugMode && <SectionSeller userData={userData}/>}
     </SafeAreaView>
