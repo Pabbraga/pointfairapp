@@ -27,13 +27,14 @@ export const AuthProvider = ({ children }) => {
         loadStoragedData();
     }, [])
 
-    async function signIn(email, password) {
+    async function signIn(email, password, signed) {
         setError(null);
+        const response = await auth.signIn(email, password, signed);
         setLoading(true);
-        const response = await auth.signIn(email, password);
         if(!response.user) {
             setLoading(false);
             setError(response);
+            console.log(response);
             return;
         }
         setUser(response.user);
@@ -48,6 +49,11 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    async function reloadUser(email, password, signed) {
+        signOut();
+        await signIn(email, password, signed);
+    }
+
     if(loading) {
         return(
             <LoadingScreen/>
@@ -55,7 +61,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return(
-        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut, error}}>
+        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut, reloadUser, error}}>
             {children}
         </AuthContext.Provider>
     )

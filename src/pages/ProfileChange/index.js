@@ -8,10 +8,10 @@ import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
 export default function ProfileChange({navigation}) {
-    const { user, signIn, signed } = useAuth();
+    const { user, reloadUser, signed } = useAuth();
     const [imageData, setImageData] = useState(null);
     const [responseImage, setResponseImage] = useState(null);
-    const [nickname, setNickname] = useState(user.nickname);
+    const [nickname, setNickname] = useState(user?.nickname);
 
     function handleGetImage(image) {
         setImageData(image);
@@ -38,11 +38,12 @@ export default function ProfileChange({navigation}) {
         }
         const data = {
             nickname: nickname,
-            photoUrl: responseImage?responseImage.data.imageUrl:user.photoUrl,
+            photoUrl: responseImage?responseImage.data.imageUrl:user?.photoUrl,
             description: ''
         }
         api.put(`/user/profile/${user._id}`, data)
             .then((res)=>{
+                reloadUser(user.email, null, signed);
                 Alert.alert(res.data.msg)
             })
             .catch((err)=>{
@@ -62,10 +63,7 @@ export default function ProfileChange({navigation}) {
                 <TextInput style={styles.textInput} value={nickname} onChangeText={(value)=> {setNickname(value)}}/>
                 <TouchableOpacity 
                 style={styles.button} 
-                onPress={async () => {
-                    await handleUpdate();
-                    signIn(user.email, signed);
-                }}>
+                onPress={handleUpdate}>
                     <Text style={styles.buttonText}>Concluído</Text>
                 </TouchableOpacity>                
             </View>

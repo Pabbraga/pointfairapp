@@ -10,7 +10,7 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
 
-    const { signIn, error } = useAuth();
+    const { signIn, signed, error } = useAuth();
 
     const handleLogin = () => {
         if(!email && !password) {
@@ -25,7 +25,10 @@ export default function Login({navigation}) {
             setErrors({password:"Preencha o campo de senha."});
             return;
         }
-        signIn(email.trim(), password.trim());
+        signIn(email.trim(), password.trim(), signed).catch((err)=>{
+            setErrors({err})
+            return;
+        });
         setErrors(null);
     };
 
