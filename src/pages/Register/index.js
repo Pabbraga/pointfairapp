@@ -45,7 +45,7 @@ export default function Register({navigation}) {
             cnpj: "",
             fantasyName: "",
             segment: "",
-            phone: ""
+            phone: "",
         },
         resolver: yupResolver(schema),
         reValidateMode: "onSubmit",
@@ -80,7 +80,9 @@ export default function Register({navigation}) {
         data.fullName = fullName;
         data.isSeller = isSeller;
         data.photoUrl = responseImage?responseImage.data.imageUrl:"11gws99uAMTomOdVFwcn5fm5cZgP37Ol8";
-        data.location = location 
+        data.location = location;
+        data.fair = "647e30a66bb76b696d7264a3";
+        
         try {
             api.post("/user", data)
                 .then((res)=>{
@@ -118,8 +120,9 @@ export default function Register({navigation}) {
                         <TextInput 
                             style={styles.input} 
                             onChangeText={onChange}
-                            value={value}
+                            value={props.value?props.value:value}
                             secureTextEntry={props.isPassword}
+                            editable={props.enable}
                         />
                         {errors[props.name] && <Text style={styles.labelError}>{errors[props.name]?.message}</Text>}
                     </View>
@@ -231,6 +234,8 @@ export default function Register({navigation}) {
                 <Field
                     label="Qual feira você costuma frequentar?"
                     name="fair"
+                    value={"Feira Artesanal"}
+                    enable={false}
                 />}
                 <TouchableOpacity 
                     style={styles.button} 
