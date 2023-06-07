@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
@@ -86,9 +86,10 @@ function Profile({ navigation, route }) {
       <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.nickname}>{userData?.nickname}</Text>
+        {userData.description && 
         <View style={styles.description}>
-          <Text style={styles.text}>Testeee</Text>
-        </View>
+          <Text style={styles.text}>{userData.description}</Text>
+        </View>}
       </View>        
       {userData.isSeller && <SectionSeller userData={userData}/> || userData.debugMode && <SectionSeller userData={userData}/>}
     </SafeAreaView>

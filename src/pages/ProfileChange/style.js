@@ -41,6 +41,16 @@ const styles = StyleSheet.create({
         fontSize: 18,
         marginBottom: 20
     },
+    descriptionInput: {
+        width: 200,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 10,
+        textAlign: "left",
+        textAlignVertical: "top",
+        fontSize: 18,
+        height: 80,
+    },
     button: {
         width: 100, 
         marginTop: 20,

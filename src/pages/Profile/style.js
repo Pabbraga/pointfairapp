@@ -25,14 +25,16 @@ const styles = StyleSheet.create({
         marginBottom: 15
     }, 
     description: {
-        height: 60,
-        width: 150,
-        padding: 5,
+        height: 70,
+        width: 200,
+        padding: 4,
+        paddingHorizontal: 10,
         marginBottom: 10,
+        borderRadius: 5,
         backgroundColor: '#FAA275'
     },
     text: {
-        fontSize: 18,
+        fontSize: 17,
         fontWeight: '600',
         color: '#fff'
     },

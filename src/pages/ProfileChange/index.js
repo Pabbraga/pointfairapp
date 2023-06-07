@@ -12,6 +12,7 @@ export default function ProfileChange({navigation}) {
     const [imageData, setImageData] = useState(null);
     const [responseImage, setResponseImage] = useState(null);
     const [nickname, setNickname] = useState(user?.nickname);
+    const [description, setDescription] = useState(user?.description);
 
     function handleGetImage(image) {
         setImageData(image);
@@ -39,7 +40,7 @@ export default function ProfileChange({navigation}) {
         const data = {
             nickname: nickname,
             photoUrl: imageData?responseImage:user?.photoUrl,
-            description: ''
+            description: description
         }
         api.put(`/user/profile/${user._id}`, data)
             .then((res)=>{
@@ -61,6 +62,13 @@ export default function ProfileChange({navigation}) {
             <View style={styles.form}>
                 <PickPhoto handleGetImage={handleGetImage}/>
                 <TextInput style={styles.textInput} value={nickname} onChangeText={(value)=> {setNickname(value)}}/>
+                <TextInput 
+                    style={styles.descriptionInput}
+                    multiline
+                    numberOfLines={3}
+                    maxLength={45}
+                    value={description} 
+                    onChangeText={(value)=> {setDescription(value)}}/>
                 <TouchableOpacity 
                 style={styles.button} 
                 onPress={handleUpdate}>
