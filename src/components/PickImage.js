@@ -5,38 +5,38 @@ import { Entypo } from '@expo/vector-icons';
 
 
 export default function PickImage({handleGetImage}) {
-const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
+    const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
 
-useEffect(() => {
-    (async () => {
-        const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        setHasGalleryPermission(galleryStatus.status === 'granted');
-    })();
-}, []);
+    useEffect(() => {
+        (async () => {
+            const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+            setHasGalleryPermission(galleryStatus.status === 'granted');
+        })();
+    }, []);
 
-const pickImage = async() => {
-    if(hasGalleryPermission === false) {
-        Alert.alert('Permissão negada', 'Sem acesso ao armazenamento interno.')
-    }
+    const pickImage = async() => {
+        if(hasGalleryPermission === false) {
+            Alert.alert('Permissão negada', 'Sem acesso ao armazenamento interno.')
+        }
 
-    const {assets, canceled} = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [4,3],
-        base64: true,
-        quality: 0.3
-    });
+        const {assets, canceled} = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [4,3],
+            base64: true,
+            quality: 0.3
+        });
 
-    if(!canceled) {
-        handleGetImage(assets);
-    } else {
-        return;
-    }
-};
+        if(!canceled) {
+            handleGetImage(assets);
+        } else {
+            return;
+        }
+    };
 
-return (
-    <TouchableOpacity onPress={()=> {pickImage()}}>
-        <Entypo name='image' color={'#5C374C'} size={28}/>
-    </TouchableOpacity>
-);
+    return (
+        <TouchableOpacity onPress={()=> {pickImage()}}>
+            <Entypo name='image' color={'black'} size={28}/>
+        </TouchableOpacity>
+    );
 }

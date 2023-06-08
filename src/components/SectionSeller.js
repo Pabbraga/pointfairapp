@@ -6,13 +6,11 @@ import api from '../services/api';
 export default function SectionSeller(props) {
     const [activeIcon, setActiveIcon] = useState('box');
     const [publications, setPublications] = useState(null);
-    const [fair, setFair] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
     const userData = props.userData;
 
     useEffect(() => {
         loadPublications();
-        loadFair();
     }, [])
 
     function BoxView(props) {
@@ -29,11 +27,6 @@ export default function SectionSeller(props) {
         const userPublications = res.data.filter(publication => (publication.owner.email == userData.email));
         setPublications(userPublications);
         setRefreshing(false);
-    }
-
-    async function loadFair() {
-        const res = await api.get(`/fair/${userData.fair}`);
-        setFair(res.data);
     }
 
     handleRefresh = () => {
@@ -69,9 +62,9 @@ export default function SectionSeller(props) {
                 <View style={styles.section}>
                     <Text style={styles.articleH1}>Feira</Text>
                     <View style={styles.content}>
-                        <Text style={styles.articleP}>Feira: {fair.description}</Text>
-                        <Text style={styles.articleP}>Cidade: {fair.location.city}</Text>
-                        <Text style={styles.articleP}>Bairro: {fair.location.district}</Text>
+                        <Text style={styles.articleP}>Feira: {userData.fair.description}</Text>
+                        <Text style={styles.articleP}>Cidade: {userData.fair.location.city}</Text>
+                        <Text style={styles.articleP}>Bairro: {userData.fair.location.district}</Text>
                     </View>
                 </View>
             );

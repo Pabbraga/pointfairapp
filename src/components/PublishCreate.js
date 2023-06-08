@@ -54,8 +54,8 @@ export default function PublishCreate() {
             };
 
             api.post('/publication', data)
-                .then(()=>{
-                    Alert.alert(publication.data.msg);
+                .then((res)=>{
+                    Alert.alert(res.data.msg);
                 })
                 .catch((err)=>{
                     Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
@@ -84,7 +84,7 @@ export default function PublishCreate() {
                 </View>}
                 <PickImage handleGetImage={handleGetImage}/>
                 <TouchableOpacity onPress={handlePublication}>
-                    <Entypo name='paper-plane' color={'#5C374C'} size={28}/>
+                    <Entypo name='paper-plane' color={'black'} size={28}/>
                 </TouchableOpacity>
             </View>
         </View>        

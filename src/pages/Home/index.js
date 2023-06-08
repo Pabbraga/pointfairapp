@@ -65,7 +65,7 @@ export default function Home({navigation}) {
                 <TouchableOpacity onPress={loadPublications}>
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: user?._id})}}>
                     <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
                 </TouchableOpacity>
             </View>
