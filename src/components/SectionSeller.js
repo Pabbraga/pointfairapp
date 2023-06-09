@@ -2,12 +2,14 @@ import {useEffect, useState} from 'react';
 import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, FlatList } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import api from '../services/api';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function SectionSeller(props) {
     const [activeIcon, setActiveIcon] = useState('box');
     const [publications, setPublications] = useState(null);
     const [refreshing, setRefreshing] = useState(false);
     const userData = props.userData;
+    const navigation = useNavigation();
 
     useEffect(() => {
         loadPublications();
@@ -16,7 +18,7 @@ export default function SectionSeller(props) {
     function BoxView(props) {
         const image = `https://drive.google.com/uc?export=view&id=${props.item.imageUrl}`;
         return(
-            <TouchableOpacity style={styles.box}>
+            <TouchableOpacity style={styles.box} onPress={() => navigateToPublicationDetails(props.item)}>
                 <Image style={styles.image} source={{uri:image}}/>
             </TouchableOpacity>
         )
@@ -84,6 +86,10 @@ export default function SectionSeller(props) {
                 </View>
             );
         }
+    };
+
+    const navigateToPublicationDetails = (publication) => {
+        navigation.navigate('PublicationDetails', { publication });
     };
 
     return(

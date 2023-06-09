@@ -9,6 +9,7 @@ import Profile from '../src/pages/Profile';
 import ProfileChange from '../src/pages/ProfileChange';
 import Location from '../src/pages/Location';
 import PostProfile from '../src/pages/PostProfile';
+import PublicationDetails from '../src/components/PublicationDetails';
 
 import { useAuth } from '../src/context/auth';
 
@@ -28,6 +29,7 @@ export default function Root() {
             <Stack.Screen name="ProfileChange" component={ProfileChange} options={{headerShown: false}}/>
             <Stack.Screen name="Location" component={Location} options={{headerShown: false}}/>
             <Stack.Screen name="PostProfile" component={PostProfile} options={{headerShown: false}}/>
+            <Stack.Screen name="PublicationDetails" component={PublicationDetails} options={{headerShown: false}}/>
         </Stack.Navigator>
     )
 }

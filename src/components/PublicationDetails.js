@@ -1,55 +1,46 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-//import PublicationDetails from './PublicationDetails';
 
-export default function Publish({ item }) {
-  const navigation = useNavigation();
-  const [isInfoOpen, setIsInfoOpen] = useState(true);
-
-  const toggleInfo = () => {
-    setIsInfoOpen(!isInfoOpen);
-  };
-
-  const showPublicationDetails = () => {
-    navigation.navigate('PublicationDetails', { publication: item });
-  };
-
-  const publication = item;
-  const authorId = publication.owner._id;
+const PublicationDetails = ({ navigation, route }) => {
+  const { publication } = route.params;
   const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${publication.owner.photoUrl}`;
   const contentImageUrl = `https://drive.google.com/uc?export=view&id=${publication.imageUrl}`;
 
   return (
     <View style={styles.container}>
-      <View style={styles.userField}>
-        <TouchableOpacity onPress={() => { navigation.navigate('Profile', { idUser: authorId }) }}>
-          <Image style={styles.userPhoto} source={{ uri: contentPhotoUrl }} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('Profile', { idUser: authorId }) }}>
-          <Text style={styles.userName}>{publication.owner.nickname}</Text>
-        </TouchableOpacity>
-      </View>
-      <TouchableOpacity onPress={showPublicationDetails}>
-        <Image style={styles.image} source={{ uri: contentImageUrl }} />
+      <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
+        <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
       </TouchableOpacity>
-      {isInfoOpen &&
+      <View style={styles.main}>
+        <View style={styles.userField}>
+          <Image style={styles.userPhoto} source={{ uri: contentPhotoUrl }} />
+          <Text style={styles.userName}>{publication.owner.nickname}</Text>
+        </View>
+        <Image style={styles.image} source={{ uri: contentImageUrl }} />
         <View style={styles.info}>
           <Text>{publication.description}</Text>
           <Text style={styles.location}>{publication.location}</Text>
-        </View>}
+        </View>
+      </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 14,
+    flex: 1,
+    backgroundColor: '#CE6A85',
+    padding: 20,
+  },
+  main:{
+    flex: 1,
+    justifyContent: 'center'
   },
   userField: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   userPhoto: {
     width: 45,
@@ -62,22 +53,24 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 15,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   image: {
-    width: 320,
-    height: 180,
+    width: '100%',
+    height: 300,
     borderRadius: 5,
+    //marginBottom: 10,
   },
   info: {
     backgroundColor: '#FAA275',
-    width: 320,
-    height: 60,
-    padding: 10
+    padding: 10,
+    //marginTop: 10,
   },
   location: {
     fontSize: 15,
     color: '#FFC15E',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
 });
+
+export default PublicationDetails;
