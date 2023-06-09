@@ -1,25 +1,30 @@
 import React from 'react';
 import { Entypo } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 const PublicationDetails = ({ navigation, route }) => {
   const { publication } = route.params;
   const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${publication.owner.photoUrl}`;
   const contentImageUrl = `https://drive.google.com/uc?export=view&id=${publication.imageUrl}`;
+  const formattedDate = moment(publication.createdAt).format('DD [de] MMM [às] HH:mm');
 
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
         <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
       </TouchableOpacity>
-      <View style={styles.main}>
+      <View style={styles.main}> 
         <View style={styles.userField}>
           <Image style={styles.userPhoto} source={{ uri: contentPhotoUrl }} />
           <Text style={styles.userName}>{publication.owner.nickname}</Text>
-        </View>
+        </View> 
         <Image style={styles.image} source={{ uri: contentImageUrl }} />
         <View style={styles.info}>
           <Text>{publication.description}</Text>
+          <Text>{formattedDate}</Text>
+          {/*<Text>{publication.createdAt}</Text>*/}
           <Text style={styles.location}>{publication.location}</Text>
         </View>
       </View>
