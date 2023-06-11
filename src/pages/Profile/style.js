@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
         color: '#fff'
     },
     menu: {
-        width: 150,
+        width: 160,
         position: 'absolute',
         top: 60,
         right: 20,

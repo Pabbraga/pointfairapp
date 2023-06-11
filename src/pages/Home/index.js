@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
+import { 
+    View, 
+    Image, 
+    SafeAreaView, 
+    TouchableOpacity,
+    Text, 
+    FlatList, 
+    ActivityIndicator 
+} from 'react-native';
 
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
@@ -75,13 +83,22 @@ export default function Home({navigation}) {
                 keyExtractor={(item) => item._id}
                 style={styles.list}
                 ListHeaderComponent={renderHeader}
-                onEndReached={()=>loadPublications}
-                onEndReachedThreshold={0.5}
+                onEndReached={loadPublications}
+                onEndReachedThreshold={0.1}
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
-                maxToRenderPerBatch={10}
                 showsVerticalScrollIndicator={false}
+                ListFooterComponent={ <FooterList load={loading}/> }
             />
         </SafeAreaView>
     );
+}
+
+function FooterList({ load }) {
+    if(!load) return;
+    return(
+        <View style={{padding: 10}}>
+            <ActivityIndicator size={25} color={'#ccc'}/>
+        </View>
+    )
 }

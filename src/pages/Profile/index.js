@@ -26,13 +26,6 @@ function Profile({ navigation, route }) {
     if(idUser == user._id) {
       setPersonalProfile(true);
     }
-    if(idUser === null) {
-      setUserData(user);
-      setUserPhoto(`https://drive.google.com/uc?export=view&id=${user?.photoUrl}`);
-      setPersonalProfile(true);
-      setLoading(false);
-      return;
-    }
 
     const res = await api.get(`/user/${idUser}`);
     setUserData(res.data);
@@ -71,7 +64,7 @@ function Profile({ navigation, route }) {
       {isMenuOpen &&
         <View style={styles.menu}>
           <TouchableOpacity style={styles.menuItem} onPress={openAppWebsite}>
-            <Text style={styles.menuItemText}>Site do App</Text>
+            <Text style={styles.menuItemText}>Mais informações</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ProfileChange')}>

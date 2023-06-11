@@ -65,8 +65,8 @@ export default function SectionSeller(props) {
                     <Text style={styles.articleH1}>Feira</Text>
                     <View style={styles.content}>
                         <Text style={styles.articleP}>Feira: {userData.fair.description}</Text>
-                        <Text style={styles.articleP}>Cidade: {userData.fair.location.city}</Text>
-                        <Text style={styles.articleP}>Bairro: {userData.fair.location.district}</Text>
+                        <Text style={styles.articleP}>Cidade: {userData.fair.city}</Text>
+                        <Text style={styles.articleP}>Bairro: {userData.fair.district}</Text>
                     </View>
                 </View>
             );
