@@ -1,15 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//import PublicationDetails from './PublicationDetails';
+import { useAuth } from '../context/auth';
+import api from '../services/api';
 
 export default function Publish({ item }) {
   const navigation = useNavigation();
-  const [isInfoOpen, setIsInfoOpen] = useState(true);
+  const [isFollowing, setIsFollowing] = React.useState(false);
+  const { user } = useAuth();
 
-  const toggleInfo = () => {
-    setIsInfoOpen(!isInfoOpen);
-  };
+  React.useEffect(() => {
+    for(let i = 0; i < user?.following.length;i++) {
+      if(user?.following[i] == authorId) {
+        setIsFollowing(true);
+      }
+    }
+  }, [])
 
   const showPublicationDetails = () => {
     navigation.navigate('PublicationDetails', { publication: item });
@@ -20,6 +26,16 @@ export default function Publish({ item }) {
   const contentPhotoUrl = `https://drive.google.com/uc?export=view&id=${publication.owner.photoUrl}`;
   const contentImageUrl = `https://drive.google.com/uc?export=view&id=${publication.imageUrl}`;
 
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
+    if(!isFollowing) {
+        api.put(`/following/follow/${user._id}/${authorId}`);
+    }
+    if(isFollowing) {
+        api.put(`/following/unfollow/${user._id}/${authorId}`);
+    }
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.userField}>
@@ -29,15 +45,16 @@ export default function Publish({ item }) {
         <TouchableOpacity onPress={() => { navigation.navigate('Profile', { idUser: authorId }) }}>
           <Text style={styles.userName}>{publication.owner.nickname}</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
+            <Text style={styles.text}>{isFollowing?'Deixar de seguir':'Seguir'}</Text>
+        </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={showPublicationDetails}>
         <Image style={styles.image} source={{ uri: contentImageUrl }} />
       </TouchableOpacity>
-      {isInfoOpen &&
         <View style={styles.info}>
           <Text>{publication.description}</Text>
-          <Text style={styles.location}>{publication.location}</Text>
-        </View>}
+        </View>
     </View>
   );
 }
@@ -68,6 +85,16 @@ const styles = StyleSheet.create({
     width: 320,
     height: 180,
     borderRadius: 5,
+  },
+  followButton: {
+    marginLeft: 20,
+    padding: 10,
+    borderRadius: 15,
+    backgroundColor: '#5C374C'
+  },
+  text: {
+    fontWeight: 600,
+    color: '#fff'
   },
   info: {
     backgroundColor: '#FAA275',

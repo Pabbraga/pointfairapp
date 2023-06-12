@@ -29,8 +29,8 @@ export const AuthProvider = ({ children }) => {
 
     async function signIn(email, password, signed) {
         setError(null);
-        const response = await auth.signIn(email, password, signed);
         setLoading(true);
+        const response = await auth.signIn(email, password, signed);
         if(!response.user) {
             setLoading(false);
             setError(response);
