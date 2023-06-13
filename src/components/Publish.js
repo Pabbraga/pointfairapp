@@ -7,6 +7,7 @@ import api from '../services/api';
 export default function Publish({ item }) {
   const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = React.useState(false);
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const { user } = useAuth();
 
   React.useEffect(() => {
@@ -60,6 +61,10 @@ export default function Publish({ item }) {
     }
   };
 
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.userField}>
@@ -69,13 +74,20 @@ export default function Publish({ item }) {
         <TouchableOpacity onPress={() => navigation.navigate('Profile', { idUser: authorId })}>
           <Text style={styles.userName}>{publication.owner.nickname}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
-          <Text style={styles.text}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
-          <Text style={styles.reportButtonText}>Denunciar</Text>
+        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+          <Text style={styles.menuButtonText}>▼</Text>
         </TouchableOpacity>
       </View>
+      {isMenuVisible && (
+        <View style={styles.menuOptions}>
+          <TouchableOpacity style={styles.menuOption} onPress={handleFollow}>
+            <Text style={styles.menuOptionText}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuOption} onPress={handleReport}>
+            <Text style={styles.menuOptionText}>Denunciar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <TouchableOpacity onPress={showPublicationDetails}>
         <Image style={styles.image} source={{ uri: contentImageUrl }} />
       </TouchableOpacity>
@@ -113,35 +125,31 @@ const styles = StyleSheet.create({
     height: 180,
     borderRadius: 5,
   },
-  followButton: {
-    marginLeft: 20,
+  menuButton: {
+    marginLeft: 'auto',
     padding: 10,
-    borderRadius: 15,
-    backgroundColor: '#5C374C',
   },
-  text: {
-    fontWeight: 'bold',
-    color: '#fff',
+  menuButtonText: {
+    fontSize: 24, // Altere o tamanho da seta aqui
+    color: '#5C374C',
   },
-  reportButton: {
-    marginLeft: 10,
+  menuOptions: {
+    backgroundColor: '#FFFFFF',
     padding: 10,
-    borderRadius: 15,
-    backgroundColor: '#FF0000',
+    borderRadius: 5,
+    marginTop: 5,
   },
-  reportButtonText: {
-    fontWeight: 'bold',
-    color: '#FFFFFF',
+  menuOption: {
+    paddingVertical: 5,
+  },
+  menuOptionText: {
+    fontSize: 16,
+    color: '#5C374C',
   },
   info: {
     backgroundColor: '#FAA275',
     width: 320,
     height: 60,
     padding: 10,
-  },
-  location: {
-    fontSize: 15,
-    color: '#FFC15E',
-    fontWeight: 'bold',
   },
 });
