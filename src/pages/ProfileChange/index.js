@@ -39,12 +39,11 @@ export default function ProfileChange({navigation}) {
         }
         const data = {
             nickname: nickname,
-            photoUrl: imageData?responseImage:user?.photoUrl,
+            photoUrl: responseImage?responseImage:user?.photoUrl,
             description: description
         }
         api.put(`/user/profile/${user._id}`, data)
             .then((res)=>{
-                reloadUser(user.email, null, signed);
                 Alert.alert(res.data.msg)
             })
             .catch((err)=>{
@@ -71,7 +70,10 @@ export default function ProfileChange({navigation}) {
                     onChangeText={(value)=> {setDescription(value)}}/>
                 <TouchableOpacity 
                 style={styles.button} 
-                onPress={handleUpdate}>
+                onPress={() => {
+                    navigation.goBack()
+                    handleUpdate()
+                }}>
                     <Text style={styles.buttonText}>Concluído</Text>
                 </TouchableOpacity>                
             </View>

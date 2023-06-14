@@ -40,9 +40,24 @@ export default function Home({navigation}) {
         )
     }
 
+    function sortByFollowing (a, b) {
+        let isFollowingA = user.following.includes(a.owner._id)
+        let isFollowingB = user.following.includes(b.owner._id)
+        
+        if(isFollowingA && !isFollowingB) {
+            return -1;
+        } else if(!isFollowingA && isFollowingB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     async function loadPublications() {
         const res = await api.get('/publication');
-        setData(res.data);
+        const publications = res.data.sort(sortByFollowing)
+        console.log(user.following);
+        setData(publications);
         setRefreshing(false);
     }
 

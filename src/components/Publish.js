@@ -10,10 +10,10 @@ export default function Publish({ item }) {
   const { user } = useAuth();
 
   React.useEffect(() => {
-    for(let i = 0; i < user?.following.length;i++) {
-      if(user?.following[i] == authorId) {
-        setIsFollowing(true);
-      }
+    if(!user.following.includes(authorId)) {
+      setIsFollowing(false);
+    } else if(user.following.includes(authorId)){
+      setIsFollowing(true);
     }
   }, [])
 
@@ -29,10 +29,23 @@ export default function Publish({ item }) {
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
     if(!isFollowing) {
-        api.put(`/following/follow/${user._id}/${authorId}`);
+      if(user.following.includes(authorId)) {
+        return;
+      }
+      api.put(`/following/follow/${user._id}/${authorId}`);
+      user.following.push(authorId);
     }
     if(isFollowing) {
-        api.put(`/following/unfollow/${user._id}/${authorId}`);
+      if(!user.following.includes(authorId)) {
+        return;
+      }
+      api.put(`/following/unfollow/${user._id}/${authorId}`);
+      for (let i = 0; i < user.following.length; i++) {
+        if(user.following[i] == authorId) {
+          user.following.splice(i, 1);
+          i--;
+        }
+      }
     }
   }
 
