@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/auth';
-import api from '../services/api';
 
 export default function Publish({ item }) {
   const navigation = useNavigation();
   const [isFollowing, setIsFollowing] = React.useState(false);
+  const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const { user } = useAuth();
 
   React.useEffect(() => {
@@ -29,11 +29,11 @@ export default function Publish({ item }) {
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
     if(!isFollowing) {
-      if(user.following.includes(authorId)) {
-        return;
-      }
-      api.put(`/following/follow/${user._id}/${authorId}`);
-      user.following.push(authorId);
+        if(user.following.includes(authorId)) {
+          return;
+        }
+        api.put(`/following/follow/${user._id}/${authorId}`);
+        user.following.push(authorId);
     }
     if(isFollowing) {
       if(!user.following.includes(authorId)) {
@@ -41,33 +41,77 @@ export default function Publish({ item }) {
       }
       api.put(`/following/unfollow/${user._id}/${authorId}`);
       for (let i = 0; i < user.following.length; i++) {
-        if(user.following[i] == authorId) {
-          user.following.splice(i, 1);
-          i--;
+        if (user.following[i] == authorId) {
+            user.following.splice(i, 1);
+            i--;
         }
       }
     }
   }
+  const handleReport = () => {
+    Alert.alert(
+      'Denunciar Publicação',
+      'Você deseja denunciar esta publicação?',
+      [
+        { text: 'Cancelar', style: 'cancel' },
+        { text: 'Denunciar', onPress: sendReport, style: 'destructive' },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const sendReport = () => {
+    const emailSubject = 'Denúncia de Publicação';
+    const emailBody = `Usuário: ${publication.owner.nickname}\nPublicação: ${publication.description}`;
+
+    // Substitua o endereço de e-mail abaixo pelo seu endereço de e-mail de destino
+    const toEmail = 'pointfair.enterprise@gmail.com';
+
+    Linking.openURL(`mailto:${toEmail}?subject=${emailSubject}&body=${emailBody}`)
+      .then(() => {
+        Alert.alert('Denúncia enviada', 'Obrigado por relatar essa publicação.');
+      })
+      .catch((error) => {
+        Alert.alert(
+          'Erro ao enviar denúncia',
+          'Ocorreu um erro ao enviar sua denúncia. Por favor, tente novamente mais tarde.'
+        );
+      });
+  };
+
+  const toggleMenu = () => {
+    setIsMenuVisible(!isMenuVisible);
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.userField}>
-        <TouchableOpacity onPress={() => { navigation.navigate('Profile', { idUser: authorId }) }}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { idUser: authorId })}>
           <Image style={styles.userPhoto} source={{ uri: contentPhotoUrl }} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => { navigation.navigate('Profile', { idUser: authorId }) }}>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile', { idUser: authorId })}>
           <Text style={styles.userName}>{publication.owner.nickname}</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
-            <Text style={styles.text}>{isFollowing?'Deixar de seguir':'Seguir'}</Text>
+        <TouchableOpacity style={styles.menuButton} onPress={toggleMenu}>
+          <Text style={styles.menuButtonText}>▼</Text>
         </TouchableOpacity>
       </View>
+      {isMenuVisible && (
+        <View style={[styles.menuOptions, { position: 'absolute', top: 32, right: 0, zIndex: 1 }]}>
+          <TouchableOpacity style={styles.menuOption} onPress={handleFollow}>
+            <Text style={styles.menuOptionText}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.menuOption} onPress={handleReport}>
+            <Text style={styles.menuOptionText}>Denunciar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
       <TouchableOpacity onPress={showPublicationDetails}>
         <Image style={styles.image} source={{ uri: contentImageUrl }} />
       </TouchableOpacity>
-        <View style={styles.info}>
-          <Text>{publication.description}</Text>
-        </View>
+      <View style={styles.info}>
+        <Text>{publication.description}</Text>
+      </View>
     </View>
   );
 }
@@ -79,7 +123,7 @@ const styles = StyleSheet.create({
   userField: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 10
+    marginBottom: 10,
   },
   userPhoto: {
     width: 45,
@@ -92,32 +136,37 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 15,
     color: 'white',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   image: {
     width: 320,
     height: 180,
     borderRadius: 5,
   },
-  followButton: {
-    marginLeft: 20,
+  menuButton: {
+    marginLeft: 'auto',
     padding: 10,
-    borderRadius: 15,
-    backgroundColor: '#5C374C'
   },
-  text: {
-    fontWeight: 600,
-    color: '#fff'
+  menuButtonText: {
+    fontSize: 24, // Altere o tamanho da seta aqui
+    color: '#5C374C',
+  },
+  menuOptions: {
+    backgroundColor: '#FFFFFF',
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
+    paddingVertical: 3,
+    width: 150,
+  },
+  menuOptionText: {
+    fontSize: 16,
+    color: '#5C374C',
   },
   info: {
     backgroundColor: '#FAA275',
     width: 320,
     height: 60,
-    padding: 10
-  },
-  location: {
-    fontSize: 15,
-    color: '#FFC15E',
-    fontWeight: 'bold'
+    padding: 10,
   },
 });
