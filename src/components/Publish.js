@@ -79,7 +79,7 @@ export default function Publish({ item }) {
         </TouchableOpacity>
       </View>
       {isMenuVisible && (
-        <View style={styles.menuOptions}>
+        <View style={[styles.menuOptions, { position: 'absolute', top: 32, right: 0, zIndex: 1 }]}>
           <TouchableOpacity style={styles.menuOption} onPress={handleFollow}>
             <Text style={styles.menuOptionText}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
           </TouchableOpacity>
@@ -138,9 +138,8 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
     marginTop: 5,
-  },
-  menuOption: {
-    paddingVertical: 5,
+    paddingVertical: 3,
+    width: 150,
   },
   menuOptionText: {
     fontSize: 16,
