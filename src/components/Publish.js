@@ -1,8 +1,7 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/auth';
-import api from '../services/api';
 
 export default function Publish({ item }) {
   const navigation = useNavigation();
@@ -29,12 +28,7 @@ export default function Publish({ item }) {
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
-    if (!isFollowing) {
-      api.put(`/following/follow/${user._id}/${authorId}`);
-    }
-    if (isFollowing) {
-      api.put(`/following/unfollow/${user._id}/${authorId}`);
-    }
+    // Adicione aqui a lógica para atualizar o estado de seguir/deseguir no backend
   };
 
   const handleReport = () => {
@@ -49,16 +43,23 @@ export default function Publish({ item }) {
     );
   };
 
-  const sendReport = async () => {
-    try {
-      await api.post(`/reports`, { publicationId: publication._id });
-      Alert.alert('Denúncia enviada', 'Obrigado por relatar essa publicação.');
-    } catch (error) {
-      Alert.alert(
-        'Erro ao enviar denúncia',
-        'Ocorreu um erro ao enviar sua denúncia. Por favor, tente novamente mais tarde.'
-      );
-    }
+  const sendReport = () => {
+    const emailSubject = 'Denúncia de Publicação';
+    const emailBody = `Usuário: ${publication.owner.nickname}\nPublicação: ${publication.description}`;
+
+    // Substitua o endereço de e-mail abaixo pelo seu endereço de e-mail de destino
+    const toEmail = 'pointfair.enterprise@gmail.com';
+
+    Linking.openURL(`mailto:${toEmail}?subject=${emailSubject}&body=${emailBody}`)
+      .then(() => {
+        Alert.alert('Denúncia enviada', 'Obrigado por relatar essa publicação.');
+      })
+      .catch((error) => {
+        Alert.alert(
+          'Erro ao enviar denúncia',
+          'Ocorreu um erro ao enviar sua denúncia. Por favor, tente novamente mais tarde.'
+        );
+      });
   };
 
   const toggleMenu = () => {
