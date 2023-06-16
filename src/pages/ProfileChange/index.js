@@ -10,9 +10,9 @@ import api from '../../services/api';
 export default function ProfileChange({navigation}) {
     const { user, reloadUser, signed } = useAuth();
     const [imageData, setImageData] = useState(null);
-    const [responseImage, setResponseImage] = useState(null);
     const [nickname, setNickname] = useState(user?.nickname);
     const [description, setDescription] = useState(user?.description);
+    let responseImage = null;
 
     function handleGetImage(image) {
         setImageData(image);
@@ -35,15 +35,18 @@ export default function ProfileChange({navigation}) {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            setResponseImage(res.data.imageUrl);
+            responseImage = res.data.imageUrl;
         }
+        const photoUrl = responseImage?responseImage:user.photoUrl;
+        user.photoUrl = photoUrl;
         const data = {
             nickname: nickname,
-            photoUrl: responseImage?responseImage:user?.photoUrl,
+            photoUrl: photoUrl,
             description: description
         }
         api.put(`/user/profile/${user._id}`, data)
             .then((res)=>{
+                reloadUser(user.email, null, signed);
                 Alert.alert(res.data.msg)
             })
             .catch((err)=>{
@@ -70,10 +73,7 @@ export default function ProfileChange({navigation}) {
                     onChangeText={(value)=> {setDescription(value)}}/>
                 <TouchableOpacity 
                 style={styles.button} 
-                onPress={() => {
-                    navigation.goBack()
-                    handleUpdate()
-                }}>
+                onPress={handleUpdate}>
                     <Text style={styles.buttonText}>Concluído</Text>
                 </TouchableOpacity>                
             </View>

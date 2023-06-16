@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/auth';
+import api from '../services/api';
 
 export default function Publish({ item }) {
   const navigation = useNavigation();
