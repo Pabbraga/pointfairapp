@@ -9,6 +9,7 @@ export default function Publish({ item }) {
   const [isFollowing, setIsFollowing] = React.useState(false);
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const { user } = useAuth();
+  const isOwner = user?._id == item.owner._id
 
   React.useEffect(() => {
     if(!user.following.includes(authorId)) {
@@ -97,13 +98,20 @@ export default function Publish({ item }) {
           <Text style={styles.menuButtonText}>▼</Text>
         </TouchableOpacity>
       </View>
-      {isMenuVisible && (
+      {isMenuVisible && !isOwner && (
         <View style={[styles.menuOptions, { position: 'absolute', top: 32, right: 0, zIndex: 1 }]}>
-          <TouchableOpacity style={styles.menuOption} onPress={handleFollow}>
+          <TouchableOpacity style={styles.menuOptions} onPress={handleFollow}>
             <Text style={styles.menuOptionText}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.menuOption} onPress={handleReport}>
+          <TouchableOpacity style={styles.menuOptions} onPress={handleReport}>
             <Text style={styles.menuOptionText}>Denunciar</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      {isMenuVisible && isOwner && (
+        <View style={[styles.menuOptions, { position: 'absolute', top: 32, right: 0, zIndex: 1 }]}>
+          <TouchableOpacity style={styles.menuOptions} onPress={handleFollow}>
+            <Text style={styles.menuOptionText}>Apagar</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -156,9 +164,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 10,
     borderRadius: 5,
-    marginTop: 5,
-    paddingVertical: 3,
-    width: 150,
+    paddingVertical: 5,
   },
   menuOptionText: {
     fontSize: 16,

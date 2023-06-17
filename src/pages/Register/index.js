@@ -270,7 +270,7 @@ export default function Register({navigation}) {
                     <View style={styles.group}>
                         <Text style={styles.p}>Qual feira costuma frequentar?*</Text>
                         <Dropdown
-                            style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                            style={[styles.dropdown, {marginBottom: 15}, isFocus && { borderColor: 'blue' }]}
                             placeholderStyle={styles.placeholderStyle}
                             selectedTextStyle={styles.selectedTextStyle}
                             inputSearchStyle={styles.inputSearchStyle}
@@ -289,8 +289,6 @@ export default function Register({navigation}) {
                                 setIsFocus(false);
                             }}
                         />
-                    </View> &&
-                    <View style={styles.group}>
                         <Text style={styles.p}>Não encontrou sua feira?</Text>
                         <TextInput 
                             style={styles.input}
