@@ -19,6 +19,11 @@ export default function ProfileChange({navigation}) {
     }
 
     const handleUpdate = async () => {
+        if(!nickname) {
+            Alert.alert("Preencha o campo de apelido");
+            return;
+        }
+
         if(imageData) {
             const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
             const formData = new FormData();
@@ -44,14 +49,13 @@ export default function ProfileChange({navigation}) {
             photoUrl: photoUrl,
             description: description
         }
-        api.put(`/user/profile/${user._id}`, data)
-            .then((res)=>{
-                reloadUser(user.email, null, signed);
-                Alert.alert(res.data.msg)
-            })
-            .catch((err)=>{
-                console.log(err);
-            });
+        try {
+            const resData = await api.put(`/user/profile/${user._id}`, data);
+            reloadUser(user.email, null, signed);
+            Alert.alert(resData.data);
+        } catch (err) {
+            Alert.alert(err.response.data);
+        }
     }
 
     return(

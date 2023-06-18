@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 
 import styles from './style';
@@ -10,26 +10,31 @@ export default function Login({navigation}) {
     const [password, setPassword] = useState('');
     const [errors, setErrors] = useState({});
 
-    const { signIn, signed, error } = useAuth();
+    const { signIn, signed } = useAuth();
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
+        setErrors(null);
         if(!email && !password) {
-            setErrors({both:"Preencha os campos acima."});
+            setErrors({both:"Preencha os campos acima"});
             return;
         }
         if(!email) {
-            setErrors({email:"Preencha o campo de e-mail."});
+            setErrors({email:"Preencha o campo de e-mail"});
             return;
         }
         if(!password) {
-            setErrors({password:"Preencha o campo de senha."});
+            setErrors({password:"Preencha o campo de senha"});
             return;
         }
-        signIn(email.trim(), password.trim(), signed).catch((err)=>{
-            setErrors({err})
+        const res = await signIn(email.trim(), password.trim(), signed);
+        if(res.email) {
+            setErrors({email: res.email});
             return;
-        });
-        setErrors(null);
+        }
+        if(res.password) {
+            setErrors({password: res.password});
+            return;
+        }
     };
 
     return(
@@ -40,15 +45,13 @@ export default function Login({navigation}) {
                 <View style={styles.group}>
                     <Text  style={styles.p}>E-mail</Text>
                     <TextInput style={styles.input} onChangeText={setEmail} value={email} inputMode='email'/>
-                    {error && <Text style={styles.labelError}>{error.email}</Text>}
                     {errors && <Text style={styles.labelError}>{errors.email}</Text>}
                 </View>
                 <View style={styles.group}>
                     <Text  style={styles.p}>Senha</Text>
                     <TextInput style={styles.input} onChangeText={setPassword} value={password} secureTextEntry={true}/>
-                    {errors && <Text style={styles.labelError}>{errors.both}</Text>}
-                    {error && <Text style={styles.labelError}>{error.password}</Text>}
                     {errors && <Text style={styles.labelError}>{errors.password}</Text>}
+                    {errors && <Text style={styles.labelError}>{errors.both}</Text>}
                 </View>        
                 <TouchableOpacity style={styles.button} onPress={handleLogin}>
                     <Text style={styles.buttonText}>Entrar</Text>
