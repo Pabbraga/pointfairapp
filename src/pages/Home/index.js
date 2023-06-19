@@ -10,7 +10,11 @@ import {
     ActivityIndicator, 
     Alert
 } from 'react-native';
-
+import {
+    BannerAd,
+    BannerAdSize,
+    TestIds,
+    } from "react-native-google-mobile-ads";
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
@@ -109,6 +113,13 @@ export default function Home({navigation}) {
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={ <FooterList load={loading}/> }
             />
+            <View style={styles.bannerContainer}>
+                <BannerAd
+                    unitId={adUnitID}
+                    size={BannerAdSize.FULL_BANNER}
+                    requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+                />
+            </View>
         </SafeAreaView>
     );
 }

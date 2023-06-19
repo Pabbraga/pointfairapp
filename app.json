@@ -38,6 +38,9 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-7276461289946451~5037113103"
+    },
     "extra": {
       "eas": {
         "projectId": "0c6a9151-8352-4a4f-a258-6d6f62782587"
