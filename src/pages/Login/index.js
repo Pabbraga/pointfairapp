@@ -27,17 +27,13 @@ export default function Login({navigation}) {
             return;
         }
         const res = await signIn(email.trim(), password.trim(), signed);
-        try {
-            if(res?.email) {
-                setErrors({email: res.email});
-                return;
-            }
-            if(res?.password) {
-                setErrors({password: res.password});
-                return;
-            }
-        } catch (err) {
-            console.log(err);
+        if(res.email) {
+            setErrors({email: res.email});
+            return;
+        }
+        if(res.password) {
+            setErrors({password: res.password});
+            return;
         }
     };
 

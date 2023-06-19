@@ -1,12 +1,5 @@
 import React from 'react';
-import { View, 
-  Text, 
-  Image, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Alert, 
-  Linking 
-} from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, Alert, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/auth';
 import api from '../services/api';
@@ -17,6 +10,14 @@ export default function Publish({ item }) {
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const { user } = useAuth();
   const isOwner = user?._id == item.owner._id
+
+  React.useEffect(() => {
+    if(!user.following.includes(authorId)) {
+      setIsFollowing(false);
+    } else if(user.following.includes(authorId)){
+      setIsFollowing(true);
+    }
+  }, [])
 
   const showPublicationDetails = () => {
     navigation.navigate('PublicationDetails', { publication: item });
@@ -30,18 +31,16 @@ export default function Publish({ item }) {
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
     if(!isFollowing) {
-      if(user.following.includes(authorId)) {
-        return;
-      }
-      
-      api.put(`/following/follow/${user._id}/${authorId}`);
-      user.following.push(authorId);
+        if(user.following.includes(authorId)) {
+          return;
+        }
+        api.put(`/following/follow/${user._id}/${authorId}`);
+        user.following.push(authorId);
     }
     if(isFollowing) {
       if(!user.following.includes(authorId)) {
         return;
       }
-      
       api.put(`/following/unfollow/${user._id}/${authorId}`);
       for (let i = 0; i < user.following.length; i++) {
         if (user.following[i] == authorId) {
@@ -51,7 +50,6 @@ export default function Publish({ item }) {
       }
     }
   }
-
   const handleReport = () => {
     Alert.alert(
       'Denunciar Publicação',
@@ -87,25 +85,6 @@ export default function Publish({ item }) {
     setIsMenuVisible(!isMenuVisible);
   };
 
-  const handleDelete = () => {
-    Alert.alert('Apagar publicação', 'Você deseja apagar a sua publicação?', 
-      [
-        { text: 'Não', style: 'cancel'},
-        { text: 'Sim', onPress: deletePublication, style: 'destructive'}
-      ],
-      { cancelable: true }
-    )
-  }
-
-  const deletePublication = async () => {
-    try {
-      const res = await api.delete(`/publication/${publication._id}`);
-      Alert.alert(res.data);
-    } catch (err) {
-      Alert.alert(err.response.data);
-    }
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.userField}>
@@ -131,7 +110,7 @@ export default function Publish({ item }) {
       )}
       {isMenuVisible && isOwner && (
         <View style={[styles.menuOptions, { position: 'absolute', top: 32, right: 0, zIndex: 1 }]}>
-          <TouchableOpacity style={styles.menuOptions} onPress={handleDelete}>
+          <TouchableOpacity style={styles.menuOptions} onPress={handleFollow}>
             <Text style={styles.menuOptionText}>Apagar</Text>
           </TouchableOpacity>
         </View>
