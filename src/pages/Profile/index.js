@@ -1,5 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Linking, Alert } from 'react-native';
+import { 
+  SafeAreaView, 
+  View, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  Linking, 
+  Alert,
+  FlatList 
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import styles from './style';
@@ -26,7 +35,6 @@ function Profile({ navigation, route }) {
     if(idUser == user._id) {
       setPersonalProfile(true);
     }
-
     try {
       const res = await api.get(`/user/${idUser}`);
       setUserData(res.data);
@@ -37,11 +45,11 @@ function Profile({ navigation, route }) {
     } 
   }
 
-    if(loading) {
-      return (
-        <LoadingScreen/>
-      )
-    }
+  if(loading) {
+    return (
+      <LoadingScreen/>
+    )
+  }
 
   const handleSignOut = () => {
     signOut();
@@ -63,20 +71,21 @@ function Profile({ navigation, route }) {
           return;
         }
         api.put(`/following/follow/${user._id}/${userData._id}`);
-        user.following.push(userData._id);
     }
     if(isFollowing) {
       if(!user.following.includes(userData._id)) {
         return;
       }
       api.put(`/following/unfollow/${user._id}/${userData._id}`);
-      for (let i = 0; i < user.following.length; i++) {
-        if (user.following[i] == userData._id) {
-            user.following.splice(i, 1);
-            i--;
-        }
-      }
     }
+  }
+
+  const renderItem = ({item}) => {
+    return (
+        <View style={styles.followingItem}>
+          <Text style={styles.followingText}>{item.nickname}</Text>
+        </View>
+    );
   }
   
   return (
@@ -106,12 +115,23 @@ function Profile({ navigation, route }) {
       <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
         <Text style={styles.nickname}>{userData.nickname}</Text>
-        {!personalProfile && <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
-          <Text style={styles.text}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
+        {!personalProfile && userData.isSeller && <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
+          <Text style={[styles.text, {fontSize: 14}]}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
         </TouchableOpacity>}
         {userData.description && 
         <View style={styles.description}>
           <Text style={styles.text}>{userData.description}</Text>
+        </View>}
+        {!userData.isSeller && userData.following && 
+        <View style={styles.followingSection}>
+          <Text style={styles.articleH1}>Seguindo</Text>
+          <FlatList
+            keyExtractor={(item) => item._id}
+            renderItem={renderItem}
+            data={userData.following}
+            style={styles.followingList}
+            showsVerticalScrollIndicator={false}
+          />
         </View>}
       </View>        
       {userData.isSeller && <SectionSeller userData={userData}/> || userData.debugMode && <SectionSeller userData={userData}/>}

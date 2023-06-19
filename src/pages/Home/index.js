@@ -57,7 +57,7 @@ export default function Home({navigation}) {
     async function loadPublications() {
         try {
             const res = await api.get('/publication');
-            const publications = res.data.sort(sortByFollowing);
+            const publications = res?.data.sort(sortByFollowing);
             setData(publications);
             setRefreshing(false);
         } catch (err) {

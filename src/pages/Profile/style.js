@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#CE6A85'
     },
     profile: {
-        marginTop: 25,
+        marginTop: 10,
         alignItems: 'center',
         zIndex: -1
     },
@@ -60,11 +60,36 @@ const styles = StyleSheet.create({
     },
     followButton: {
         marginLeft: 10,
-        marginBottom: 5,
+        marginBottom: 10,
         padding: 10,
         borderRadius: 15,
-        backgroundColor: '#5C374C',
+        backgroundColor: '#5C374C'
     },
+    followingSection: {
+        marginTop: 10,
+        width: 220,
+        height: '60%',        
+    },
+    articleH1: {
+        padding: 10,
+        fontSize: 18,
+        fontWeight: 300,
+        textAlign: 'center',
+        color: '#fff'
+    },
+    followingList: {
+        marginTop: 5,
+        backgroundColor: '#FAA275',
+        borderRadius: 10,
+        padding: 20,
+        borderRadius: 5
+    },
+    followingItem: {
+        padding: 5,
+    },
+    followingText: {
+        fontSize: 16
+    }
 })
 
 export default styles;
