@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#CE6A85'
     },
     profile: {
-        marginTop: 25,
+        marginTop: 50,
         alignItems: 'center',
         zIndex: -1
     },
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     nickname: {
         fontSize: 24,
         color: '#FFF',
-        marginBottom: 5
+        marginBottom: 15
     }, 
     description: {
         height: 70,
@@ -57,13 +57,6 @@ const styles = StyleSheet.create({
     },
     menuItemText: {
         fontSize: 16,
-    },
-    followButton: {
-        marginLeft: 10,
-        marginBottom: 5,
-        padding: 10,
-        borderRadius: 15,
-        backgroundColor: '#5C374C',
     },
 })
 

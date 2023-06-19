@@ -53,12 +53,16 @@ export default function PublishCreate() {
                 owner: user._id,
             };
 
-            try {
-                const res = await api.post('/publication', data);
-                Alert.alert(res.data);
-            } catch (err) {
-                Alert.alert(err.response.data);
-            }
+            api.post('/publication', data)
+                .then((res)=>{
+                    Alert.alert(res.data.msg);
+                })
+                .catch((err)=>{
+                    Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
+                    console.log(err);
+                    return false;   
+                });
+            
         } catch (err) {
             console.log(err);
         }

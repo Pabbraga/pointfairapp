@@ -43,12 +43,8 @@ export default function Register({navigation}) {
     }
 
     const getFairs = async () => {
-        try {
-            const res = await api.get('/fair');
-            setFairsData(res.data);
-        } catch (err) {
-            Alert.alert(err.response.data);  
-        }
+        const res = await api.get('/fair');
+        setFairsData(res.data);
     }
 
     const schema = yup.object({
@@ -88,7 +84,7 @@ export default function Register({navigation}) {
                 type: 'image/' + extend,
                 base64: imageData[0].base64,
             })));
-            const res = await api.post("/picture/upload", formData, {
+            res = await api.post("/picture/upload", formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
@@ -104,12 +100,18 @@ export default function Register({navigation}) {
             district : data.district
         }; 
         data.fair = fair;
+        
         try {
-            const resData = await api.post("/user", data);
-            navigation.navigate('Login');
-            Alert.alert(resData.data);              
+            api.post("/user", data)
+                .then((res)=>{
+                    navigation.navigate('Login');
+                    Alert.alert(res.data.msg);
+                }).catch((err, res) => {
+                    Alert.alert(res.data.msg);
+                    console.log(err);
+                });
         } catch (err) {
-            Alert.alert(err.response.data);
+            console.log(err);
         }
     }
 

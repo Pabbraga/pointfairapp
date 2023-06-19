@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import { SafeAreaView, View, Text, Image, TouchableOpacity, Linking, Alert } from 'react-native';
+import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import styles from './style';
@@ -16,7 +17,6 @@ function Profile({ navigation, route }) {
   const [userPhoto, setUserPhoto] = useState(null);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [personalProfile, setPersonalProfile] = React.useState(false);
-  const [isFollowing, setIsFollowing] = React.useState(false);
 
   useEffect(() => {
     loadUser();
@@ -27,14 +27,10 @@ function Profile({ navigation, route }) {
       setPersonalProfile(true);
     }
 
-    try {
-      const res = await api.get(`/user/${idUser}`);
-      setUserData(res.data);
-      setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
-      setLoading(false);
-    } catch (err) {
-      Alert.alert(err.response.data);
-    } 
+    const res = await api.get(`/user/${idUser}`);
+    setUserData(res.data);
+    setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
+    setLoading(false);
   }
 
     if(loading) {
@@ -55,29 +51,6 @@ function Profile({ navigation, route }) {
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
-
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-    if(!isFollowing) {
-        if(user.following.includes(userData._id)) {
-          return;
-        }
-        api.put(`/following/follow/${user._id}/${userData._id}`);
-        user.following.push(userData._id);
-    }
-    if(isFollowing) {
-      if(!user.following.includes(userData._id)) {
-        return;
-      }
-      api.put(`/following/unfollow/${user._id}/${userData._id}`);
-      for (let i = 0; i < user.following.length; i++) {
-        if (user.following[i] == userData._id) {
-            user.following.splice(i, 1);
-            i--;
-        }
-      }
-    }
-  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -105,10 +78,7 @@ function Profile({ navigation, route }) {
       }
       <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
-        <Text style={styles.nickname}>{userData.nickname}</Text>
-        {!personalProfile && <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
-          <Text style={styles.text}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
-        </TouchableOpacity>}
+        <Text style={styles.nickname}>{userData?.nickname}</Text>
         {userData.description && 
         <View style={styles.description}>
           <Text style={styles.text}>{userData.description}</Text>

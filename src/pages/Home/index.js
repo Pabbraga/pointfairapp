@@ -7,8 +7,7 @@ import {
     TouchableOpacity,
     Text, 
     FlatList, 
-    ActivityIndicator, 
-    Alert
+    ActivityIndicator 
 } from 'react-native';
 
 import { useAuth } from '../../context/auth';
@@ -55,14 +54,10 @@ export default function Home({navigation}) {
     }
 
     async function loadPublications() {
-        try {
-            const res = await api.get('/publication');
-            const publications = res.data.sort(sortByFollowing);
-            setData(publications);
-            setRefreshing(false);
-        } catch (err) {
-            Alert.alert(err.response.data);
-        }
+        const res = await api.get('/publication');
+        const publications = res.data.sort(sortByFollowing);
+        setData(publications);
+        setRefreshing(false);
     }
 
     renderHeader = () => {

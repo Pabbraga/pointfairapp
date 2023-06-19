@@ -9,7 +9,7 @@ import styles from './style';
 
 export default function Map() {
   const [origin, setOrigin] = useState(null);
-  const [error, setError] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
 
   useEffect(() => {
     loadLocation();
@@ -18,7 +18,7 @@ export default function Map() {
   async function loadLocation() {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== 'granted') {
-      setError('Permissão de acesso a localização negada.');
+      setErrorMsg('Permissão de acesso a localização negada.');
       return;
     }
 
@@ -30,8 +30,8 @@ export default function Map() {
       longitudeDelta: 0.0100
     })
 
-    if(error) {
-      Alert.alert(error);
+    if(errorMsg) {
+      Alert.alert(errorMsg);
     }
   }
 
