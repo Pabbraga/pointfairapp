@@ -1,6 +1,14 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, Image, TouchableOpacity, Linking } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { 
+  SafeAreaView, 
+  View, 
+  Text, 
+  Image, 
+  TouchableOpacity, 
+  Linking, 
+  Alert,
+  FlatList 
+} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import styles from './style';
@@ -17,6 +25,7 @@ function Profile({ navigation, route }) {
   const [userPhoto, setUserPhoto] = useState(null);
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [personalProfile, setPersonalProfile] = React.useState(false);
+  const [isFollowing, setIsFollowing] = React.useState(false);
 
   useEffect(() => {
     loadUser();
@@ -26,18 +35,21 @@ function Profile({ navigation, route }) {
     if(idUser == user._id) {
       setPersonalProfile(true);
     }
-
-    const res = await api.get(`/user/${idUser}`);
-    setUserData(res.data);
-    setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
-    setLoading(false);
+    try {
+      const res = await api.get(`/user/${idUser}`);
+      setUserData(res.data);
+      setUserPhoto(`https://drive.google.com/uc?export=view&id=${res?.data.photoUrl}`);
+      setLoading(false);
+    } catch (err) {
+      Alert.alert(err.response.data);
+    } 
   }
 
-    if(loading) {
-      return (
-        <LoadingScreen/>
-      )
-    }
+  if(loading) {
+    return (
+      <LoadingScreen/>
+    )
+  }
 
   const handleSignOut = () => {
     signOut();
@@ -51,6 +63,30 @@ function Profile({ navigation, route }) {
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
   };
+
+  const handleFollow = () => {
+    setIsFollowing(!isFollowing);
+    if(!isFollowing) {
+        if(user.following.includes(userData._id)) {
+          return;
+        }
+        api.put(`/following/follow/${user._id}/${userData._id}`);
+    }
+    if(isFollowing) {
+      if(!user.following.includes(userData._id)) {
+        return;
+      }
+      api.put(`/following/unfollow/${user._id}/${userData._id}`);
+    }
+  }
+
+  const renderItem = ({item}) => {
+    return (
+        <View style={styles.followingItem}>
+          <Text style={styles.followingText}>{item.nickname}</Text>
+        </View>
+    );
+  }
   
   return (
     <SafeAreaView style={styles.container}>
@@ -78,10 +114,24 @@ function Profile({ navigation, route }) {
       }
       <View style={styles.profile}>
         <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
-        <Text style={styles.nickname}>{userData?.nickname}</Text>
+        <Text style={styles.nickname}>{userData.nickname}</Text>
+        {!personalProfile && userData.isSeller && <TouchableOpacity style={styles.followButton} onPress={handleFollow}>
+          <Text style={[styles.text, {fontSize: 14}]}>{isFollowing ? 'Deixar de seguir' : 'Seguir'}</Text>
+        </TouchableOpacity>}
         {userData.description && 
         <View style={styles.description}>
           <Text style={styles.text}>{userData.description}</Text>
+        </View>}
+        {!userData.isSeller && userData.following && 
+        <View style={styles.followingSection}>
+          <Text style={styles.articleH1}>Seguindo</Text>
+          <FlatList
+            keyExtractor={(item) => item._id}
+            renderItem={renderItem}
+            data={userData.following}
+            style={styles.followingList}
+            showsVerticalScrollIndicator={false}
+          />
         </View>}
       </View>        
       {userData.isSeller && <SectionSeller userData={userData}/> || userData.debugMode && <SectionSeller userData={userData}/>}

@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Text, 
     FlatList, 
-    ActivityIndicator 
+    ActivityIndicator, 
+    Alert
 } from 'react-native';
 
 import { useAuth } from '../../context/auth';
@@ -40,10 +41,28 @@ export default function Home({navigation}) {
         )
     }
 
+    function sortByFollowing (a, b) {
+        let isFollowingA = user.following.includes(a.owner._id)
+        let isFollowingB = user.following.includes(b.owner._id)
+        
+        if(isFollowingA && !isFollowingB) {
+            return -1;
+        } else if(!isFollowingA && isFollowingB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     async function loadPublications() {
-        const res = await api.get('/publication');
-        setData(res.data);
-        setRefreshing(false);
+        try {
+            const res = await api.get('/publication');
+            const publications = res?.data.sort(sortByFollowing);
+            setData(publications);
+            setRefreshing(false);
+        } catch (err) {
+            Alert.alert(err.response.data);
+        }
     }
 
     renderHeader = () => {

@@ -10,15 +10,20 @@ import api from '../../services/api';
 export default function ProfileChange({navigation}) {
     const { user, reloadUser, signed } = useAuth();
     const [imageData, setImageData] = useState(null);
-    const [responseImage, setResponseImage] = useState(null);
     const [nickname, setNickname] = useState(user?.nickname);
     const [description, setDescription] = useState(user?.description);
+    let responseImage = null;
 
     function handleGetImage(image) {
         setImageData(image);
     }
 
     const handleUpdate = async () => {
+        if(!nickname) {
+            Alert.alert("Preencha o campo de apelido");
+            return;
+        }
+
         if(imageData) {
             const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
             const formData = new FormData();
@@ -35,21 +40,22 @@ export default function ProfileChange({navigation}) {
                     'Content-Type': 'multipart/form-data'
                 },
             });
-            setResponseImage(res.data.imageUrl);
+            responseImage = res.data.imageUrl;
         }
+        const photoUrl = responseImage?responseImage:user.photoUrl;
+        user.photoUrl = photoUrl;
         const data = {
             nickname: nickname,
-            photoUrl: imageData?responseImage:user?.photoUrl,
+            photoUrl: photoUrl,
             description: description
         }
-        api.put(`/user/profile/${user._id}`, data)
-            .then((res)=>{
-                reloadUser(user.email, null, signed);
-                Alert.alert(res.data.msg)
-            })
-            .catch((err)=>{
-                console.log(err);
-            });
+        try {
+            const resData = await api.put(`/user/profile/${user._id}`, data);
+            reloadUser(user.email, null, signed);
+            Alert.alert(resData.data);
+        } catch (err) {
+            Alert.alert(err.response.data);
+        }
     }
 
     return(

@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#CE6A85'
     },
     profile: {
-        marginTop: 50,
+        marginTop: 10,
         alignItems: 'center',
         zIndex: -1
     },
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     nickname: {
         fontSize: 24,
         color: '#FFF',
-        marginBottom: 15
+        marginBottom: 5
     }, 
     description: {
         height: 70,
@@ -58,6 +58,38 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 16,
     },
+    followButton: {
+        marginLeft: 10,
+        marginBottom: 10,
+        padding: 10,
+        borderRadius: 15,
+        backgroundColor: '#5C374C'
+    },
+    followingSection: {
+        marginTop: 10,
+        width: 220,
+        height: '60%',        
+    },
+    articleH1: {
+        padding: 10,
+        fontSize: 18,
+        fontWeight: 300,
+        textAlign: 'center',
+        color: '#fff'
+    },
+    followingList: {
+        marginTop: 5,
+        backgroundColor: '#FAA275',
+        borderRadius: 10,
+        padding: 20,
+        borderRadius: 5
+    },
+    followingItem: {
+        padding: 5,
+    },
+    followingText: {
+        fontSize: 16
+    }
 })
 
 export default styles;

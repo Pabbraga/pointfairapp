@@ -19,9 +19,13 @@ export default function Search() {
             return;
         }
         if(value.match(/^[a-zA-Z0-9]{1,}$/im)) {
-            const res = await api.get(`/user/search/${value}`);
-            setSearchResults(res.data);
-            setIsTyping(true);
+            try {
+                const res = await api.get(`/user/search/${value}`);
+                setSearchResults(res.data);
+                setIsTyping(true);
+            } catch (err) {
+                Alert.alert(err.response.data);
+            }
         } else {
             Alert.alert("Insira apenas letras e números!");
         }

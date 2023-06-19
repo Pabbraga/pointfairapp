@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import { View, Text, Image, TouchableOpacity, StyleSheet, Linking, FlatList } from 'react-native';
+import { View, Text, Image, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 import api from '../services/api';
 import { useNavigation } from '@react-navigation/native'; 
@@ -25,10 +25,14 @@ export default function SectionSeller(props) {
     }
 
     async function loadPublications() {
-        const res = await api.get('/publication');
-        const userPublications = res.data.filter(publication => (publication.owner.email == userData.email));
-        setPublications(userPublications);
-        setRefreshing(false);
+        try {
+            const res = await api.get('/publication');
+            const userPublications = res.data.filter(publication => (publication.owner.email == userData.email));
+            setPublications(userPublications);
+            setRefreshing(false);
+        } catch (err) {
+            Alert.alert(err.response.data);
+        }
     }
 
     handleRefresh = () => {

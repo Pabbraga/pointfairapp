@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -19,11 +19,15 @@ export default function Location({ navigation, route }) {
     }, []);
 
     async function loadResults() {
-        const res = await api.get('/user');
-        const users = res.data.filter(user => (user.location.city == locationParam));
-        setResults(users);
-        setLoading(false);
-        setRefreshing(false);
+        try {
+            const res = await api.get('/user');
+            const users = res.data.filter(user => (user.location.city == locationParam));
+            setResults(users);
+            setLoading(false);
+            setRefreshing(false);
+        } catch (err) {
+            Alert.alert(err.response.data)
+        }
     }
     if(loading) {
         return(

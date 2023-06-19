@@ -12,7 +12,7 @@ const PublicationDetails = ({ navigation, route }) => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => navigation.goBack()} style={{ position: 'absolute', top: 25, left: 20 }}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
       </TouchableOpacity>
       <View style={styles.main}> 
