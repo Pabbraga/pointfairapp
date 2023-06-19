@@ -4,18 +4,19 @@ import { useNavigation } from '@react-navigation/native';
 
 export default function SearchResult(props) {
     const navigation = useNavigation();
-    const userPhoto = `https://drive.google.com/uc?export=view&id=${props?.photo}`;
+    const result = props.item;
+    const userPhoto = `https://drive.google.com/uc?export=view&id=${result.photoUrl}`;
     return(
-    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Profile", {idUser: props.id})}}>
+    <TouchableOpacity style={styles.container} onPress={()=>{navigation.navigate("Profile", {idUser: result._id})}}>
         <View style={styles.userField}>
             <View>
                 <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
             </View>
             <View>
-                <Text style={styles.userName}>{props.username}</Text>
+                <Text style={styles.userName}>{result.nickname}</Text>
             </View>
         </View>
-        <Text style={styles.location}>{props.location}</Text>
+        <Text style={styles.location}>{result.location.district}</Text>
     </TouchableOpacity>
     )
 }
@@ -46,7 +47,9 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        marginRight: 8
+        marginRight: 8,
+        borderWidth: 2,
+        borderColor: '#5C374C',
     },
     userName: {
         fontSize: 20,

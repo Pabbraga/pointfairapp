@@ -7,9 +7,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#CE6A85'
     },
     title: {
-        marginTop: 20,
+        marginTop: 35,
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#5C374C'
     },
     form: {
         marginTop: 50,
@@ -39,6 +40,16 @@ const styles = StyleSheet.create({
         paddingBottom: 3,
         fontSize: 18,
         marginBottom: 20
+    },
+    descriptionInput: {
+        width: 200,
+        backgroundColor: 'white',
+        borderRadius: 5,
+        padding: 10,
+        textAlign: "left",
+        textAlignVertical: "top",
+        fontSize: 18,
+        height: 80,
     },
     button: {
         width: 100, 

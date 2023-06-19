@@ -52,17 +52,13 @@ export default function PublishCreate() {
                 inStock: true,
                 owner: user._id,
             };
+
             try {
-                const publication = await api.post('/publication', data).catch((err)=>{
-                    Alert.alert("Ocorreu um erro", "Tente denovo mais tarde, contate os administradores.");
-                    return;
-                });
-                console.log(publication?.data);
-            
-                Alert.alert("Publicado.");
+                const res = await api.post('/publication', data);
+                Alert.alert(res.data);
             } catch (err) {
+                Alert.alert(err.response.data);
             }
-            
         } catch (err) {
             console.log(err);
         }
@@ -74,8 +70,7 @@ export default function PublishCreate() {
                 multiline
                 numberOfLines={3}
                 maxLength={50}
-                onChangeText={(value)=>setDescription(value)}
-            />
+                onChangeText={(value)=>setDescription(value)}/>
             <View style={styles.publishButtons}>
                 {imageData && <View style={styles.preview}>
                     <Text style={styles.previewText}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
@@ -84,9 +79,10 @@ export default function PublishCreate() {
                     </TouchableOpacity>
                 </View>}
                 <PickImage handleGetImage={handleGetImage}/>
-                <TouchableOpacity onPress={handlePublication}><Entypo name='paper-plane' color={'black'} size={28}/></TouchableOpacity>
+                <TouchableOpacity onPress={handlePublication}>
+                    <Entypo name='paper-plane' color={'black'} size={28}/>
+                </TouchableOpacity>
             </View>
-            
         </View>        
     )
 }
@@ -94,6 +90,7 @@ export default function PublishCreate() {
 const styles = StyleSheet.create({
     publishSection: {
         marginTop: 15,
+        marginBottom: 10
     },
     publishForm: {
         flex: 1,
@@ -118,7 +115,8 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 5,
+        paddingLeft: 10,
+        paddingRight: 25,
         backgroundColor: '#985277',
         flexWrap: 'nowrap'
     },

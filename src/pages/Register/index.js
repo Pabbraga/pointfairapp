@@ -1,43 +1,68 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import axios from 'axios';
 
 import PickPhoto from '../../components/PickPhoto';
-import DropList from '../../components/DropList';
 
-import styles from './style';
+import styles from './style.js';
 import api from '../../services/api';
 
 export default function Register({navigation}) {
     const [isSeller, setIsSeller] = useState(false);
     const [imageData, setImageData] = useState(null);
+
+    const [city, setCity] = useState(null);
+    const [citiesData, setCitiesData] = useState(null);
+    const [fairsData, setFairsData] = useState(null);
+    const [fair, setFair] = useState(null);
+
     const [link, setLink] = React.useState('Sou um vendedor');
     const [step, setStep] = useState(1);
     const [error, setError] = useState('');
     const [responseImage, setResponseImage] = useState('');
+    const [isFocus, setIsFocus] = useState(false);
+
+    useEffect(()=> {
+        getFairs();
+        getCities();
+    },[])
 
     function handleGetImage(image) {
         setImageData(image);
     }
 
+    const getCities = async () => {
+        const res = await axios.get('https://servicodados.ibge.gov.br/api/v1/localidades/estados/SP/municipios');
+        setCitiesData(res.data);
+    }
+
+    const getFairs = async () => {
+        try {
+            const res = await api.get('/fair');
+            setFairsData(res.data);
+        } catch (err) {
+            Alert.alert(err.response.data);  
+        }
+    }
+
     const schema = yup.object({
-        firstName: step == 1 && yup.string().required("Informe o seu nome."),
-        surName: step == 1 && yup.string().required("Informe o seu sobrenome."),
-        email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail."),
-        phone: step == 3 && yup.string(),
-        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ"),
-        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia."),
-        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento."),
-        city: step == 3 && yup.string().required("Digite o seu nome da sua cidade."),
-        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro."),
-        fair: step == 3 && yup.string(),
-        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário."),
-        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha."),
-        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente."),
+        firstName: step == 1 && yup.string().required("Informe o seu nome.").trim(),
+        surName: step == 1 && yup.string().required("Informe o seu sobrenome.").trim(),
+        email: step == 1 && yup.string().email("E-mail inválido.").required("Informe o seu e-mail.").trim(),
+        phone: step == 1 && yup.string().nullable().trim(),
+        cnpj: step == 2 && isSeller && yup.string().required("Informe o seu CNPJ").trim(),
+        fantasyName: step == 2 && isSeller && yup.string().required("Informe o seu nome fantasia.").trim(),
+        segment: step == 2 && isSeller && yup.string().required("Informe o seu segmento.").trim(), 
+        district: step == 3 && yup.string().required("Digite o seu nome do seu bairro.").trim(),
+        nickname: step == 4 && yup.string().required("Digite o seu nome de usuário.").trim(),
+        password: step == 4 && yup.string().min(6, "Senha deve conter ao menos 6 dígitos").required("Digite sua senha.").trim(),
+        confirmPass: step == 4 && yup.string().oneOf([yup.ref('password'), null], "Confirme sua senha corretamente.").trim(),
     });
 
     const { control, handleSubmit, formState: { errors }} = useForm({
@@ -45,7 +70,7 @@ export default function Register({navigation}) {
             cnpj: "",
             fantasyName: "",
             segment: "",
-            phone: ""
+            phone: "",
         },
         resolver: yupResolver(schema),
         reValidateMode: "onSubmit",
@@ -63,7 +88,7 @@ export default function Register({navigation}) {
                 type: 'image/' + extend,
                 base64: imageData[0].base64,
             })));
-            res = await api.post("/picture/upload", formData, {
+            const res = await api.post("/picture/upload", formData, {
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'multipart/form-data'
@@ -71,22 +96,21 @@ export default function Register({navigation}) {
             });
             setResponseImage(res);    
         }
-        
-        const fullName = data.firstName.trim()+' '+data.surName.trim();
-        data.fullName = fullName;
+        data.fullName = data.firstName.trim()+' '+data.surName.trim();
         data.isSeller = isSeller;
         data.photoUrl = responseImage?responseImage.data.imageUrl:"11gws99uAMTomOdVFwcn5fm5cZgP37Ol8";
         data.location = {
-            city : data.city,
+            city : city,
             district : data.district
-        }
+        }; 
+        data.fair = fair;
         try {
-            api.post("/user", data);
+            const resData = await api.post("/user", data);
+            navigation.navigate('Login');
+            Alert.alert(resData.data);              
         } catch (err) {
-            console.log(err);
+            Alert.alert(err.response.data);
         }
-        navigation.navigate('Login');
-        Alert.alert("Cadastro efetuado com sucesso!");
     }
 
     const handleSellerClick = () => {
@@ -111,8 +135,10 @@ export default function Register({navigation}) {
                         <TextInput 
                             style={styles.input} 
                             onChangeText={onChange}
-                            value={value}
+                            value={props.value?props.value:value}
                             secureTextEntry={props.isPassword}
+                            placeholderTextColor={"#ccc"}
+                            placeholder={`Insira seu ${props.label.toLowerCase().replace(/[*]/, '')}`}
                         />
                         {errors[props.name] && <Text style={styles.labelError}>{errors[props.name]?.message}</Text>}
                     </View>
@@ -210,21 +236,65 @@ export default function Register({navigation}) {
                     <Entypo name="arrow-bold-left" color="#5C374C" size={46} />
                 </TouchableOpacity>
                 <Text style={styles.h1}>Localização</Text>
-                <Field
-                    label="Cidade*"
-                    name="city"
-                />
-                {error.city && <Text style={styles.labelError}>{error.city}</Text>}
+                <View style={styles.group}>
+                    <Text style={styles.p}>Cidade*</Text>
+                    <Dropdown
+                        style={[styles.dropdown, isFocus && { borderColor: 'blue' }]}
+                        placeholderStyle={styles.placeholderStyle}
+                        selectedTextStyle={styles.selectedTextStyle}
+                        inputSearchStyle={styles.inputSearchStyle}
+                        iconStyle={styles.iconStyle}
+                        data={citiesData}
+                        search
+                        maxHeight={300}
+                        labelField="nome"
+                        valueField="id"
+                        placeholder={!isFocus ? 'Selecione sua cidade' : '...'}
+                        searchPlaceholder="Buscar..."
+                        onFocus={() => setIsFocus(true)}
+                        onBlur={() => setIsFocus(false)}
+                        onChange={item => {
+                            setCity(item.nome);
+                            setIsFocus(false);
+                        }}
+                    />
+                </View>
                 <Field
                     label="Bairro*"
                     name="district"
                 />
                 {error.district && <Text style={styles.labelError}>{error.district}</Text>}
-                {isSeller && 
-                <Field
-                    label="Qual feira você costuma frequentar?"
-                    name="fair"
-                />}
+                {isSeller && (
+                    <View style={styles.group}>
+                        <Text style={styles.p}>Qual feira costuma frequentar?*</Text>
+                        <Dropdown
+                            style={[styles.dropdown, {marginBottom: 15}, isFocus && { borderColor: 'blue' }]}
+                            placeholderStyle={styles.placeholderStyle}
+                            selectedTextStyle={styles.selectedTextStyle}
+                            inputSearchStyle={styles.inputSearchStyle}
+                            iconStyle={styles.iconStyle}
+                            data={fairsData}
+                            search
+                            maxHeight={300}
+                            labelField="name"
+                            valueField="_id"
+                            placeholder={!isFocus ? 'Selecione uma feira' : '...'}
+                            searchPlaceholder="Buscar..."
+                            onFocus={() => setIsFocus(true)}
+                            onBlur={() => setIsFocus(false)}
+                            onChange={item => {
+                                setFair(item._id);
+                                setIsFocus(false);
+                            }}
+                        />
+                        <Text style={styles.p}>Não encontrou sua feira?</Text>
+                        <TextInput 
+                            style={styles.input}
+                            placeholderTextColor={"#ccc"}
+                            placeholder="São Paulo, Brás - Feira do brás"
+                        />
+                    </View>
+                )}
                 <TouchableOpacity 
                     style={styles.button} 
                     onPress={handleSubmit(()=>setStep(step+1))}>

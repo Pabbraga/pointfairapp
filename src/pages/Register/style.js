@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: "#FFC15E",
         justifyContent: 'space-between',
-        //alignItems: 'center',
     },
     form: {
         flex: 1,
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
     }, 
     input: {
         height: 45,
-        borderRadius: 15,
+        borderRadius: 10,
         padding: 8,
         color: "#fff",
         backgroundColor: "#5C374C",
@@ -58,7 +57,34 @@ const styles = StyleSheet.create({
     link: {
         color: "#985277",
         fontSize: 16
-    }
-})
+    },
+    dropdown: {
+        height: 50,
+        backgroundColor: "#5C374C",
+        borderColor: '#985277',
+        borderWidth: 0.5,
+        borderRadius: 10,
+        paddingHorizontal: 8,
+    },
+    icon: {
+        marginRight: 5,
+    },
+    placeholderStyle: {
+        color: '#ccc',
+        fontSize: 16,
+    },
+    selectedTextStyle: {
+        color: '#ccc',
+        fontSize: 16,
+    },
+    iconStyle: {
+        width: 20,
+        height: 20,
+    },
+    inputSearchStyle: {
+        height: 40,
+        fontSize: 16,
+    },
+});
 
 export default styles;

@@ -9,7 +9,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
 
     useEffect(() => {
         async function loadStoragedData() {
@@ -27,15 +26,12 @@ export const AuthProvider = ({ children }) => {
         loadStoragedData();
     }, [])
 
-    async function signIn(email, password) {
-        setError(null);
-        setLoading(true);
-        const response = await auth.signIn(email, password);
+    async function signIn(email, password, signed) {
+        const response = await auth.signIn(email, password, signed);
         if(!response.user) {
-            setLoading(false);
-            setError(response);
-            return;
+            return response;
         }
+        setLoading(true);
         setUser(response.user);
         api.defaults.headers['Authorization'] = `Bearer ${response.token}`;
         await AsyncStorage.setItem('@PointFairAuth:user', JSON.stringify(response.user));
@@ -48,6 +44,11 @@ export const AuthProvider = ({ children }) => {
         setUser(null);
     }
 
+    async function reloadUser(email, password, signed) {
+        signOut();
+        await signIn(email, password, signed);
+    }
+
     if(loading) {
         return(
             <LoadingScreen/>
@@ -55,7 +56,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return(
-        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut, error}}>
+        <AuthContext.Provider value={{signed: !!user, user, signIn, signOut, reloadUser}}>
             {children}
         </AuthContext.Provider>
     )

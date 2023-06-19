@@ -9,29 +9,31 @@ import styles from './style';
 
 export default function Map() {
   const [origin, setOrigin] = useState(null);
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(()=>{
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setErrorMsg('Permissão de acesso a localização negada.');
-        return;
-      }
-
-      let location = await Location.getCurrentPositionAsync({});
-      setOrigin({
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        latitudeDelta: 0.0100,
-        longitudeDelta: 0.0100
-      })
-
-      if(errorMsg) {
-        Alert.alert(errorMsg);
-      }
-    })();
+  useEffect(() => {
+    loadLocation();
   }, []);
+
+  async function loadLocation() {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== 'granted') {
+      setError('Permissão de acesso a localização negada.');
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setOrigin({
+      latitude: location.coords.latitude,
+      longitude: location.coords.longitude,
+      latitudeDelta: 0.0100,
+      longitudeDelta: 0.0100
+    })
+
+    if(error) {
+      Alert.alert(error);
+    }
+  }
 
   return (
     <View style={styles.container}>

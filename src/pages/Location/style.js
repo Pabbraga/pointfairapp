@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     },
     logoMark: {
         flex: 1,
-        color: '#FAA275',
+        color: '#5C374C',
         fontSize: 30,
         fontWeight: 700,
         paddingLeft: 30

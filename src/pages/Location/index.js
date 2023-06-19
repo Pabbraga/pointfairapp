@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Entypo } from '@expo/vector-icons'; 
 
@@ -19,10 +19,15 @@ export default function Location({ navigation, route }) {
     }, []);
 
     async function loadResults() {
-        const res = await api.get('/user');
-        const users = res.data.filter(user => (user.location.city == locationParam));
-        setResults([...users]);
-        setLoading(false);
+        try {
+            const res = await api.get('/user');
+            const users = res.data.filter(user => (user.location.city == locationParam));
+            setResults(users);
+            setLoading(false);
+            setRefreshing(false);
+        } catch (err) {
+            Alert.alert(err.response.data)
+        }
     }
     if(loading) {
         return(
@@ -31,12 +36,16 @@ export default function Location({ navigation, route }) {
     }
 
     function renderItem({item}) {
-        return <SearchResult id={item._id} photo={item.photoUrl} username={item.nickname} location={item.location.district}/>
+        return (
+        <SearchResult 
+            item={item}
+        />
+        )
     }
 
     handleRefresh = () => {
         setRefreshing(true);
-        loadPublications();
+        loadResults();
     }
 
     return(
@@ -44,7 +53,7 @@ export default function Location({ navigation, route }) {
             <View style={styles.header}>
                 <TouchableOpacity
                     onPress={() => navigation.goBack()}>
-                    <Entypo name='arrow-bold-left' color={'black'} size={46}/>
+                    <Entypo name='arrow-bold-left' color={'#5C374C'} size={46}/>
                 </TouchableOpacity>
                 <Text style={styles.logoMark}>{locationParam}</Text>
             </View>

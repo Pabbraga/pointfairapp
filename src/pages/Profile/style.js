@@ -6,8 +6,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#CE6A85'
     },
-    perfil: {
-        marginTop: 50,
+    profile: {
+        marginTop: 10,
         alignItems: 'center',
         zIndex: -1
     },
@@ -15,63 +15,34 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        marginBottom: 15
+        marginBottom: 15,
+        borderWidth: 3,
+        borderColor: '#5C374C',
     }, 
-    h1: {
-        fontSize: 20,
+    nickname: {
+        fontSize: 24,
         color: '#FFF',
-        marginBottom: 15
+        marginBottom: 5
     }, 
-    button: {
-        backgroundColor: "#FFC15E",
-        borderRadius: 10,
-        padding: 10,
-    }, 
-    buttonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: '500',
+    description: {
+        height: 70,
+        width: 200,
+        padding: 4,
+        paddingHorizontal: 10,
+        marginBottom: 10,
+        borderRadius: 5,
+        backgroundColor: '#FAA275'
     },
-    icons: {
-        marginTop: 35,
-        flexDirection: "row",
-    }, 
-    product:{
-        flexDirection: "row",
-        justifyContent: 'space-around',
-        marginTop: 30
-    },
-    productphoto: {
-        width: 140,
-        height: 140,
-        borderRadius: 10,
-        margin: 10
-    },
-    article:{
-        backgroundColor: '#FAA275',
-        marginTop: 35,
-        paddingHorizontal: 50,
-        paddingVertical: 10  
-    },
-    articleH1:{
-        backgroundColor: '#985277',
-        fontSize: 26,
-        paddingHorizontal: 60,
-        marginBottom: 20
-    },
-    articleP:{
-        fontSize: 18,
-        paddingBottom: 5
-    },
-    menuContainer: {
-        position: 'absolute',
-        top: 25,
-        right: 20,
+    text: {
+        fontSize: 17,
+        fontWeight: '600',
+        color: '#fff'
     },
     menu: {
+        width: 160,
         position: 'absolute',
         top: 60,
-        right: 40,
+        right: 20,
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         paddingVertical: 8,
@@ -87,14 +58,38 @@ const styles = StyleSheet.create({
     menuItemText: {
         fontSize: 16,
     },
-    activeSection: {
-        backgroundColor: '#FAA275',
-        borderRadius: 100,
+    followButton: {
+        marginLeft: 10,
+        marginBottom: 10,
+        padding: 10,
+        borderRadius: 15,
+        backgroundColor: '#5C374C'
     },
-    activeSection: {
+    followingSection: {
+        marginTop: 10,
+        width: 220,
+        height: '60%',        
+    },
+    articleH1: {
+        padding: 10,
+        fontSize: 18,
+        fontWeight: 300,
+        textAlign: 'center',
+        color: '#fff'
+    },
+    followingList: {
+        marginTop: 5,
         backgroundColor: '#FAA275',
-        borderRadius: 100,
-    }, 
+        borderRadius: 10,
+        padding: 20,
+        borderRadius: 5
+    },
+    followingItem: {
+        padding: 5,
+    },
+    followingText: {
+        fontSize: 16
+    }
 })
 
 export default styles;

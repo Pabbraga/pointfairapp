@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Image, SafeAreaView, TouchableOpacity, Text, FlatList } from 'react-native';
+import { 
+    View, 
+    Image, 
+    SafeAreaView, 
+    TouchableOpacity,
+    Text, 
+    FlatList, 
+    ActivityIndicator, 
+    Alert
+} from 'react-native';
 
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
@@ -32,10 +41,28 @@ export default function Home({navigation}) {
         )
     }
 
+    function sortByFollowing (a, b) {
+        let isFollowingA = user.following.includes(a.owner._id)
+        let isFollowingB = user.following.includes(b.owner._id)
+        
+        if(isFollowingA && !isFollowingB) {
+            return -1;
+        } else if(!isFollowingA && isFollowingB) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     async function loadPublications() {
-        const res = await api.get('/publication');
-        setData([...res.data]);
-        setRefreshing(false);
+        try {
+            const res = await api.get('/publication');
+            const publications = res?.data.sort(sortByFollowing);
+            setData(publications);
+            setRefreshing(false);
+        } catch (err) {
+            Alert.alert(err.response.data);
+        }
     }
 
     renderHeader = () => {
@@ -65,7 +92,7 @@ export default function Home({navigation}) {
                 <TouchableOpacity onPress={loadPublications}>
                     <Text style={styles.logoMark}>PointFair</Text>
                 </TouchableOpacity>
-                <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: null})}}>
+                <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: user?._id})}}>
                     <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
                 </TouchableOpacity>
             </View>
@@ -75,13 +102,22 @@ export default function Home({navigation}) {
                 keyExtractor={(item) => item._id}
                 style={styles.list}
                 ListHeaderComponent={renderHeader}
-                onEndReached={()=>loadPublications}
-                onEndReachedThreshold={0.5}
+                onEndReached={loadPublications}
+                onEndReachedThreshold={0.1}
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
-                maxToRenderPerBatch={10}
                 showsVerticalScrollIndicator={false}
+                ListFooterComponent={ <FooterList load={loading}/> }
             />
         </SafeAreaView>
     );
+}
+
+function FooterList({ load }) {
+    if(!load) return;
+    return(
+        <View style={{padding: 10}}>
+            <ActivityIndicator size={25} color={'#ccc'}/>
+        </View>
+    )
 }
