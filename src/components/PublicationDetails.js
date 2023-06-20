@@ -1,8 +1,8 @@
 import React from 'react';
-import { Entypo } from '@expo/vector-icons';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import moment from 'moment';
 import 'moment/locale/pt-br';
+import { Entypo } from '@expo/vector-icons';
 
 const PublicationDetails = ({ navigation, route }) => {
   const { publication } = route.params;
@@ -26,6 +26,7 @@ const PublicationDetails = ({ navigation, route }) => {
           <Text>{formattedDate}</Text>
           {/*<Text>{publication.createdAt}</Text>*/}
           <Text style={styles.location}>{publication.location}</Text>
+          <Text style={styles.stockStatus}>{publication.inStock ? 'Disponível' : 'Indisponível'}</Text>
         </View>
       </View>
     </View>
@@ -75,6 +76,12 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: '#FFC15E',
     fontWeight: 'bold',
+  },
+  stockStatus: {
+    fontSize: 15,
+    color: 'white',
+    fontWeight: 'bold',
+    marginTop: 5,
   },
 });
 
