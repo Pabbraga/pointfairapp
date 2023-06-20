@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React, { useState } from 'react';
+import { View, Text, TextInput, TouchableOpacity, Switch, StyleSheet, Alert } from "react-native";
 import { Entypo } from '@expo/vector-icons';
 
 import api from '../services/api';
@@ -10,21 +10,22 @@ export default function PublishCreate() {
     const { user } = useAuth();
     const [imageData, setImageData] = useState(null);
     const [description, setDescription] = useState('');
+    const [inStock, setInStock] = useState(true); // Estado inicial como disponível
 
     function handleGetImage(image) {
         setImageData(image);
     }
 
     async function handlePublication() {
-        if(!imageData && !description) {
+        if (!imageData && !description) {
             Alert.alert("Erro", "Não é possível criar uma publicação em branco.");
             return;
         }
-        if(!imageData) {
+        if (!imageData) {
             Alert.alert("Selecione uma imagem!");
             return;
-        } 
-        if(!description) {
+        }
+        if (!description) {
             Alert.alert("Defina uma descrição para a publicação");
             return;
         }
@@ -36,7 +37,7 @@ export default function PublishCreate() {
             uri: imageData[0].uri,
             type: 'image/' + extend,
             base64: imageData[0].base64,
-        })))
+        })));
 
         try {
             const response = await api.post('/picture/upload/', formData, {
@@ -49,7 +50,7 @@ export default function PublishCreate() {
             const data = {
                 description: description,
                 imageUrl: response.data.imageUrl,
-                inStock: true,
+                inStock: inStock, // Usar o estado atual do switch
                 owner: user._id,
             };
 
@@ -63,28 +64,47 @@ export default function PublishCreate() {
             console.log(err);
         }
     }
-    return(
+
+    return (
         <View style={styles.publishSection}>
             <TextInput
                 style={styles.publishForm}
                 multiline
                 numberOfLines={3}
                 maxLength={50}
-                onChangeText={(value)=>setDescription(value)}/>
+                onChangeText={(value) => setDescription(value)}
+            />
             <View style={styles.publishButtons}>
-                {imageData && <View style={styles.preview}>
-                    <Text style={styles.previewText}>{imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length)}</Text>
-                    <TouchableOpacity style={styles.cancelButton} onPress={()=>setImageData(null)}>
-                        <Entypo name='cross' color={'#ccc'} size={15}/>
-                    </TouchableOpacity>
-                </View>}
-                <PickImage handleGetImage={handleGetImage}/>
+                <View style={styles.stockContainer}>
+                    <Text style={styles.stockText}>{inStock ? 'Disponível' : 'Indisponível'}</Text>
+                    <Switch
+                        value={inStock}
+                        onValueChange={(value) => setInStock(value)}
+                    />
+                </View>
+                {imageData && (
+                    <View style={styles.preview}>
+                        <Text style={styles.previewText}>
+                            {imageData[0].uri.substring(
+                                imageData[0].uri.lastIndexOf('/') + 1,
+                                imageData[0].uri.length
+                            )}
+                        </Text>
+                        <TouchableOpacity
+                            style={styles.cancelButton}
+                            onPress={() => setImageData(null)}
+                        >
+                            <Entypo name='cross' color={'#ccc'} size={15} />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                <PickImage handleGetImage={handleGetImage} />
                 <TouchableOpacity onPress={handlePublication}>
-                    <Entypo name='paper-plane' color={'black'} size={28}/>
+                    <Entypo name='paper-plane' color={'black'} size={28} />
                 </TouchableOpacity>
             </View>
-        </View>        
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
@@ -106,7 +126,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 10,
         alignSelf: 'flex-end',
+        alignItems: 'center',
         columnGap: 5,
+    },
+    stockContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    stockText: {
+        marginRight: 5,
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     preview: {
         width: 200,
@@ -121,8 +151,8 @@ const styles = StyleSheet.create({
         flexWrap: 'nowrap'
     },
     previewText: {
-        color: '#ccc', 
-        fontSize: 13, 
+        color: '#ccc',
+        fontSize: 13,
         marginRight: 5,
     },
     cancelButton: {
@@ -130,4 +160,4 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderColor: '#ccc'
     }
-})
+});

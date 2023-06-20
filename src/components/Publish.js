@@ -1,11 +1,13 @@
 import React from 'react';
-import { View, 
-  Text, 
-  Image, 
-  StyleSheet, 
-  TouchableOpacity, 
-  Alert, 
-  Linking 
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  Linking,
+  Switch,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { useAuth } from '../context/auth';
@@ -16,7 +18,8 @@ export default function Publish({ item }) {
   const [isFollowing, setIsFollowing] = React.useState(false);
   const [isMenuVisible, setIsMenuVisible] = React.useState(false);
   const { user } = useAuth();
-  const isOwner = user?._id == item.owner._id
+  const isOwner = user?._id == item.owner._id;
+  const [inStock, setInStock] = React.useState(item.inStock);
 
   const showPublicationDetails = () => {
     navigation.navigate('PublicationDetails', { publication: item });
@@ -29,28 +32,28 @@ export default function Publish({ item }) {
 
   const handleFollow = () => {
     setIsFollowing(!isFollowing);
-    if(!isFollowing) {
-      if(user.following.includes(authorId)) {
+    if (!isFollowing) {
+      if (user.following.includes(authorId)) {
         return;
       }
-      
+
       api.put(`/following/follow/${user._id}/${authorId}`);
       user.following.push(authorId);
     }
-    if(isFollowing) {
-      if(!user.following.includes(authorId)) {
+    if (isFollowing) {
+      if (!user.following.includes(authorId)) {
         return;
       }
-      
+
       api.put(`/following/unfollow/${user._id}/${authorId}`);
       for (let i = 0; i < user.following.length; i++) {
         if (user.following[i] == authorId) {
-            user.following.splice(i, 1);
-            i--;
+          user.following.splice(i, 1);
+          i--;
         }
       }
     }
-  }
+  };
 
   const handleReport = () => {
     Alert.alert(
@@ -88,14 +91,16 @@ export default function Publish({ item }) {
   };
 
   const handleDelete = () => {
-    Alert.alert('Apagar publicação', 'Você deseja apagar a sua publicação?', 
+    Alert.alert(
+      'Apagar publicação',
+      'Você deseja apagar a sua publicação?',
       [
-        { text: 'Não', style: 'cancel'},
-        { text: 'Sim', onPress: deletePublication, style: 'destructive'}
+        { text: 'Não', style: 'cancel' },
+        { text: 'Sim', onPress: deletePublication, style: 'destructive' },
       ],
       { cancelable: true }
-    )
-  }
+    );
+  };
 
   const deletePublication = async () => {
     try {
@@ -104,7 +109,19 @@ export default function Publish({ item }) {
     } catch (err) {
       Alert.alert(err.response.data);
     }
-  }
+  };
+
+  const handleStockToggle = async () => {
+    try {
+      const res = await api.put(`/publication/${publication._id}`, {
+        inStock: !inStock,
+      });
+      setInStock(!inStock);
+      Alert.alert(res.data);
+    } catch (err) {
+      Alert.alert(err.response.data);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -134,6 +151,10 @@ export default function Publish({ item }) {
           <TouchableOpacity style={styles.menuOptions} onPress={handleDelete}>
             <Text style={styles.menuOptionText}>Apagar</Text>
           </TouchableOpacity>
+          <View style={styles.stockContainer}>
+            <Text style={styles.stockText}>{inStock ? 'Disponível' : 'Indisponível'}</Text>
+            <Switch value={inStock} onValueChange={handleStockToggle} />
+          </View>
         </View>
       )}
       <TouchableOpacity onPress={showPublicationDetails}>
@@ -196,5 +217,13 @@ const styles = StyleSheet.create({
     width: 320,
     height: 60,
     padding: 10,
+  },
+  stockContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  stockText: {
+    marginRight: 10,
   },
 });
