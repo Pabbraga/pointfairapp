@@ -75,13 +75,7 @@ export default function PublishCreate() {
                 onChangeText={(value) => setDescription(value)}
             />
             <View style={styles.publishButtons}>
-                <View style={styles.stockContainer}>
-                    <Text style={styles.stockText}>{inStock ? 'Disponível' : 'Indisponível'}</Text>
-                    <Switch
-                        value={inStock}
-                        onValueChange={(value) => setInStock(value)}
-                    />
-                </View>
+                
                 {imageData && (
                     <View style={styles.preview}>
                         <Text style={styles.previewText}>

@@ -50,7 +50,6 @@ export default function ScheduleChange({navigation}) {
                         <TextInput 
                             style={styles.input} 
                             onChangeText={onChange}
-                            placeholder={props.value}
                             maxLength={22}
                         />
                     </View>
@@ -69,37 +68,30 @@ export default function ScheduleChange({navigation}) {
                 <Field
                     label={'Domingo:'}
                     name={'sunday'}
-                    value={user.schedules.sunday}
                 />
                 <Field
                     label={'Segunda:'}
                     name={'monday'}
-                    value={user.schedules.monday}
                 />
                 <Field
                     label={'Terça:'}
                     name={'tuesday'}
-                    value={user.schedules.tuesday}
                 />
                 <Field
                     label={'Quarta:'}
                     name={'wednesday'}
-                    value={user.schedules.wednesday}
                 />
                 <Field
                     label={'Quinta:'}
                     name={'thursday'}
-                    value={user.schedules.thursday}
                 />
                 <Field
                     label={'Sexta:'}
                     name={'friday'}
-                    value={user.schedules.friday}
                 />
                 <Field
                     label={'Sábado:'}
                     name={'saturnday'}
-                    value={user.schedules.saturnday}
                 />
                 <TouchableOpacity 
                     style={styles.button} 

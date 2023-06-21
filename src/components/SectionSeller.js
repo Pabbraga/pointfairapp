@@ -13,7 +13,6 @@ export default function SectionSeller(props) {
 
     useEffect(() => {
         loadPublications();
-        console.log(userData)
     }, [])
 
     function BoxView(props) {
@@ -148,7 +147,7 @@ const styles = StyleSheet.create({
     articleH1: {
         padding: 10,
         fontSize: 26,
-        fontWeight: 600,
+        fontWeight: 'bold',
         textAlign: 'center',
         backgroundColor: '#985277',
         color: '#fff'
@@ -160,8 +159,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     articleP: {
-        fontSize: 20,
-        fontWeight: 500,
+        fontSize: 16,
+        fontWeight: 'bold',
         paddingBottom: 10,
         color: '#5C374C',
     },
