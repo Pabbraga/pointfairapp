@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Alert, Linking } from 'react-native';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { Dropdown } from 'react-native-element-dropdown';
 import { StatusBar } from 'expo-status-bar';
 import { Entypo } from '@expo/vector-icons';
@@ -27,6 +28,7 @@ export default function Register({navigation}) {
     const [error, setError] = useState('');
     const [responseImage, setResponseImage] = useState('');
     const [isFocus, setIsFocus] = useState(false);
+    const [toggleCheckBox, setToggleCheckBox] = useState(false)
 
     useEffect(()=> {
         getFairs();
@@ -78,6 +80,10 @@ export default function Register({navigation}) {
     });
 
     async function handleRegister(data) {
+        if(!toggleCheckBox) {
+            Alert.alert("Não foi possível efetuar cadastro", "Marque a caixa concordando com os nossos termos de uso e políticas")
+            return;
+        }
         if(imageData) {
             const filename = imageData[0].uri.substring(imageData[0].uri.lastIndexOf('/') + 1, imageData[0].uri.length);
             const formData = new FormData();
@@ -123,6 +129,10 @@ export default function Register({navigation}) {
             setLink('Sou um vendedor');
         }
     };
+
+    const handleSendToTerms = () => {
+        Linking.openURL("https://pointfair.netlify.app/politica-de-privacidade-app.html")
+    }
 
     function Field(props) {
         return (
@@ -329,6 +339,24 @@ export default function Register({navigation}) {
                 />
                 {error.email && <Text style={styles.labelError}>{error.email}</Text>}
                 {error.cnpj && <Text style={styles.labelError}>{error.cnpj}</Text>}
+                <View style={{flexDirection:'row', alignItems: 'flex-start', paddingHorizontal: 20}}>
+                    <BouncyCheckbox
+                        size={25}
+                        fillColor='#5C374C'
+                        unfillColor='#fff'
+                        textStyle={{ color: "#5C374C"}}
+                        iconStyle={{ borderColor: "#5C374C" }}
+                        innerIconStyle={{ borderWidth: 2 }}
+                        value={toggleCheckBox}
+                        onPress={(value) => setToggleCheckBox(value)}
+                    />
+                    <Text style={{fontSize: 16}}>
+                        Concordo com os
+                        <TouchableOpacity onPress={handleSendToTerms}>
+                            <Text style={[styles.link]}>termos de serviço e uso</Text>
+                        </TouchableOpacity>
+                    </Text>
+                </View>
                 <TouchableOpacity 
                     style={styles.button} 
                     onPress={handleSubmit(handleRegister)}>
