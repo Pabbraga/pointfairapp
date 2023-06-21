@@ -107,6 +107,10 @@ function Profile({ navigation, route }) {
             <Text style={styles.menuItemText}>Editar perfil</Text>
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('ScheduleChange')}>
+            <Text style={styles.menuItemText}>Editar horários</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.menuItem} onPress={handleSignOut}>
             <Text style={styles.menuItemText}>Sair</Text>
           </TouchableOpacity>

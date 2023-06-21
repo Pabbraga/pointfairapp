@@ -79,13 +79,13 @@ export default function SectionSeller(props) {
                 <View style={styles.section}>
                     <Text style={styles.articleH1}>Horários</Text>
                     <View style={styles.content}>
-                        <Text style={styles.articleP}>Domingo:</Text>
-                        <Text style={styles.articleP}>Segunda:</Text>
-                        <Text style={styles.articleP}>Terça:</Text>
-                        <Text style={styles.articleP}>Quarta:</Text>
-                        <Text style={styles.articleP}>Quinta:</Text>
-                        <Text style={styles.articleP}>Sexta:</Text>
-                        <Text style={styles.articleP}>Sábado:</Text>
+                        <Text style={styles.articleP}>Domingo: {userData.schedules?userData.schedules.sunday:""}</Text>
+                        <Text style={styles.articleP}>Segunda: {userData.schedules?userData.schedules.monday:""}</Text>
+                        <Text style={styles.articleP}>Terça: {userData.schedules?userData.schedules.tuesday:""}</Text>
+                        <Text style={styles.articleP}>Quarta: {userData.schedules?userData.schedules.wednesday:""}</Text>
+                        <Text style={styles.articleP}>Quinta: {userData.schedules?userData.schedules.thurday:""}</Text>
+                        <Text style={styles.articleP}>Sexta: {userData.schedules?userData.schedules.friday:""}</Text>
+                        <Text style={styles.articleP}>Sábado: {userData.schedules?userData.schedules.saturnday:""}</Text>
                     </View>
                 </View>
             );
@@ -125,6 +125,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: '80%',
         alignItems: 'center',
+        zIndex: -1
     },
     sectionSelector: {
         backgroundColor: '#FFC15E',
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
     articleH1: {
         padding: 10,
         fontSize: 26,
-        fontWeight: 600,
+        fontWeight: 'bold',
         textAlign: 'center',
         backgroundColor: '#985277',
         color: '#fff'
@@ -158,8 +159,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
     },
     articleP: {
-        fontSize: 20,
-        fontWeight: 500,
+        fontSize: 16,
+        fontWeight: 'bold',
         paddingBottom: 10,
         color: '#5C374C',
     },
