@@ -29,10 +29,27 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#25292e"
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.pointfair.pointfair",
+      "config": { 
+        "googleMaps": { 
+          "apiKey": "AIzaSyBynQ2xU5JUFQQXr0lI3qrlJfaq7IPaBGs" 
+        }    
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f7e04f48-d820-4d2e-a10c-6fd5dd6e7db2"
+      }
     }
+  },
+  "react-native-google-mobile-ads": {
+    "android_app_id": "ca-app-pub-2293837588242630~9146826031"
   }
 }

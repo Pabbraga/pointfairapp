@@ -11,6 +11,15 @@ import {
     Alert
 } from 'react-native';
 
+import {
+    BannerAd,
+    BannerAdSize,
+    TestIds,
+    } from "react-native-google-mobile-ads";
+const adUnitID = __DEV__
+? TestIds.BANNER
+: "ca-app-pub-2293837588242630/4933067094";
+
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 
@@ -89,9 +98,9 @@ export default function Home({navigation}) {
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor='#CE6A85' translucent={false}/>
             <View style={styles.header}>
-                <TouchableOpacity onPress={loadPublications}>
+                <View>
                     <Text style={styles.logoMark}>PointFair</Text>
-                </TouchableOpacity>
+                </View>
                 <TouchableOpacity onPress={()=>{navigation.navigate('Profile', {idUser: user?._id})}}>
                     <Image style={styles.userPhoto} source={{uri:userPhoto}}/>
                 </TouchableOpacity>
@@ -109,6 +118,13 @@ export default function Home({navigation}) {
                 showsVerticalScrollIndicator={false}
                 ListFooterComponent={ <FooterList load={loading}/> }
             />
+            <TouchableOpacity style={styles.bannerContainer}>
+                <BannerAd
+                    unitId={adUnitID}
+                    size={BannerAdSize.FULL_BANNER}
+                    requestOptions={{ requestNonPersonalizedAdsOnly: true }}
+                />
+            </TouchableOpacity>
         </SafeAreaView>
     );
 }

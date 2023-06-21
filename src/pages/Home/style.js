@@ -33,6 +33,10 @@ const styles = StyleSheet.create({
     list: {
         paddingHorizontal: 15
     },
+    bannerContainer: {
+        padding: 10,
+        backgroundColor: 'red'
+    }
 })
 
 export default styles;
