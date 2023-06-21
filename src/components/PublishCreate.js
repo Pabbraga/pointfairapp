@@ -10,7 +10,6 @@ export default function PublishCreate() {
     const { user } = useAuth();
     const [imageData, setImageData] = useState(null);
     const [description, setDescription] = useState('');
-    const [inStock, setInStock] = useState(true); // Estado inicial como disponível
 
     function handleGetImage(image) {
         setImageData(image);
@@ -50,7 +49,7 @@ export default function PublishCreate() {
             const data = {
                 description: description,
                 imageUrl: response.data.imageUrl,
-                inStock: inStock, // Usar o estado atual do switch
+                inStock: true, // Usar o estado atual do switch
                 owner: user._id,
             };
 
