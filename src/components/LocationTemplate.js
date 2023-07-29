@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         fontSize: 22,
         color: '#FFF',
-        fontWeight: '500',
+        fontWeight: "500",
     },
 });

@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     logoMark: {
         color: '#FAA275',
         fontSize: 30,
-        fontWeight: 'bold'
+        fontWeight: "700"
     },
     userPhoto: {
         width: 60,

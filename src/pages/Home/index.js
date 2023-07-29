@@ -10,7 +10,6 @@ import {
     ActivityIndicator, 
     Alert
 } from 'react-native';
-
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 

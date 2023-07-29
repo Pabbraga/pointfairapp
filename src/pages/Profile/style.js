@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 17,
-        fontWeight: '600',
+        fontWeight: "600",
         color: '#fff'
     },
     menu: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     articleH1: {
         padding: 10,
         fontSize: 18,
-        fontWeight: 300,
+        fontWeight: "300",
         textAlign: 'center',
         color: '#fff'
     },

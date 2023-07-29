@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         fontSize: 32,
         textAlign: 'center',
         color: "#5C374C",
-        fontWeight: '700',
+        fontWeight: "700",
         marginBottom: 50,
     },
     group: {
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 5,
         color: "#5C374C",
-        fontWeight: '700',
+        fontWeight: "700",
     }, 
     input: {
         height: 45,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#fff",
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: "500",
     },
     link: {
         color: "#985277",

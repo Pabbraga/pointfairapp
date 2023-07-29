@@ -54,11 +54,11 @@ const styles = StyleSheet.create({
     userName: {
         fontSize: 20,
         color: 'white',
-        fontWeight: 'bold'
+        fontWeight: "700"
     },
     location: {
         fontSize: 14,
         color: '#FFC15E',
-        fontWeight: 'bold'
+        fontWeight: "700"
     },
 });

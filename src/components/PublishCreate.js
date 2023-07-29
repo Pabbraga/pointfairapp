@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     stockText: {
         marginRight: 5,
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "700",
     },
     preview: {
         width: 200,
