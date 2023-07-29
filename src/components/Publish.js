@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 15,
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: "700",
   },
   image: {
     width: 320,

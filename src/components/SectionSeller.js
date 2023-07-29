@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
     articleH1: {
         padding: 10,
         fontSize: 26,
-        fontWeight: 'bold',
+        fontWeight: "700",
         textAlign: 'center',
         backgroundColor: '#985277',
         color: '#fff'
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     },
     articleP: {
         fontSize: 16,
-        fontWeight: 'bold',
+        fontWeight: "700",
         paddingBottom: 10,
         color: '#5C374C',
     },

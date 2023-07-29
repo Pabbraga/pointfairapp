@@ -1,4 +1,3 @@
-import React from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { AuthProvider } from './src/context/auth';
 import Root from './routes/Root';

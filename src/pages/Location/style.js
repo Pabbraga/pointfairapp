@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         flex: 1,
         color: '#5C374C',
         fontSize: 30,
-        fontWeight: 700,
+        fontWeight: "700",
         paddingLeft: 30
     }
 })

@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 15,
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: "700",
   },
   image: {
     width: '100%',
@@ -75,12 +75,12 @@ const styles = StyleSheet.create({
   location: {
     fontSize: 15,
     color: '#FFC15E',
-    fontWeight: 'bold',
+    fontWeight: "700"
   },
   stockStatus: {
     fontSize: 15,
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: "700",
     marginTop: 5,
   },
 });

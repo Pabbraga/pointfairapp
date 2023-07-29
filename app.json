@@ -29,17 +29,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#25292e"
-      },
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ],
-      "package": "com.pointfair.pointfair"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-7276461289946451~5037113103"
     },
     "extra": {
       "eas": {

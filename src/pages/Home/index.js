@@ -10,11 +10,14 @@ import {
     ActivityIndicator, 
     Alert
 } from 'react-native';
+<<<<<<< HEAD
 import {
     BannerAd,
     BannerAdSize,
     TestIds,
     } from "react-native-google-mobile-ads";
+=======
+>>>>>>> dev
 import { useAuth } from '../../context/auth';
 import api from '../../services/api';
 

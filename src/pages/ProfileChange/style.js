@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
     title: {
         marginTop: 35,
         fontSize: 30,
-        fontWeight: 'bold',
+        fontWeight: "700",
         color: '#5C374C'
     },
     form: {
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "#fff",
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: "500",
     },
 })
 
