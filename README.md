@@ -18,7 +18,7 @@ git clone https://github.com/Pabbraga/pointfairapp.git
 
 ### Passo 2
 ```
-yarn install
+npx expo install
 ```
 
 ### Iniciar projeto
